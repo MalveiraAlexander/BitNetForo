@@ -16,7 +16,7 @@ public class ForoBitNet {
      */
     public static void main(String[] args) {
         // TODO code application logic herejsdhfkkjdshfhds
-        askdjasjdjas gil
+       
     }
     
 }
