@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jpa:entity-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" pkg="modelo" v="4.4" rws="_15424320886552" Pws="_15424320886552" cws="_15424320886552" sm="false" xs="false" id="_15424320886551" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd">
+    <jpa:entity compositePrimaryKeyClass="UsuarioPK" abs="false" class="Usuario" v="true" xre="false" m="false" rootElement="_15424320886551" id="_1542432109945">
+        <jpa:ath>Admin</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="nombre" id="_15424321451455">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="apellido" id="_15424321545746">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="correo" id="_15424322230458">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="Integer" v="true" xvt="" name="documento" id="_15424330096069">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:id attribute-type="Long" v="true" name="id" id="_154274426375545">
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Usuario.findAll">
+            <jpa:query>Select e from Usuario e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Usuario.findByNombre">
+            <jpa:query>Select u from Usuario u where u.nombre=:nombre</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Usuario.findByApellido">
+            <jpa:query>Select u from Usuario u where u.apellido=:apellido</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Usuario.findByCorreo">
+            <jpa:query>Select u from Usuario u where u.correo=:correo</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Usuario.findByDocumento">
+            <jpa:query>Select u from Usuario u where u.documento=:documento</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="UsuarioAcademicoPK" abs="false" class="UsuarioAcademico" superclassId="_1542432109945" v="true" xre="false" m="false" rootElement="_15424320886551" id="_1542433060464">
+        <jpa:ath>Admin</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="Integer" v="true" xvt="" name="votosPositivos" id="_154243307672612">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="Integer" v="true" xvt="" name="votosNegativos" id="_154243313648213">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="Integer" v="true" xvt="" name="preguntasRealizadas" id="_154243314607014">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="Integer" v="true" xvt="" name="respuestasRealizadas" id="_154243318515915">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:one-to-many orp="false" own="true" collection-type="java.util.List" connected-entity-id="_1542742797451" v="true" xvt="" name="votos" id="_154274496284246">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:one-to-many>
+            <jpa:one-to-many own="true" collection-type="java.util.List" connected-entity-id="_1542743439140" v="true" name="preguntas" id="_154274519349647"/>
+            <jpa:one-to-many own="true" collection-type="java.util.List" connected-entity-id="_1542743216279" v="true" name="respuestas" id="_154274520537248"/>
+        </jpa:attributes>
+        <jpa:nq e="false" name="UsuarioAcademico.findAll">
+            <jpa:query>Select e from UsuarioAcademico e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="UsuarioAcademico.findByVotosPositivos">
+            <jpa:query>Select u from UsuarioAcademico u where u.votosPositivos=:votosPositivos</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="UsuarioAcademico.findByVotosNegativos">
+            <jpa:query>Select u from UsuarioAcademico u where u.votosNegativos=:votosNegativos</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="UsuarioAcademico.findByPreguntasRealizadas">
+            <jpa:query>Select u from UsuarioAcademico u where u.preguntasRealizadas=:preguntasRealizadas</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="UsuarioAcademico.findByRespuestasRealizadas">
+            <jpa:query>Select u from UsuarioAcademico u where u.respuestasRealizadas=:respuestasRealizadas</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="RegistradorPK" abs="false" class="Registrador" superclassId="_1542432109945" v="true" xre="false" m="false" rootElement="_15424320886551" id="_1542433400890">
+        <jpa:ath>Admin</jpa:ath>
+        <jpa:attributes/>
+        <jpa:nq e="false" name="Registrador.findAll">
+            <jpa:query>Select e from Registrador e</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="AdministradorPK" abs="false" class="Administrador" superclassId="_1542433060464" v="true" xre="false" m="false" rootElement="_15424320886551" id="_1542433418675">
+        <jpa:ath>Admin</jpa:ath>
+        <jpa:attributes/>
+        <jpa:nq e="false" name="Administrador.findAll">
+            <jpa:query>Select e from Administrador e</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="EstudiantePK" abs="false" class="Estudiante" superclassId="_1542433060464" v="true" xre="false" m="false" rootElement="_15424320886551" id="_1542433432231">
+        <jpa:ath>Admin</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="Integer" v="true" xvt="" name="reputacion" id="_15427428317839">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Estudiante.findAll">
+            <jpa:query>Select e from Estudiante e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Estudiante.findByReputacion">
+            <jpa:query>Select e from Estudiante e where e.reputacion=:reputacion</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="ProfesorPK" abs="false" class="Profesor" superclassId="_1542433060464" v="true" xre="false" m="false" rootElement="_15424320886551" id="_1542433442916">
+        <jpa:ath>Admin</jpa:ath>
+        <jpa:attributes>
+            <jpa:many-to-many own="true" collection-type="java.util.Set" connected-entity-id="_1542743787015" connected-attribute-id="_154274593609053" v="true" xvt="" name="materias" id="_154274593607452">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:many-to-many>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Profesor.findAll">
+            <jpa:query>Select e from Profesor e</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="VotoPK" abs="false" class="Voto" v="true" xre="false" m="false" rootElement="_15424320886551" id="_1542742797451">
+        <jpa:ath>Admin</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="Boolean" v="true" xvt="" name="voto" id="_154274302656510">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:id attribute-type="Long" v="true" name="id" id="_15427427975297">
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Voto.findAll">
+            <jpa:query>Select e from Voto e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Voto.findByVoto">
+            <jpa:query>Select v from Voto v where v.voto=:voto</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="RespuestaPK" abs="false" class="Respuesta" v="true" xre="false" m="false" rootElement="_15424320886551" id="_1542743216279">
+        <jpa:ath>Admin</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="Integer" v="true" xvt="" name="votosPositivos" id="_154274335335813">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="Integer" v="true" xvt="" name="votosNegativos" id="_154274336893714">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="java.sql.Date" v="true" xvt="" name="fechaPublicacion" id="_154274360123420">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:one-to-many own="true" collection-type="java.util.List" connected-entity-id="_1542742797451" v="true" xvt="" name="votos" id="_154274537500751">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:one-to-many>
+            <jpa:id attribute-type="Long" v="true" name="id" id="_154274321629411">
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Respuesta.findAll">
+            <jpa:query>Select e from Respuesta e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Respuesta.findByVotosPositivos">
+            <jpa:query>Select r from Respuesta r where r.votosPositivos=:votosPositivos</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Respuesta.findByVotosNegativos">
+            <jpa:query>Select r from Respuesta r where r.votosNegativos=:votosNegativos</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Respuesta.findByFechaPublicacion">
+            <jpa:query>Select r from Respuesta r where r.fechaPublicacion=:fechaPublicacion</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="PreguntaPK" abs="false" class="Pregunta" v="true" xre="false" m="false" rootElement="_15424320886551" id="_1542743439140">
+        <jpa:ath>Admin</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="java.sql.Date" v="true" xvt="" name="fechaPublicacion" id="_154274345639417">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="pregunta" id="_154274347465318">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="titulo" id="_154274348382619">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:one-to-many own="true" collection-type="java.util.List" connected-entity-id="_1542743216279" v="true" name="respuestas" id="_154274524652749"/>
+            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_154274343914015">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Pregunta.findAll">
+            <jpa:query>Select e from Pregunta e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Pregunta.findByFechaPublicacion">
+            <jpa:query>Select p from Pregunta p where p.fechaPublicacion=:fechaPublicacion</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Pregunta.findByPregunta">
+            <jpa:query>Select p from Pregunta p where p.pregunta=:pregunta</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Pregunta.findByTitulo">
+            <jpa:query>Select p from Pregunta p where p.titulo=:titulo</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="ForoPK" abs="false" class="Foro" v="true" xre="false" m="false" rootElement="_15424320886551" id="_1542743708647">
+        <jpa:ath>Admin</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="titulo" id="_154274373138623"/>
+            <jpa:one-to-many own="true" collection-type="java.util.List" connected-entity-id="_1542743439140" v="true" name="preguntas" id="_154274529985550"/>
+            <jpa:id attribute-type="Long" v="true" name="id" id="_154274370866321">
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Foro.findAll">
+            <jpa:query>Select e from Foro e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Foro.findByTitulo">
+            <jpa:query>Select f from Foro f where f.titulo=:titulo</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="MateriaPK" abs="false" class="Materia" v="true" xre="false" m="false" rootElement="_15424320886551" id="_1542743787015">
+        <jpa:ath>Admin</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="materia" id="_154274380020526"/>
+            <jpa:basic attribute-type="String" v="true" name="enlace" id="_154274382002227"/>
+            <jpa:many-to-many collection-type="java.util.Set" connected-entity-id="_1542433442916" connected-attribute-id="_154274593607452" v="true" xvt="" name="profesores" id="_154274593609053">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:many-to-many>
+            <jpa:id attribute-type="Long" v="true" name="id" id="_154274378701524">
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Materia.findAll">
+            <jpa:query>Select e from Materia e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Materia.findByMateria">
+            <jpa:query>Select m from Materia m where m.materia=:materia</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Materia.findByEnlace">
+            <jpa:query>Select m from Materia m where m.enlace=:enlace</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:snp loc="BEFORE_PACKAGE" e="true">/**
+ * This file was generated by the Jeddict
+ */</jpa:snp>
+    <jpa:c>
+        <ct>java.util.Set</ct>
+        <ct>java.util.List</ct>
+        <ct>java.util.Map</ct>
+        <ct>java.util.Collection</ct>
+        <cit>java.util.ArrayList</cit>
+        <cit>java.util.LinkedList</cit>
+        <cit>java.util.HashSet</cit>
+        <cit>java.util.TreeSet</cit>
+        <cit>java.util.HashMap</cit>
+    </jpa:c>
+    <jpa:wsl>
+        <jpa:ws n="Main" id="_15424320886552">
+            <i ref="_1542433060464" x="455" y="95"/>
+            <i ref="_1542433418675" x="782" y="37"/>
+            <i ref="_1542743439140" x="336" y="503"/>
+            <i ref="_1542433442916" x="782" y="293"/>
+            <i ref="_1542742797451" x="523" y="364"/>
+            <i ref="_1542743216279" x="579" y="503"/>
+            <i ref="_1542432109945" x="253" y="35"/>
+            <i ref="_1542433432231" x="782" y="135"/>
+            <i ref="_1542743787015" x="782" y="477"/>
+            <i ref="_1542433400890" x="17" y="77"/>
+            <i ref="_1542743708647" x="348" y="765"/>
+        </jpa:ws>
+    </jpa:wsl>
+</jpa:entity-mappings>
