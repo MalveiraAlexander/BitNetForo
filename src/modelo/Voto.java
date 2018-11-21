@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -19,7 +20,9 @@ import javax.persistence.Table;
 public class Voto implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+     @SequenceGenerator(name = "sec_votos", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sec_votos")
+   
     private Long id;
 
     

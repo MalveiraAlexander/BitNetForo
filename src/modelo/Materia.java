@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -21,7 +22,9 @@ import javax.persistence.Table;
 public class Materia implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+     @SequenceGenerator(name = "sec_materias", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sec_materias")
+   
     private Long id;
 
    

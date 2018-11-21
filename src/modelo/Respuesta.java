@@ -23,7 +23,9 @@ import javax.persistence.Table;
 public class Respuesta implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "sec_respuestas", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sec_respuestas")
+   
     private Long id;
 
 
