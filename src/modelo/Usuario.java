@@ -9,27 +9,29 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * @author Admin
  */
 @Entity
+@Table(name = "usuarios")
 public class Usuario implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Basic
+    
     private String nombre;
 
-    @Basic
+    
     private String apellido;
 
-    @Basic
+    
     private String correo;
 
-    @Basic
+    
     private Integer documento;
 
     public Long getId() {

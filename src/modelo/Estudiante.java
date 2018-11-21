@@ -6,14 +6,16 @@ package modelo;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * @author Admin
  */
 @Entity
+@Table(name = "estudiantes")
 public class Estudiante extends UsuarioAcademico implements Serializable {
 
-    @Basic
+    
     private Integer reputacion;
 
     public Integer getReputacion() {

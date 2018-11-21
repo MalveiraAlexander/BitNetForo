@@ -11,21 +11,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * @author Admin
  */
 @Entity
+@Table(name = "materias")
 public class Materia implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Basic
+   
     private String materia;
 
-    @Basic
+    
     private String enlace;
 
     @ManyToMany(targetEntity = Profesor.class, mappedBy = "materias")

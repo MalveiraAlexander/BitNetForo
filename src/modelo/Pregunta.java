@@ -12,24 +12,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * @author Admin
  */
 @Entity
+@Table(name = "preguntas")
 public class Pregunta implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Basic
+    
     private Date fechaPublicacion;
 
-    @Basic
+    
     private String pregunta;
 
-    @Basic
+    
     private String titulo;
 
     @OneToMany(targetEntity = Respuesta.class)

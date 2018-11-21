@@ -7,11 +7,13 @@ import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * @author Admin
  */
 @Entity
+@Table(name = "profesores")
 public class Profesor extends UsuarioAcademico implements Serializable {
 
     @ManyToMany(targetEntity = Materia.class)

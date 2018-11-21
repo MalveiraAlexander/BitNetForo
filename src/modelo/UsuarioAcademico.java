@@ -7,23 +7,25 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * @author Admin
  */
 @Entity
+@Table(name = "usuariosAcademicos")
 public class UsuarioAcademico extends Usuario {
 
-    @Basic
+    
     private Integer votosPositivos;
 
-    @Basic
+    
     private Integer votosNegativos;
 
-    @Basic
+    
     private Integer preguntasRealizadas;
 
-    @Basic
+    
     private Integer respuestasRealizadas;
 
     @OneToMany(targetEntity = Voto.class)

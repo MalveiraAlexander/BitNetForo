@@ -5,11 +5,13 @@ package modelo;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * @author Admin
  */
 @Entity
+@Table(name = "regitradores")
 public class Registrador extends Usuario implements Serializable {
 
 }
