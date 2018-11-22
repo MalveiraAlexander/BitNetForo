@@ -5,7 +5,7 @@
  */
 package forobitnet;
 
-import controlador.ControladorAgus;
+import controlador.*;
 import dao.Persistencia;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -25,6 +25,7 @@ public class ForoBitNet {
         Persistencia persistencia = new Persistencia(emf);
         // creo controlador y asocio (inyecto) al controlador el objeto de Persistencia (DAO)
         ControladorAgus c = new ControladorAgus(persistencia);
+        ControladorAlex ca = new ControladorAlex()
     }
     
 }
