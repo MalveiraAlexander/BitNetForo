@@ -5,6 +5,11 @@
  */
 package forobitnet;
 
+import controlador.ControladorAgus;
+import dao.Persistencia;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 /**
  *
  * @author Natan
@@ -15,27 +20,11 @@ public class ForoBitNet {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic herejsdhfkkjdshfhds
-        hola
-        hola
-        hola
-        hola
-        hola
-        hola
-        hola
-        hola
-        hola
-        hola
-        hola
-        hola
-        hola
-        hola
-        hola
-        hola
-        hola
-        hola
-        hola
-                        
+     EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaPU");
+        // creo objeto de Persistencia (DAO)
+        Persistencia persistencia = new Persistencia(emf);
+        // creo controlador y asocio (inyecto) al controlador el objeto de Persistencia (DAO)
+        ControladorAgus c = new ControladorAgus(persistencia);
     }
     
 }
