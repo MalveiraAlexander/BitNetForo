@@ -6,18 +6,31 @@ package modelo;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 /**
  * @author Admin
  */
 @Entity
-@Table(name = "profesores")
 public class Profesor extends UsuarioAcademico implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @ManyToMany(targetEntity = Materia.class)
     private Set<Materia> materias;
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Set<Materia> getMaterias() {
         return this.materias;

@@ -12,29 +12,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 /**
  * @author Admin
  */
 @Entity
-@Table(name = "preguntas")
 public class Pregunta implements Serializable {
 
     @Id
-     @SequenceGenerator(name = "sec_preguntas", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sec_preguntas")
-   
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    
+    @Basic
     private Date fechaPublicacion;
 
-    
+    @Basic
     private String pregunta;
 
-    
+    @Basic
     private String titulo;
 
     @OneToMany(targetEntity = Respuesta.class)

@@ -3,44 +3,26 @@
  */
 package modelo;
 
-import java.io.Serializable;
 import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 
 /**
  * @author Admin
  */
-@Entity
-@Table(name = "usuarios")
-public class Usuario implements Serializable {
+@MappedSuperclass
+public abstract class Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    
+    @Basic
     private String nombre;
 
-    
+    @Basic
     private String apellido;
 
-    
+    @Basic
     private String correo;
 
-    
-    private Integer documento;
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Basic
+    private String documento;
 
     public String getNombre() {
         return this.nombre;
@@ -66,11 +48,11 @@ public class Usuario implements Serializable {
         this.correo = correo;
     }
 
-    public Integer getDocumento() {
+    public String getDocumento() {
         return this.documento;
     }
 
-    public void setDocumento(Integer documento) {
+    public void setDocumento(String documento) {
         this.documento = documento;
     }
 

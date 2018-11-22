@@ -5,37 +5,35 @@ package modelo;
 
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.Entity;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 /**
  * @author Admin
  */
-@Entity
-@Table(name = "usuariosAcademicos")
-public class UsuarioAcademico extends Usuario {
+@MappedSuperclass
+public abstract class UsuarioAcademico extends Usuario {
 
-    
+    @Basic
     private Integer votosPositivos;
 
-    
+    @Basic
     private Integer votosNegativos;
 
-    
+    @Basic
     private Integer preguntasRealizadas;
 
-    
+    @Basic
     private Integer respuestasRealizadas;
-
-    @OneToMany(targetEntity = Voto.class)
-    private List<Voto> votos;
 
     @OneToMany(targetEntity = Pregunta.class)
     private List<Pregunta> preguntas;
 
     @OneToMany(targetEntity = Respuesta.class)
     private List<Respuesta> respuestas;
+
+    @OneToMany(targetEntity = Voto.class)
+    private List<Voto> votos;
 
     public Integer getVotosPositivos() {
         return this.votosPositivos;
@@ -69,14 +67,6 @@ public class UsuarioAcademico extends Usuario {
         this.respuestasRealizadas = respuestasRealizadas;
     }
 
-    public List<Voto> getVotos() {
-        return this.votos;
-    }
-
-    public void setVotos(List<Voto> votos) {
-        this.votos = votos;
-    }
-
     public List<Pregunta> getPreguntas() {
         return this.preguntas;
     }
@@ -91,6 +81,14 @@ public class UsuarioAcademico extends Usuario {
 
     public void setRespuestas(List<Respuesta> respuestas) {
         this.respuestas = respuestas;
+    }
+
+    public List<Voto> getVotos() {
+        return this.votos;
+    }
+
+    public void setVotos(List<Voto> votos) {
+        this.votos = votos;
     }
 
 }
