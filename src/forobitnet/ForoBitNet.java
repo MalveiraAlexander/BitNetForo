@@ -25,7 +25,7 @@ public class ForoBitNet {
         Persistencia persistencia = new Persistencia(emf);
         // creo controlador y asocio (inyecto) al controlador el objeto de Persistencia (DAO)
         ControladorAgus c = new ControladorAgus(persistencia);
-        ControladorAlex ca = new ControladorAlex()
+        ControladorAlex ca = new ControladorAlex(persistencia);
     }
     
 }
