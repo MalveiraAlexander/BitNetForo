@@ -111,9 +111,14 @@ public class CrearForo extends javax.swing.JFrame {
     }//GEN-LAST:event_textNombreActionPerformed
 
     private void buttonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAceptarActionPerformed
-        this.c.crearForo(this.textNombre.getText());
+        if(this.c.crearForo(this.textNombre.getText())){
         JOptionPane.showMessageDialog(null, "Los datos se guardaron exitosamente");
         this.textNombre.setText("");
+        }else{
+                JOptionPane.showMessageDialog(null, "El foro no se creo");
+        }
+        
+        
     }//GEN-LAST:event_buttonAceptarActionPerformed
 
     /**
