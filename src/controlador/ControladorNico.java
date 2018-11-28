@@ -5,11 +5,29 @@
  */
 package controlador;
 
+import dao.Persistencia;
+import java.util.List;
+import modelo.Foro;
+
 /**
  *
  * @author Admin
  */
 //Controla la vista: Crear Foro
 public class ControladorNico {
+        Persistencia persistencia;
+    public ControladorNico(Persistencia p){
+        persistencia=p;
     
+    }
+    public List listarForo(){
+    return this.persistencia.buscarTodos(Foro.class);
+    }
+    public void crearForo(String nombre){
+        this.persistencia.iniciarTransaccion();
+        
+        Foro foro= new Foro(nombre);
+        this.persistencia.insertar(foro);
+        this.persistencia.confirmarTransaccion();
+    }
 }

@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Estudiante;
 import modelo.Profesor;
-import vistas.VerPerfil;
+import vistas.*;
 
 /**
  *
@@ -31,7 +31,8 @@ public class ForoBitNet {
         // creo controlador y asocio (inyecto) al controlador el objeto de Persistencia (DAO)
         ControladorAgus c = new ControladorAgus(persistencia);
            
-        VerPerfil principal= new VerPerfil(null, new Estudiante("agus","britez","400","elloco@hot"), null, persistencia);
+        //VerPerfil principal= new VerPerfil(null, null, new Profesor("agus","britez","400","elloco@hot"), persistencia);
+        CrearForo principal= new CrearForo(null,  persistencia);
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         principal.setResizable(false);
         principal.setLocationRelativeTo(null);     
