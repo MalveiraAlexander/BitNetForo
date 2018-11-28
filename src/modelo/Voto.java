@@ -23,6 +23,13 @@ public class Voto implements Serializable {
     @Basic
     private Boolean voto;
 
+    public Voto() {
+    }
+
+    public Voto(Boolean voto) {
+        this.voto = voto;
+    }
+
     public Long getId() {
         return this.id;
     }

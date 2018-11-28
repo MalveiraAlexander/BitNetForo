@@ -8,6 +8,8 @@ package vistas;
 import modelo.UsuarioAcademico;
 import controlador.ControladorAgus;
 import dao.Persistencia;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import modelo.Administrador;
@@ -39,10 +41,12 @@ public class VerPerfil extends javax.swing.JFrame {
         estu = es;
         initComponents();
         this.comboBoxMaterias.setVisible(false);
-        if (pro == null) {
+        this.jLabel7.setVisible(false);
+        if (es== null) {
             this.comboBoxMaterias.setVisible(true);
-            this.cargarDatos();
+            this.jLabel7.setVisible(true);
         }
+        this.cargarDatos();
     }
 
     /**
@@ -70,7 +74,6 @@ public class VerPerfil extends javax.swing.JFrame {
         comboBoxMaterias = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -105,11 +108,9 @@ public class VerPerfil extends javax.swing.JFrame {
         jButton1.setText("Cancelar");
 
         jButton2.setText("Aceptar");
-
-        jTextField1.setText("Buscar");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -120,11 +121,11 @@ public class VerPerfil extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(56, 56, 56)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 256, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addGap(64, 64, 64))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(153, 153, 153)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,25 +141,21 @@ public class VerPerfil extends javax.swing.JFrame {
                             .addComponent(labelPreguntas)
                             .addComponent(labelReputacion)
                             .addComponent(labelEmail)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(labelApellido))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(114, 114, 114)
-                                .addComponent(labelNombre)))))
-                .addContainerGap(158, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelApellido))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(114, 114, 114)
+                            .addComponent(labelNombre))))
+                .addGap(150, 150, 150))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addContainerGap(83, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(labelNombre))
@@ -186,7 +183,7 @@ public class VerPerfil extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(comboBoxMaterias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
+                .addGap(71, 71, 71)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -196,9 +193,9 @@ public class VerPerfil extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param prof
@@ -210,22 +207,19 @@ public class VerPerfil extends javax.swing.JFrame {
         this.comboBoxMaterias.setModel(modelo);
 
     }
-
+/* [0]=materias [1]=reputacion [2]=apellido [3]=nombre [4]=correo 
+    [5]=cantidad de preguntas [6]=cantidad de respuestas*/
     public void cargarDatos() {
-        UsuarioAcademico ua;
-        if (estu == null) {
-            ua = this.profe;
-            this.labelReputacion.setText(profe.getReputacion().toString() + 'p');
+        ArrayList<Object> datos=(ArrayList<Object>)this.c.obtenerDatosVerPerfil(estu, profe);
+        if (estu == null) {    
             cargarComboBoxMateria(this.profe);
-        } else {
-            ua = this.estu;
-            this.labelReputacion.setText(estu.getReputacion().toString() + 'p');
         }
-        this.labelApellido.setText(ua.getApellido());
-        this.labelNombre.setText(ua.getNombre());
-        this.labelEmail.setText(ua.getCorreo());
-        this.labelPreguntas.setText(Integer.toString(ua.getPreguntas().size()) );
-        this.labelPreguntas.setText(Integer.toString(ua.getRespuestas().size()));
+        this.labelReputacion.setText(Integer.toString((int) datos.get(0)) );
+        this.labelApellido.setText(datos.get(1).toString() );
+        this.labelNombre.setText(datos.get(2).toString() );
+        this.labelEmail.setText(datos.get(3).toString() );
+        this.labelPreguntas.setText(Integer.toString((int) datos.get(4))  );
+        this.labelRespuestas.setText(Integer.toString((int) datos.get(5)) );
     }
 
 
@@ -240,7 +234,6 @@ public class VerPerfil extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel labelApellido;
     private javax.swing.JLabel labelEmail;
     private javax.swing.JLabel labelNombre;

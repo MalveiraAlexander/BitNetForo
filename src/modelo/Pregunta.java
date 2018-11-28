@@ -5,6 +5,7 @@ package modelo;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -34,6 +35,16 @@ public class Pregunta implements Serializable {
 
     @OneToMany(targetEntity = Respuesta.class)
     private List<Respuesta> respuestas;
+
+    public Pregunta() {
+        respuestas= new ArrayList<>();
+    }
+
+    public Pregunta(String titulo,String pregunta) {
+        this.titulo=titulo;
+        this.pregunta=pregunta;
+        respuestas= new ArrayList<>();
+    }
 
     public Long getId() {
         return this.id;
