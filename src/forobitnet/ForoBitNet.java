@@ -9,6 +9,11 @@ import controlador.*;
 import dao.Persistencia;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import modelo.Estudiante;
+import modelo.Profesor;
+import vistas.VerPerfil;
 
 /**
  *

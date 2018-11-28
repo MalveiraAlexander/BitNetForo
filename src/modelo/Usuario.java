@@ -24,6 +24,16 @@ public abstract class Usuario {
     @Basic
     private String documento;
 
+    public Usuario() {
+    }
+
+    public Usuario(String apellido, String nombre, String dni, String correo) {
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.correo = correo;
+        this.documento = dni;
+    }
+
     public String getNombre() {
         return this.nombre;
     }

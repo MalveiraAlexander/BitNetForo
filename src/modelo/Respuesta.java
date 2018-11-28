@@ -12,7 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
+import java.util.ArrayList;
 /**
  * @author Admin
  */
@@ -22,7 +22,7 @@ public class Respuesta implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    private String respuesta;
     @Basic
     private Integer votosPositivos;
 
@@ -34,6 +34,23 @@ public class Respuesta implements Serializable {
 
     @OneToMany(targetEntity = Voto.class)
     private List<Voto> votos;
+
+    public Respuesta() {
+        votos= new ArrayList<>();
+    }
+
+    public Respuesta(String respuesta) {
+        votos= new ArrayList<>();
+        this.respuesta=respuesta;
+    }
+
+    public String getRespuesta() {
+        return respuesta;
+    }
+
+    public void setRespuesta(String respuesta) {
+        this.respuesta = respuesta;
+    }
 
     public Long getId() {
         return this.id;

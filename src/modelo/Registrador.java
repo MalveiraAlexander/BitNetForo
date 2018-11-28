@@ -21,7 +21,13 @@ public class Registrador extends Usuario implements Serializable {
     private Long id;
 
 
+    public Registrador() {
+        super();
+    }
 
+    public Registrador(String apellido, String nombre, String dni, String correo) {
+        super(apellido, nombre, dni, correo);
+    }
     public Long getId() {
         return this.id;
     }

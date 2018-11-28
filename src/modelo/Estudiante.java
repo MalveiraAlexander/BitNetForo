@@ -4,6 +4,7 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,6 +23,15 @@ public class Estudiante extends UsuarioAcademico implements Serializable {
 
     @Basic
     private Integer reputacion;
+
+    public Estudiante() {
+    reputacion =0;
+    }
+
+    public Estudiante(String apellido, String nombre, String dni, String correo) {
+        super(apellido, nombre, dni, correo);
+        reputacion =0;
+    }
 
     public Long getId() {
         return this.id;

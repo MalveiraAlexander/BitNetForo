@@ -4,6 +4,8 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,6 +25,18 @@ public class Profesor extends UsuarioAcademico implements Serializable {
     private Integer reputacion;
     @ManyToMany(targetEntity = Materia.class)
     private Set<Materia> materias;
+
+    public Profesor() {
+        super();
+        reputacion =0;
+        materias= new  HashSet();
+    }
+
+    public Profesor(String apellido, String nombre, String dni, String correo) {
+        super(apellido, nombre, dni, correo);
+    reputacion =0;
+    materias= new HashSet();
+    }
 
     public Long getId() {
         return this.id;
