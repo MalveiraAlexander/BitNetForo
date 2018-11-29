@@ -34,7 +34,7 @@ public class Foro extends javax.swing.JFrame {
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         nameForo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        listPreguntas = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
         BtnAddAnswer = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -49,17 +49,17 @@ public class Foro extends javax.swing.JFrame {
         nameForo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         nameForo.setText("NameForo");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+        listPreguntas.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Cual es el numero de oro?", "Que es induccion matematica?", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+        listPreguntas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jList1ValueChanged(evt);
+                listPreguntasValueChanged(evt);
             }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(listPreguntas);
 
         jButton1.setText("Buscar");
 
@@ -125,9 +125,13 @@ public class Foro extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-        
-    }//GEN-LAST:event_jList1ValueChanged
+    private void listPreguntasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listPreguntasValueChanged
+        Pregunta principal = new Pregunta(this.nameForo.getText(),this.listPreguntas.getSelectedValue());
+        principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        principal.setLocationRelativeTo(null);     
+        principal.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_listPreguntasValueChanged
 
     private void returnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnBtnActionPerformed
         MainFrame principal = new MainFrame();
@@ -154,8 +158,8 @@ public class Foro extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList<String> listPreguntas;
     private javax.swing.JLabel nameForo;
     private javax.swing.JButton returnBtn;
     // End of variables declaration//GEN-END:variables
