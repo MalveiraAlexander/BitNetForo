@@ -93,6 +93,11 @@ public final class MainFrame extends javax.swing.JFrame {
         jButton1.setText("Buscar");
 
         jButton2.setText("Crear Foro");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -339,14 +344,23 @@ public final class MainFrame extends javax.swing.JFrame {
         this.limpiar();
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        CrearForo foro = new CrearForo(this, this.controlador.getPersistencia());
+        foro.setVisible(true);
+        foro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        foro.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     public void cargarComboBoxUsuario() {
         String[] a = {"Administrador", "Registrador", "Estudiante", "Profesor"};
         DefaultComboBoxModel modelo = new DefaultComboBoxModel(a);
         this.comboBoxUsuario.setModel(modelo);
 
     }
-public void aceptar(){
-      if (!this.textApellido.getText().equals("")) {
+
+    public void aceptar() {
+        if (!this.textApellido.getText().equals("")) {
             if (!this.textNombre.getText().equals("")) {
                 if (!this.textDocumento.getText().equals("")) {
                     if (!this.textEmail.getText().equals("")) {
@@ -369,7 +383,8 @@ public void aceptar(){
         } else {
             JOptionPane.showMessageDialog(null, "No ha completado el apellido");
         }
-}
+    }
+
     public void limpiar() {
         this.textApellido.setText("");
         this.textNombre.setText("");
