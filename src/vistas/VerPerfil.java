@@ -25,6 +25,7 @@ public class VerPerfil extends javax.swing.JFrame {
     private ControladorAgus c;
     private Profesor profe;
     private Estudiante estu;
+    private JFrame previo;
 
     /**
      * Creates new form VerPerfil
@@ -36,13 +37,13 @@ public class VerPerfil extends javax.swing.JFrame {
      */
     public VerPerfil(JFrame p, Estudiante es, Profesor pro, Persistencia per) {
         c = new ControladorAgus(per);
-
+        previo = p;
         profe = pro;
         estu = es;
         initComponents();
         this.comboBoxMaterias.setVisible(false);
         this.jLabel7.setVisible(false);
-        if (es== null) {
+        if (es == null) {
             this.comboBoxMaterias.setVisible(true);
             this.jLabel7.setVisible(true);
         }
@@ -188,9 +189,9 @@ public class VerPerfil extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }                                        
+    }
 
     /**
      * @param prof
@@ -202,19 +203,20 @@ public class VerPerfil extends javax.swing.JFrame {
         this.comboBoxMaterias.setModel(modelo);
 
     }
-/* [0]=materias [1]=reputacion [2]=apellido [3]=nombre [4]=correo 
+
+    /* [0]=materias [1]=reputacion [2]=apellido [3]=nombre [4]=correo 
     [5]=cantidad de preguntas [6]=cantidad de respuestas*/
     public void cargarDatos() {
-        ArrayList<Object> datos=(ArrayList<Object>)this.c.obtenerDatosVerPerfil(estu, profe);
-        if (estu == null) {    
+        ArrayList<Object> datos = (ArrayList<Object>) this.c.obtenerDatosVerPerfil(estu, profe);
+        if (estu == null) {
             cargarComboBoxMateria(this.profe);
         }
-        this.labelReputacion.setText(Integer.toString((int) datos.get(0)) );
-        this.labelApellido.setText(datos.get(1).toString() );
-        this.labelNombre.setText(datos.get(2).toString() );
-        this.labelEmail.setText(datos.get(3).toString() );
-        this.labelPreguntas.setText(Integer.toString((int) datos.get(4))  );
-        this.labelRespuestas.setText(Integer.toString((int) datos.get(5)) );
+        this.labelReputacion.setText(Integer.toString((int) datos.get(0)));
+        this.labelApellido.setText(datos.get(1).toString());
+        this.labelNombre.setText(datos.get(2).toString());
+        this.labelEmail.setText(datos.get(3).toString());
+        this.labelPreguntas.setText(Integer.toString((int) datos.get(4)));
+        this.labelRespuestas.setText(Integer.toString((int) datos.get(5)));
     }
 
 

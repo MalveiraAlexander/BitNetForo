@@ -6,6 +6,8 @@
 package controlador;
 
 import dao.Persistencia;
+import java.util.List;
+import modelo.Pregunta;
 
 /**
  *
@@ -16,4 +18,8 @@ public class ControladorAlex {
     public ControladorAlex(Persistencia p) {
         this.persistencia = p;
     }
+    public List listarPregunta(){
+    return this.persistencia.buscarTodos(Pregunta.class);
+    }
+
 }

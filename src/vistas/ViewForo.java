@@ -7,8 +7,10 @@ package vistas;
 
 import controlador.ControladorAlex;
 import dao.Persistencia;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import modelo.Foro;
+import modelo.Pregunta;
 
 /**
  *
@@ -137,7 +139,7 @@ ControladorAlex controlador;
     }// </editor-fold>//GEN-END:initComponents
 
     private void listPreguntasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listPreguntasValueChanged
-        Pregunta principal = new Pregunta(this.nameForo.getText(),this.listPreguntas.getSelectedValue());
+        ViewPregunta principal = new ViewPregunta(this,));
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         principal.setLocationRelativeTo(null);     
         principal.setVisible(true);
@@ -156,10 +158,20 @@ ControladorAlex controlador;
         principal.setVisible(true);
     }//GEN-LAST:event_BtnAddAnswerActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    
+        public void cargarPregunta() {
+
+        DefaultListModel modelo = new DefaultListModel();
+         this.controlador.listarPregunta().forEach((pregunt) -> {
+            modelo.addElement(pregunt);
+        });
+        this.listPreguntas.setModel(modelo);
+    }
+        
+        public Pregunta obtenerPregunta(){
+        DefaultListModel modelo= (DefaultListModel) this.listPreguntas.getModel();
+        
+            
+        } 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAddAnswer;

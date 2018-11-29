@@ -5,21 +5,33 @@
  */
 package vistas;
 
+import controlador.ControladorAlex;
+import dao.Persistencia;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import modelo.Foro;
+import modelo.Pregunta;
+
 
 /**
  *
  * @author Alexander
  */
-public class Pregunta extends javax.swing.JFrame {
+public class ViewPregunta extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Pregunta
-     */
-    public Pregunta(String NameForo, String Pregunta) {
+    private JFrame previo;
+    private ControladorAlex controlador;
+    private Pregunta pregunta;
+    private Foro foro;
+    
+    public ViewPregunta(JFrame p,Pregunta pre,Foro fo, Persistencia per) {
+        this.previo=p;
+        this.pregunta=pre;
+        this.foro=fo;
+        this.controlador= new ControladorAlex(per);
         initComponents();
-        this.namePregunta.setText(Pregunta);
-        this.nameForo.setText(NameForo);
+        this.namePregunta.setText(pre.getTitulo());
+        this.nameForo.setText(fo.getTitulo());
     }
 
     /**
@@ -33,7 +45,7 @@ public class Pregunta extends javax.swing.JFrame {
 
         namePregunta = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        listRespuestas = new javax.swing.JList<>();
         returnBtn = new javax.swing.JButton();
         nameForo = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -51,12 +63,12 @@ public class Pregunta extends javax.swing.JFrame {
         namePregunta.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         namePregunta.setText("NamePregunta");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        listRespuestas.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Numero de Oro (opinion)", "Numero de Oro? Facil, aqui tu respuesta", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(jList1);
+        jScrollPane2.setViewportView(listRespuestas);
 
         returnBtn.setText("Volver");
         returnBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -145,24 +157,20 @@ public class Pregunta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void returnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnBtnActionPerformed
-        ViewForo principal = new ViewForo(this.nameForo.getText());
-        principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        principal.setLocationRelativeTo(null);     
-        principal.setVisible(true);
-        this.setVisible(false);
+        
     }//GEN-LAST:event_returnBtnActionPerformed
 
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JList<String> listRespuestas;
     private javax.swing.JLabel nameForo;
     private javax.swing.JLabel namePregunta;
     private javax.swing.JLabel negativeVote;
