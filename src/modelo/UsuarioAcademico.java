@@ -3,6 +3,7 @@
  */
 package modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.MappedSuperclass;
@@ -20,12 +21,6 @@ public abstract class UsuarioAcademico extends Usuario {
     @Basic
     private Integer votosNegativos;
 
-    @Basic
-    private Integer preguntasRealizadas;
-
-    @Basic
-    private Integer respuestasRealizadas;
-
     @OneToMany(targetEntity = Pregunta.class)
     private List<Pregunta> preguntas;
 
@@ -34,6 +29,23 @@ public abstract class UsuarioAcademico extends Usuario {
 
     @OneToMany(targetEntity = Voto.class)
     private List<Voto> votos;
+
+    public UsuarioAcademico() {
+        super();
+        this.preguntas=new ArrayList<>();
+        this.respuestas=new ArrayList<>();
+        this.votos=new ArrayList<>();
+        
+    }
+
+    public UsuarioAcademico(String apellido, String nombre, String dni, String correo) {
+        super(apellido, nombre, dni, correo);
+        this.preguntas=new ArrayList<>();
+        this.respuestas=new ArrayList<>();
+        this.votos=new ArrayList<>();
+        
+        
+    }
 
     public Integer getVotosPositivos() {
         return this.votosPositivos;
@@ -49,22 +61,6 @@ public abstract class UsuarioAcademico extends Usuario {
 
     public void setVotosNegativos(Integer votosNegativos) {
         this.votosNegativos = votosNegativos;
-    }
-
-    public Integer getPreguntasRealizadas() {
-        return this.preguntasRealizadas;
-    }
-
-    public void setPreguntasRealizadas(Integer preguntasRealizadas) {
-        this.preguntasRealizadas = preguntasRealizadas;
-    }
-
-    public Integer getRespuestasRealizadas() {
-        return this.respuestasRealizadas;
-    }
-
-    public void setRespuestasRealizadas(Integer respuestasRealizadas) {
-        this.respuestasRealizadas = respuestasRealizadas;
     }
 
     public List<Pregunta> getPreguntas() {

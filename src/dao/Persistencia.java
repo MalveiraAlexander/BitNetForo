@@ -12,6 +12,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.SingularAttribute;
+import modelo.Usuario;
+import modelo.UsuarioAcademico;
 
 
 /**
@@ -89,6 +91,8 @@ public class Persistencia  {
         consulta.orderBy(cb.asc(inicio.get(orden)));
         return em.createQuery(consulta).getResultList();
     }      
+
+
 }
 
 

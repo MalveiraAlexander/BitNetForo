@@ -20,9 +20,14 @@ public class Registrador extends Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Basic
-    private String leggajo;
 
+    public Registrador() {
+        super();
+    }
+
+    public Registrador(String apellido, String nombre, String dni, String correo) {
+        super(apellido, nombre, dni, correo);
+    }
     public Long getId() {
         return this.id;
     }
@@ -31,12 +36,5 @@ public class Registrador extends Usuario implements Serializable {
         this.id = id;
     }
 
-    public String getLeggajo() {
-        return this.leggajo;
-    }
-
-    public void setLeggajo(String leggajo) {
-        this.leggajo = leggajo;
-    }
 
 }
