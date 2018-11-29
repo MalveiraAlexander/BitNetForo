@@ -11,7 +11,12 @@
             <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/dao/Persistencia.java</file>
         </group>
         <group>
-            <file>file:/C:/Users/Natan/Documents/GitHub/BitNetForo/src/vistas/VerPerfil.java</file>
+            <file>file:/C:/Users/Natan/Documents/GitHub/BitNetForo/src/vistas/CrearForo.java</file>
+            <file>file:/C:/Users/Natan/Documents/GitHub/BitNetForo/src/controlador/ControladorNico.java</file>
+            <file>file:/C:/Users/Natan/Documents/GitHub/BitNetForo/src/dao/Persistencia.java</file>
+            <file>file:/C:/Users/Natan/Documents/GitHub/BitNetForo/src/vistas/PublicarRespuesta.java</file>
+            <file>file:/C:/Users/Natan/Documents/GitHub/BitNetForo/src/vistas/PublicarPregunta.java</file>
+            <file>file:/C:/Users/Natan/Documents/GitHub/BitNetForo/src/controlador/ControladorAgus.java</file>
         </group>
     </open-files>
 </project-private>
