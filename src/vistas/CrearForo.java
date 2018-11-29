@@ -38,11 +38,11 @@ public class CrearForo extends javax.swing.JFrame {
         profe = pro;
         estu = es;
         initComponents();
-        this.comboBoxMaterias.setVisible(false);
-        if (pro == null) {
-            this.comboBoxMaterias.setVisible(true);
-            this.cargarDatos();
-        }
+//        this.comboBoxMaterias.setVisible(false);
+//        if (pro == null) {
+//            this.comboBoxMaterias.setVisible(true);
+//            this.cargarDatos();
+//        }
     }
 
     /**

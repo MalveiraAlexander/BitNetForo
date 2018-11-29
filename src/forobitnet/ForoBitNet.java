@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Estudiante;
 import modelo.Profesor;
+import vistas.MainFrame;
 import vistas.VerPerfil;
 
 /**
@@ -25,12 +26,17 @@ public class ForoBitNet {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-     EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaPU");
+     EntityManagerFactory emf = Persistence.createEntityManagerFactory("ForoBitNetPU");
         // creo objeto de Persistencia (DAO)
         Persistencia persistencia = new Persistencia(emf);
         // creo controlador y asocio (inyecto) al controlador el objeto de Persistencia (DAO)
         ControladorAgus c = new ControladorAgus(persistencia);
         ControladorAlex ca = new ControladorAlex(persistencia);
+        MainFrame principal = new MainFrame();
+        principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        principal.setResizable(false);
+        principal.setLocationRelativeTo(null);     
+        principal.setVisible(true);
     }
     
 }
