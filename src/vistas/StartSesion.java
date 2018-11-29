@@ -110,7 +110,7 @@ public class StartSesion extends javax.swing.JFrame {
         String pass2 = Hash.MD5(pass);
         String pass3 = Hash.MD5("hola");
         String user = this.jTextField1.getText();
-        if (user.endsWith("Hola")) {
+        if (user.equals("Hola")) {
             if (pass2.equals(pass3)) {
                 MainFrame principal = new MainFrame();
                 principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,12 +118,12 @@ public class StartSesion extends javax.swing.JFrame {
                 principal.setVisible(true);
                 this.setVisible(false);
             }else{
-                this.jLabel4.setText("Contraseña no correcta!");
+                this.jLabel4.setText("Contraseña incorrecta!");
                 this.jTextField1.setText("");
                 this.jPasswordField1.setText("");
             }
         }else{
-            this.jLabel4.setText("Usuario no correcto!");
+            this.jLabel4.setText("Usuario no encontrado!");
             this.jTextField1.setText("");
             this.jPasswordField1.setText("");
         }
