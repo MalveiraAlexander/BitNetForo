@@ -5,7 +5,7 @@
  */
 package forobitnet;
 
-import controlador.ControladorAgus;
+import controlador.*;
 import dao.Persistencia;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -25,16 +25,9 @@ public class ForoBitNet {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-     EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaPU");
-        // creo objeto de Persistencia (DAO)
-        Persistencia persistencia = new Persistencia(emf);
-        // creo controlador y asocio (inyecto) al controlador el objeto de Persistencia (DAO)
-        ControladorAgus c = new ControladorAgus(persistencia);
-           
-        //VerPerfil principal= new VerPerfil(null, null, new Profesor("agus","britez","400","elloco@hot"), persistencia);
-        CrearForo principal= new CrearForo(null,  persistencia);
+    
+        StartSesion principal = new StartSesion();
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        principal.setResizable(false);
         principal.setLocationRelativeTo(null);     
         principal.setVisible(true);
     }
