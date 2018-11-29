@@ -7,9 +7,11 @@ package vistas;
 
 import modelo.UsuarioAcademico;
 import controlador.ControladorAgus;
+import controlador.ControladorNico;
 import dao.Persistencia;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import modelo.Administrador;
 import modelo.Estudiante;
 import modelo.Profesor;
@@ -20,9 +22,8 @@ import modelo.Profesor;
  */
 public class CrearForo extends javax.swing.JFrame {
 
-    private ControladorAgus c;
-    private Profesor profe;
-    private Estudiante estu;
+    private ControladorNico c;
+    private JFrame previo;
 
     /**
      * Creates new form VerPerfil
@@ -32,17 +33,12 @@ public class CrearForo extends javax.swing.JFrame {
      * @param p
      * @param per
      */
-    public CrearForo(JFrame p, Estudiante es, Profesor pro, Persistencia per) {
-        c = new ControladorAgus(per);
-
-        profe = pro;
-        estu = es;
+    public CrearForo(JFrame p,  Persistencia per) {
+        c = new ControladorNico(per);
+        previo=p;
         initComponents();
-        this.comboBoxMaterias.setVisible(false);
-        if (pro == null) {
-            this.comboBoxMaterias.setVisible(true);
-            this.cargarDatos();
-        }
+
+
     }
 
     /**
@@ -55,26 +51,31 @@ public class CrearForo extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        buttonCancelar = new javax.swing.JButton();
+        buttonAceptar = new javax.swing.JButton();
+        textNombre = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Nombre del foro:");
 
-        jButton1.setText("Cancelar");
-
-        jButton2.setText("Aceptar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonCancelar.setText("Cancelar");
+        buttonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                buttonCancelarActionPerformed(evt);
             }
         });
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        buttonAceptar.setText("Aceptar");
+        buttonAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                buttonAceptarActionPerformed(evt);
+            }
+        });
+
+        textNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textNombreActionPerformed(evt);
             }
         });
 
@@ -84,15 +85,15 @@ public class CrearForo extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(56, 56, 56)
-                .addComponent(jButton1)
+                .addComponent(buttonCancelar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(buttonAceptar)
                 .addGap(64, 64, 64))
             .addGroup(layout.createSequentialGroup()
                 .addGap(90, 90, 90)
                 .addComponent(jLabel1)
                 .addGap(31, 31, 31)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(textNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -101,24 +102,36 @@ public class CrearForo extends javax.swing.JFrame {
                 .addContainerGap(109, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(91, 91, 91)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(buttonCancelar)
+                    .addComponent(buttonAceptar))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void textNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNombreActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_textNombreActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void buttonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAceptarActionPerformed
+        if(this.c.crearForo(this.textNombre.getText())){
+        JOptionPane.showMessageDialog(null, "Los datos se guardaron exitosamente");
+        this.textNombre.setText("");
+        }else{
+                JOptionPane.showMessageDialog(null, "El foro no se creo");
+        }
+        
+        
+    }//GEN-LAST:event_buttonAceptarActionPerformed
+
+    private void buttonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelarActionPerformed
+        this.previo.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_buttonCancelarActionPerformed
 
     /**
      * @param prof
@@ -130,9 +143,9 @@ public class CrearForo extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton buttonAceptar;
+    private javax.swing.JButton buttonCancelar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField textNombre;
     // End of variables declaration//GEN-END:variables
 }
