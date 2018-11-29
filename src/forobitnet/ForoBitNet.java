@@ -13,9 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Estudiante;
 import modelo.Profesor;
-import vistas.MainFrame;
-import vistas.StartSesion;
-import vistas.VerPerfil;
+import vistas.*;
 
 /**
  *
