@@ -37,8 +37,6 @@ public class CrearForo extends javax.swing.JFrame {
         c = new ControladorNico(per);
         previo=p;
         initComponents();
-
-
     }
 
     /**
