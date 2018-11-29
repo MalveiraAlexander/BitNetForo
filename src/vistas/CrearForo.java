@@ -23,6 +23,7 @@ import modelo.Profesor;
 public class CrearForo extends javax.swing.JFrame {
 
     private ControladorNico c;
+    private JFrame previo;
 
     /**
      * Creates new form VerPerfil
@@ -34,6 +35,7 @@ public class CrearForo extends javax.swing.JFrame {
      */
     public CrearForo(JFrame p,  Persistencia per) {
         c = new ControladorNico(per);
+        previo=p;
         initComponents();
 
 
@@ -58,6 +60,11 @@ public class CrearForo extends javax.swing.JFrame {
         jLabel1.setText("Nombre del foro:");
 
         buttonCancelar.setText("Cancelar");
+        buttonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCancelarActionPerformed(evt);
+            }
+        });
 
         buttonAceptar.setText("Aceptar");
         buttonAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -120,6 +127,11 @@ public class CrearForo extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_buttonAceptarActionPerformed
+
+    private void buttonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelarActionPerformed
+        this.previo.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_buttonCancelarActionPerformed
 
     /**
      * @param prof
