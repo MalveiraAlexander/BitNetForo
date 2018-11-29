@@ -13,7 +13,7 @@ package servicios;
 public class Hash {
  
     /* Retorna un hash a partir de un tipo y un texto */
-    public static String getHash(String txt, String hashType) {
+    private static String getHash(String txt, String hashType) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest
                     .getInstance(hashType);

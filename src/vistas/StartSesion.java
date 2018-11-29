@@ -6,6 +6,7 @@
 package vistas;
 
 import javax.swing.JFrame;
+import servicios.Hash;
 
 /**
  *
@@ -104,18 +105,25 @@ public class StartSesion extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         char[] arrayC = jPasswordField1.getPassword(); 
-        String pass = new String(arrayC); 
+        
+        String pass = new String(arrayC);
+        String pass2 = Hash.MD5(pass);
+        String pass3 = Hash.MD5("hola");
         String user = this.jTextField1.getText();
         if (user.endsWith("Hola")) {
-            if (pass.equals("hola")) {
+            if (pass2.equals(pass3)) {
                 MainFrame principal = new MainFrame();
                 principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 principal.setLocationRelativeTo(null);     
                 principal.setVisible(true);
                 this.setVisible(false);
+            }else{
+                this.jLabel4.setText("Contraseña no correcta!");
+                this.jTextField1.setText("");
+                this.jPasswordField1.setText("");
             }
         }else{
-            this.jLabel4.setText("Usuario/Contraseña no correcto!");
+            this.jLabel4.setText("Usuario no correcto!");
             this.jTextField1.setText("");
             this.jPasswordField1.setText("");
         }
