@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import modelo.Estudiante;
 import modelo.Profesor;
 import vistas.MainFrame;
+import vistas.StartSesion;
 import vistas.VerPerfil;
 
 /**
@@ -32,9 +33,8 @@ public class ForoBitNet {
         // creo controlador y asocio (inyecto) al controlador el objeto de Persistencia (DAO)
         ControladorAgus c = new ControladorAgus(persistencia);
         ControladorAlex ca = new ControladorAlex(persistencia);
-        MainFrame principal = new MainFrame();
+        StartSesion principal = new StartSesion();
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        principal.setResizable(false);
         principal.setLocationRelativeTo(null);     
         principal.setVisible(true);
     }
