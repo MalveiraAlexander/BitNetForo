@@ -47,7 +47,7 @@ public final class MainFrame extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        ListForos = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -83,12 +83,17 @@ public final class MainFrame extends javax.swing.JFrame {
 
         jLabel2.setText("Administrador");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+        ListForos.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Matematica", "Programacion Orientada a Objetos", "Base de Datos", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        ListForos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                ListForosValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(ListForos);
 
         jButton1.setText("Buscar");
 
@@ -331,6 +336,23 @@ public final class MainFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_searchBoxInputMethodTextChanged
 
+
+    private void ListForosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListForosValueChanged
+        Foro principal = new Foro(this.ListForos.getSelectedValue());
+        principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        principal.setLocationRelativeTo(null);     
+        principal.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_ListForosValueChanged
+
+    /**
+     * @param args the command line arguments
+     */
+    
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> ListForos;
+
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         this.aceptar();
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -388,6 +410,7 @@ public void aceptar(){
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
