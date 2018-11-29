@@ -145,7 +145,7 @@ public class Pregunta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void returnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnBtnActionPerformed
-        Foro principal = new Foro(this.nameForo.getText());
+        ViewForo principal = new ViewForo(this.nameForo.getText());
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         principal.setLocationRelativeTo(null);     
         principal.setVisible(true);

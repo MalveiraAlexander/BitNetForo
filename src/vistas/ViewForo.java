@@ -6,20 +6,25 @@
 package vistas;
 
 import javax.swing.JFrame;
+import modelo.Foro;
 
 /**
  *
  * @author Alexander
  */
-public class Foro extends javax.swing.JFrame {
+public class ViewForo extends javax.swing.JFrame {
 JFrame previo;
+Foro foro;
     /**
      * Creates new form Foro
+
+     * @param name
+     * @param p
      */
-    public Foro(JFrame p,String NameForo) {
+    public ViewForo(JFrame p,Foro name) {
         previo=p;
+        foro=name;
         initComponents();
-        this.nameForo.setText(NameForo);
     }
     
 

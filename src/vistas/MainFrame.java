@@ -51,7 +51,7 @@ public final class MainFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listForo = new javax.swing.JList<>();
+        ListForos = new javax.swing.JList<>();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         listUsers = new javax.swing.JList<>();
@@ -105,12 +105,17 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        listForo.setModel(new javax.swing.AbstractListModel<String>() {
+        ListForos.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(listForo);
+        ListForos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                ListForosValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(ListForos);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -144,11 +149,9 @@ public final class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2)
                         .addGap(25, 25, 25))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(1, 1, 1)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(95, Short.MAX_VALUE))
@@ -380,6 +383,10 @@ public final class MainFrame extends javax.swing.JFrame {
 this.cargarForo();
     }//GEN-LAST:event_formWindowActivated
 
+    private void ListForosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListForosValueChanged
+    ViewForo entrar= ViewForo();
+    }//GEN-LAST:event_ListForosValueChanged
+
     public void cargarComboBoxUsuario() {
         String[] a = {"Administrador", "Registrador", "Estudiante", "Profesor"};
         DefaultComboBoxModel modelo = new DefaultComboBoxModel(a);
@@ -427,10 +434,11 @@ this.cargarForo();
          this.controlador.listarForos().forEach((forito) -> {
             modelo.addElement(forito);
         });
-        this.listForo.setModel(modelo);
+        this.ListForos.setModel(modelo);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> ListForos;
     private javax.swing.JComboBox<String> comboBoxUsuario;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -458,7 +466,6 @@ this.cargarForo();
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JList<String> listForo;
     private javax.swing.JList<String> listUsers;
     private javax.swing.JTextField searchBox;
     private javax.swing.JTextField textApellido;
