@@ -12,11 +12,12 @@ import javax.swing.JFrame;
  * @author Alexander
  */
 public class Foro extends javax.swing.JFrame {
-
+JFrame previo;
     /**
      * Creates new form Foro
      */
-    public Foro(String NameForo) {
+    public Foro(JFrame p,String NameForo) {
+        previo=p;
         initComponents();
         this.nameForo.setText(NameForo);
     }

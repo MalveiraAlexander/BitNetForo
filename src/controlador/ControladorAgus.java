@@ -8,6 +8,7 @@ import modelo.Profesor;
 import modelo.Estudiante;
 import modelo.Registrador;
 import modelo.UsuarioAcademico;
+import modelo.Foro;
 
 //controla la vista: VerPerfil
 public class ControladorAgus {
@@ -74,5 +75,9 @@ public class ControladorAgus {
         this.persistencia.confirmarTransaccion();
         return true;
 
+    }
+
+    public List listarForos() {
+        return this.persistencia.buscarTodos(Foro.class);
     }
 }

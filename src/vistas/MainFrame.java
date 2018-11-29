@@ -7,7 +7,10 @@ package vistas;
 
 import controlador.ControladorAgus;
 import dao.Persistencia;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Profesor;
@@ -25,12 +28,11 @@ public final class MainFrame extends javax.swing.JFrame {
         controlador = new ControladorAgus(persi);
         initComponents();
         this.cargarComboBoxUsuario();
-        this.limpiar();
+        this.limpiarCrearUsuario();
+        this.cargarForo();
     }
 
-    MainFrame() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,10 +48,10 @@ public final class MainFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        ListForos = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listForo = new javax.swing.JList<>();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         listUsers = new javax.swing.JList<>();
@@ -77,23 +79,22 @@ public final class MainFrame extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
+
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Malveira Alexander");
 
         jLabel2.setText("Administrador");
-
-        ListForos.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Matematica", "Programacion Orientada a Objetos", "Base de Datos", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        ListForos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                ListForosValueChanged(evt);
-            }
-        });
-        jScrollPane1.setViewportView(ListForos);
 
         jButton1.setText("Buscar");
 
@@ -104,26 +105,32 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        listForo.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(listForo);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jSeparator1)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 660, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(22, 22, 22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jSeparator1)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 660, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 708, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -142,7 +149,9 @@ public final class MainFrame extends javax.swing.JFrame {
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE))
+                .addGap(1, 1, 1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(95, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Foros", jPanel1);
@@ -157,10 +166,10 @@ public final class MainFrame extends javax.swing.JFrame {
         searchBox.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         searchBox.setToolTipText("Buscar");
         searchBox.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 searchBoxInputMethodTextChanged(evt);
-            }
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
 
@@ -342,28 +351,17 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_searchBoxInputMethodTextChanged
 
 
-    private void ListForosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListForosValueChanged
-        Foro principal = new Foro(this.ListForos.getSelectedValue());
-        principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        principal.setLocationRelativeTo(null);     
-        principal.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_ListForosValueChanged
-
     /**
      * @param args the command line arguments
      */
-    
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> ListForos;
+    // Variables declaration - do not modify                     
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         this.aceptar();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        this.limpiar();
+        this.limpiarCrearUsuario();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -373,6 +371,14 @@ public final class MainFrame extends javax.swing.JFrame {
         foro.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        this.cargarForo();
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+this.cargarForo();
+    }//GEN-LAST:event_formWindowActivated
 
     public void cargarComboBoxUsuario() {
         String[] a = {"Administrador", "Registrador", "Estudiante", "Profesor"};
@@ -388,7 +394,7 @@ public final class MainFrame extends javax.swing.JFrame {
                     if (!this.textEmail.getText().equals("")) {
                         if (this.controlador.crearUsuario(this.textNombre.getText(), this.textApellido.getText(), this.textEmail.getText(), this.textDocumento.getText(), this.comboBoxUsuario.getSelectedItem().toString())) {
                             JOptionPane.showMessageDialog(null, "Se a creado correctamente el usuario");
-                            limpiar();
+                            this.limpiarCrearUsuario();
                         } else {
 
                             JOptionPane.showMessageDialog(null, "No se a creado  el usuario");
@@ -407,7 +413,7 @@ public final class MainFrame extends javax.swing.JFrame {
         }
     }
 
-    public void limpiar() {
+    public void limpiarCrearUsuario() {
         this.textApellido.setText("");
         this.textNombre.setText("");
         this.textDocumento.setText("");
@@ -415,6 +421,14 @@ public final class MainFrame extends javax.swing.JFrame {
 
     }
 
+    public void cargarForo() {
+
+        DefaultListModel modelo = new DefaultListModel();
+         this.controlador.listarForos().forEach((forito) -> {
+            modelo.addElement(forito);
+        });
+        this.listForo.setModel(modelo);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboBoxUsuario;
@@ -425,14 +439,12 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -446,6 +458,7 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JList<String> listForo;
     private javax.swing.JList<String> listUsers;
     private javax.swing.JTextField searchBox;
     private javax.swing.JTextField textApellido;

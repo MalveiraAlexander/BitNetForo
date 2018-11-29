@@ -32,19 +32,22 @@ public abstract class UsuarioAcademico extends Usuario {
 
     public UsuarioAcademico() {
         super();
-        this.preguntas=new ArrayList<>();
-        this.respuestas=new ArrayList<>();
-        this.votos=new ArrayList<>();
-        
+        this.votosNegativos = 0;
+        this.votosPositivos = 0;
+        this.preguntas = new ArrayList<>();
+        this.respuestas = new ArrayList<>();
+        this.votos = new ArrayList<>();
+
     }
 
     public UsuarioAcademico(String apellido, String nombre, String dni, String correo) {
         super(apellido, nombre, dni, correo);
-        this.preguntas=new ArrayList<>();
-        this.respuestas=new ArrayList<>();
-        this.votos=new ArrayList<>();
-        
-        
+        this.votosNegativos = 0;
+        this.votosPositivos = 0;
+        this.preguntas = new ArrayList<>();
+        this.respuestas = new ArrayList<>();
+        this.votos = new ArrayList<>();
+
     }
 
     public Integer getVotosPositivos() {

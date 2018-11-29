@@ -12,10 +12,10 @@
     <class>modelo.Foro</class>
     <class>modelo.Materia</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/sample"/>
-      <property name="javax.persistence.jdbc.password" value="app"/>
-      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
-      <property name="javax.persistence.jdbc.user" value="app"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/foro"/>
+      <property name="javax.persistence.jdbc.password" value="1"/>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="postgres"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
@@ -31,10 +31,10 @@
     <class>modelo.Respuesta</class>
     <class>modelo.Voto</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://alexanderpi.ddns.net:5432/BitNetDB"/>
-      <property name="javax.persistence.jdbc.user" value="raspberrypi"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/foro"/>
+      <property name="javax.persistence.jdbc.user" value="postgres"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="pi1234"/>
+      <property name="javax.persistence.jdbc.password" value="1"/>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
