@@ -5,6 +5,8 @@
  */
 package vistas;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author malve
@@ -33,7 +35,7 @@ public class MainFrame extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        ListForos = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -55,12 +57,17 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel2.setText("Administrador");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        ListForos.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        ListForos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                ListForosValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(ListForos);
 
         jButton1.setText("Buscar");
 
@@ -212,17 +219,25 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_searchBoxInputMethodTextChanged
 
+    private void ListForosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListForosValueChanged
+        Foro principal = new Foro(this.ListForos.getSelectedValue());
+        principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        principal.setLocationRelativeTo(null);     
+        principal.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_ListForosValueChanged
+
     /**
      * @param args the command line arguments
      */
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> ListForos;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
