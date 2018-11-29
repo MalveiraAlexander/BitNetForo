@@ -384,7 +384,7 @@ this.cargarForo();
     }//GEN-LAST:event_formWindowActivated
 
     private void ListForosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListForosValueChanged
-    ViewForo entrar= ViewForo();
+    ViewForo entrar= new ViewForo(this,null,this.controlador.getPersistencia());
     }//GEN-LAST:event_ListForosValueChanged
 
     public void cargarComboBoxUsuario() {

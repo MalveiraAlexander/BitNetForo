@@ -5,6 +5,8 @@
  */
 package vistas;
 
+import controlador.ControladorAlex;
+import dao.Persistencia;
 import javax.swing.JFrame;
 import modelo.Foro;
 
@@ -15,15 +17,18 @@ import modelo.Foro;
 public class ViewForo extends javax.swing.JFrame {
 JFrame previo;
 Foro foro;
+ControladorAlex controlador;
     /**
      * Creates new form Foro
 
      * @param name
      * @param p
+     * @param per
      */
-    public ViewForo(JFrame p,Foro name) {
+    public ViewForo(JFrame p,Foro name,Persistencia per) {
         previo=p;
         foro=name;
+        this.controlador= new ControladorAlex(per);
         initComponents();
     }
     
@@ -140,11 +145,8 @@ Foro foro;
     }//GEN-LAST:event_listPreguntasValueChanged
 
     private void returnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnBtnActionPerformed
-        MainFrame principal = new MainFrame();
-        principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        principal.setLocationRelativeTo(null);     
-        principal.setVisible(true);
-        this.setVisible(false);
+        this.previo.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_returnBtnActionPerformed
 
     private void BtnAddAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAddAnswerActionPerformed
