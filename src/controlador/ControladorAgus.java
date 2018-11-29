@@ -80,4 +80,20 @@ public class ControladorAgus {
     public List listarForos() {
         return this.persistencia.buscarTodos(Foro.class);
     }
+
+    public List listarProfesor() {
+        return this.persistencia.buscarTodos(Profesor.class);
+    }
+
+    public List listarEstudiante() {
+        return this.persistencia.buscarTodos(Estudiante.class);
+    }
+
+    public List listarRegistrador() {
+        return this.persistencia.buscarTodos(Registrador.class);
+    }
+
+    public List listarAdministrador() {
+        return this.persistencia.buscarTodos(Administrador.class);
+    }
 }
