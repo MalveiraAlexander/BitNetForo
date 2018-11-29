@@ -73,6 +73,10 @@ public class Persistencia  {
         return (T) this.em.find(clase, id);
     }    
     
+        public <T extends Object> T buscarCorreo(Class<T> clase, Object id) {
+        return (T) this.em.find(clase, id);
+        
+    }    
     // Metodo generico
     // Acepta cualquier tipo (T) que extienda de Object
     // Devuelve una lista de ese tipo (T)

@@ -5,6 +5,11 @@
  */
 package vistas;
 
+import controlador.ControladorAgus;
+import controlador.ControladorAlex;
+import dao.Persistencia;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.swing.JFrame;
 import servicios.Hash;
 
@@ -14,12 +19,9 @@ import servicios.Hash;
  */
 public class StartSesion extends javax.swing.JFrame {
 
-    /**
-     * Creates new form StartSesion
-     */
     public StartSesion() {
         initComponents();
-        
+
     }
 
     /**
@@ -104,32 +106,35 @@ public class StartSesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        char[] arrayC = jPasswordField1.getPassword(); 
-        
+        char[] arrayC = jPasswordField1.getPassword();
+
         String pass = new String(arrayC);
         String pass2 = Hash.MD5(pass);
         String pass3 = Hash.MD5("hola");
         String user = this.jTextField1.getText();
         if (user.equals("Hola")) {
             if (pass2.equals(pass3)) {
-                MainFrame principal = new MainFrame();
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory("ForoBitNetPU");
+                // creo objeto de Persistencia (DAO)
+                Persistencia persistencia = new Persistencia(emf);
+                MainFrame principal = new MainFrame(persistencia);
                 principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                principal.setLocationRelativeTo(null);     
+                principal.setLocationRelativeTo(null);
                 principal.setVisible(true);
                 this.setVisible(false);
-            }else{
+            } else {
                 this.jLabel4.setText("Contraseña incorrecta!");
                 this.jTextField1.setText("");
                 this.jPasswordField1.setText("");
             }
-        }else{
+        } else {
             this.jLabel4.setText("Usuario no encontrado!");
             this.jTextField1.setText("");
             this.jPasswordField1.setText("");
         }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
