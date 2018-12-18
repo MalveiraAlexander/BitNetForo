@@ -5,7 +5,7 @@
  */
 package vistas;
 
-import controlador.ControladorAlex;
+import controlador.Controlador;
 import dao.Persistencia;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -20,7 +20,7 @@ import modelo.Pregunta;
 public class ViewPregunta extends javax.swing.JFrame {
 
     private JFrame previo;
-    private ControladorAlex controlador;
+    private Controlador controlador;
     private Pregunta pregunta;
     private Foro foro;
     
@@ -28,7 +28,7 @@ public class ViewPregunta extends javax.swing.JFrame {
         this.previo=p;
         this.pregunta=pre;
         this.foro=fo;
-        this.controlador= new ControladorAlex(per);
+        this.controlador= new Controlador(per);
         initComponents();
         this.namePregunta.setText(pre.getTitulo());
         this.nameForo.setText(fo.getTitulo());

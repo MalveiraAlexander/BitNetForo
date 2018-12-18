@@ -5,7 +5,7 @@
  */
 package vistas;
 
-import controlador.ControladorAlex;
+import controlador.Controlador;
 import dao.Persistencia;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -19,7 +19,7 @@ import modelo.Pregunta;
 public class ViewForo extends javax.swing.JFrame {
 JFrame previo;
 Foro foro;
-ControladorAlex controlador;
+Controlador controlador;
     /**
      * Creates new form Foro
 
@@ -30,7 +30,7 @@ ControladorAlex controlador;
     public ViewForo(JFrame p,Foro name,Persistencia per) {
         previo=p;
         foro=name;
-        this.controlador= new ControladorAlex(per);
+        this.controlador= new Controlador(per);
         initComponents();
     }
     

@@ -7,7 +7,6 @@ package vistas;
 
 import modelo.UsuarioAcademico;
 import controlador.Controlador;
-import controlador.ControladorNico;
 import dao.Persistencia;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
@@ -22,7 +21,7 @@ import modelo.Profesor;
  */
 public class CrearForo extends javax.swing.JFrame {
 
-    private ControladorNico c;
+    private Controlador c;
     private JFrame previo;
 
     /**
@@ -34,7 +33,7 @@ public class CrearForo extends javax.swing.JFrame {
      * @param per
      */
     public CrearForo(JFrame p,  Persistencia per) {
-        c = new ControladorNico(per);
+        c = new Controlador(per);
         previo=p;
         initComponents();
     }

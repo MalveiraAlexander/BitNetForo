@@ -6,7 +6,6 @@
 package vistas;
 
 import controlador.Controlador;
-import controlador.ControladorAlex;
 import dao.Persistencia;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
