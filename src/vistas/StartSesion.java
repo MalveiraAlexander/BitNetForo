@@ -5,7 +5,7 @@
  */
 package vistas;
 
-import controlador.ControladorAgus;
+import controlador.Controlador;
 import controlador.ControladorAlex;
 import dao.Persistencia;
 import javax.persistence.EntityManagerFactory;

@@ -6,17 +6,69 @@ import java.util.List;
 import modelo.Administrador;
 import modelo.Profesor;
 import modelo.Estudiante;
+import modelo.Foro;
+import modelo.Pregunta;
 import modelo.Registrador;
 import modelo.UsuarioAcademico;
 
 
 //controla la vista: VerPerfil
-public class ControladorAgus extends ControladorPadre {
+public class Controlador  {
 
-    public ControladorAgus(Persistencia p) {
+    Persistencia persistencia;
+    public Controlador(Persistencia p) {
         this.persistencia = p;
     }
+    public Persistencia getPersistencia() {
+        return persistencia;
+    }
 
+    public List listarPregunta() {
+        return this.persistencia.buscarTodos(Pregunta.class);
+    }
+
+    public List listarForos() {
+        return this.persistencia.buscarTodos(Foro.class);
+    }
+
+    public List listarProfesor() {
+        return this.persistencia.buscarTodos(Profesor.class);
+    }
+
+    public List listarEstudiante() {
+        return this.persistencia.buscarTodos(Estudiante.class);
+    }
+
+    public List listarRegistrador() {
+        return this.persistencia.buscarTodos(Registrador.class);
+    }
+
+    public List listarAdministrador() {
+        return this.persistencia.buscarTodos(Administrador.class);
+    }
+
+    public Boolean crearForo(String nombre) {
+        this.persistencia.iniciarTransaccion();
+        List foros = this.persistencia.buscarTodos(Foro.class);
+        int si = 0;
+        Foro foro;
+        for (Foro foro1 : (List<Foro>) foros) {
+            if (foro1.getTitulo().toUpperCase().equals(nombre.toUpperCase()) ) {
+                si = 1;
+                break;
+            }
+        }
+        if (si == 0) {
+            foro = new Foro(nombre);
+            this.persistencia.insertar(foro);
+            this.persistencia.confirmarTransaccion();
+            return true;
+        }else{
+            this.persistencia.descartarTransaccion();
+            return false;
+        }
+
+    }
     /*se crea una lista con materias, reputacion, apellido, nombre, correo, 
  cantidad de preguntas, cantidad de respuestas realizadas
     si es un alumno no se carga las materias*/

@@ -6,7 +6,7 @@
 package vistas;
 
 import modelo.UsuarioAcademico;
-import controlador.ControladorAgus;
+import controlador.Controlador;
 import dao.Persistencia;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import modelo.Profesor;
  */
 public class VerPerfil extends javax.swing.JFrame {
 
-    private ControladorAgus c;
+    private Controlador c;
     private Profesor profe;
     private Estudiante estu;
     private JFrame previo;
@@ -36,7 +36,7 @@ public class VerPerfil extends javax.swing.JFrame {
      * @param per
      */
     public VerPerfil(JFrame p, Estudiante es, Profesor pro, Persistencia per) {
-        c = new ControladorAgus(per);
+        c = new Controlador(per);
         previo = p;
         profe = pro;
         estu = es;

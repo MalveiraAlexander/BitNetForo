@@ -6,7 +6,7 @@
 package vistas;
 
 import modelo.UsuarioAcademico;
-import controlador.ControladorAgus;
+import controlador.Controlador;
 import controlador.ControladorNico;
 import dao.Persistencia;
 import javax.swing.DefaultComboBoxModel;

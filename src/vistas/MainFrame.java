@@ -5,7 +5,7 @@
  */
 package vistas;
 
-import controlador.ControladorAgus;
+import controlador.Controlador;
 import dao.Persistencia;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +22,11 @@ import modelo.Profesor;
  */
 public final class MainFrame extends javax.swing.JFrame {
 
-    ControladorAgus controlador;
+    Controlador controlador;
     JFrame previo;
 
     public MainFrame(Persistencia persi) {
-        controlador = new ControladorAgus(persi);
+        controlador = new Controlador(persi);
         initComponents();
         this.cargarComboBoxUsuario();
         this.limpiarCrearUsuario();
