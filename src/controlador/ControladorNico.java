@@ -14,18 +14,15 @@ import modelo.Foro;
  * @author Admin
  */
 //Controla la vista: Crear Foro
-public class ControladorNico {
+public class ControladorNico extends ControladorPadre{
 
-    Persistencia persistencia;
 
     public ControladorNico(Persistencia p) {
         persistencia = p;
 
     }
 
-    public List listarForo() {
-        return this.persistencia.buscarTodos(Foro.class);
-    }
+
 //devuleve verdadero si se crea el foro
     public Boolean crearForo(String nombre) {
         this.persistencia.iniciarTransaccion();

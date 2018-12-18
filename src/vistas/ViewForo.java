@@ -139,7 +139,7 @@ ControladorAlex controlador;
     }// </editor-fold>//GEN-END:initComponents
 
     private void listPreguntasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listPreguntasValueChanged
-        ViewPregunta principal = new ViewPregunta(this,));
+        ViewPregunta principal = new ViewPregunta(this,null,null,this.controlador.getPersistencia());
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         principal.setLocationRelativeTo(null);     
         principal.setVisible(true);
@@ -169,6 +169,7 @@ ControladorAlex controlador;
         
         public Pregunta obtenerPregunta(){
         DefaultListModel modelo= (DefaultListModel) this.listPreguntas.getModel();
+    return null;
         
             
         } 

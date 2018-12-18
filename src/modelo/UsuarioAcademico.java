@@ -90,4 +90,14 @@ public abstract class UsuarioAcademico extends Usuario {
         this.votos = votos;
     }
 
+    public List obtenerDatos() {
+        List<Object> datos = new ArrayList<>();
+        datos.add(this.getApellido());
+        datos.add(this.getNombre());
+        datos.add(this.getCorreo());
+        datos.add(this.getPreguntas().size());
+        datos.add(this.getRespuestas().size());
+        return datos;
+    }
+
 }

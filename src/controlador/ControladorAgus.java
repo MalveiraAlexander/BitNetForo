@@ -8,16 +8,10 @@ import modelo.Profesor;
 import modelo.Estudiante;
 import modelo.Registrador;
 import modelo.UsuarioAcademico;
-import modelo.Foro;
+
 
 //controla la vista: VerPerfil
-public class ControladorAgus {
-
-    Persistencia persistencia;
-
-    public Persistencia getPersistencia() {
-        return persistencia;
-    }
+public class ControladorAgus extends ControladorPadre {
 
     public ControladorAgus(Persistencia p) {
         this.persistencia = p;
@@ -46,7 +40,7 @@ public class ControladorAgus {
         }
         return datos;
     }
-
+//visa crear usuario crea al usuario dependiendo el tipo de usuario que sea (administrador,registrador, estudiante, profesor)
     public Boolean crearUsuario(String nombre, String apellido, String correo, String documento, String usuario) {
         this.persistencia.iniciarTransaccion();
         if (usuario.equals("Administrador")) {
@@ -77,23 +71,5 @@ public class ControladorAgus {
 
     }
 
-    public List listarForos() {
-        return this.persistencia.buscarTodos(Foro.class);
-    }
-
-    public List listarProfesor() {
-        return this.persistencia.buscarTodos(Profesor.class);
-    }
-
-    public List listarEstudiante() {
-        return this.persistencia.buscarTodos(Estudiante.class);
-    }
-
-    public List listarRegistrador() {
-        return this.persistencia.buscarTodos(Registrador.class);
-    }
-
-    public List listarAdministrador() {
-        return this.persistencia.buscarTodos(Administrador.class);
-    }
+   
 }

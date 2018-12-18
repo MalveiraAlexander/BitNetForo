@@ -62,4 +62,9 @@ public class Foro implements Serializable {
         this.preguntas = preguntas;
     }
 
+    @Override
+    public String toString() {
+        return  titulo ;
+    }
+
 }

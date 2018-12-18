@@ -4,6 +4,7 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -25,12 +26,12 @@ public class Estudiante extends UsuarioAcademico implements Serializable {
     private Integer reputacion;
 
     public Estudiante() {
-    reputacion =0;
+        reputacion = 0;
     }
 
     public Estudiante(String apellido, String nombre, String dni, String correo) {
         super(apellido, nombre, dni, correo);
-        reputacion =0;
+        reputacion = 0;
     }
 
     public Long getId() {
@@ -48,5 +49,6 @@ public class Estudiante extends UsuarioAcademico implements Serializable {
     public void setReputacion(Integer reputacion) {
         this.reputacion = reputacion;
     }
+
 
 }

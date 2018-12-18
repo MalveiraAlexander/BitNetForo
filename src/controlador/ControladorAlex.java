@@ -13,13 +13,11 @@ import modelo.Pregunta;
  *
  * @author malve
  */
-public class ControladorAlex {
-    Persistencia persistencia;
+public class ControladorAlex extends ControladorPadre {
+
     public ControladorAlex(Persistencia p) {
         this.persistencia = p;
     }
-    public List listarPregunta(){
-    return this.persistencia.buscarTodos(Pregunta.class);
-    }
+
 
 }
