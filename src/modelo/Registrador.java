@@ -16,9 +16,7 @@ import javax.persistence.Id;
 @Entity
 public class Registrador extends Usuario implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+
 
 
     public Registrador() {
@@ -27,13 +25,6 @@ public class Registrador extends Usuario implements Serializable {
 
     public Registrador(String apellido, String nombre, String dni, String correo) {
         super(apellido, nombre, dni, correo);
-    }
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
 

@@ -19,9 +19,7 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Profesor extends UsuarioAcademico implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+
     private Integer reputacion;
     @ManyToMany(targetEntity = Materia.class)
     private Set<Materia> materias;
@@ -38,13 +36,6 @@ public class Profesor extends UsuarioAcademico implements Serializable {
     materias= new HashSet();
     }
 
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Set<Materia> getMaterias() {
         return this.materias;

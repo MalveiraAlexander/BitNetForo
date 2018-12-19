@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import javax.persistence.ManyToOne;
 /**
  * @author Admin
  */
@@ -20,12 +21,12 @@ import java.util.ArrayList;
 public class Respuesta implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String respuesta;
     @Basic
     private Integer votosPositivos;
-
+    
     @Basic
     private Integer votosNegativos;
 
@@ -34,14 +35,33 @@ public class Respuesta implements Serializable {
 
     @OneToMany(targetEntity = Voto.class)
     private List<Voto> votos;
-
+    @ManyToOne
+    private Estudiante estudiante;
+    @ManyToOne
+    private Profesor profesor;
+    @ManyToOne
+    private Administrador administrador;
     public Respuesta() {
         votos= new ArrayList<>();
     }
 
-    public Respuesta(String respuesta) {
-        votos= new ArrayList<>();
-        this.respuesta=respuesta;
+   public Respuesta(String resp, Estudiante estudiante, Profesor profesor, Administrador administrador) {
+        this.respuesta = resp;
+        if (estudiante != null) {
+            this.estudiante = estudiante;
+            this.profesor = null;
+            this.administrador = null;
+        } else {
+            if (profesor != null) {
+                this.estudiante = null;
+                this.profesor = profesor;
+                this.administrador = null;
+            } else {
+                this.estudiante = null;
+                this.profesor = null;
+                this.administrador = administrador;
+            }
+        }
     }
 
     public String getRespuesta() {
@@ -91,5 +111,50 @@ public class Respuesta implements Serializable {
     public void setVotos(List<Voto> votos) {
         this.votos = votos;
     }
+
+    @Override
+    public String toString() {
+        return respuesta;
+        
+    }
+
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
+    }
+
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
+    }
+
+    public Administrador getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(Administrador administrador) {
+        this.administrador = administrador;
+    }
+    public UsuarioAcademico obtenerPublicador() {
+        if (this.estudiante != null) {
+            return this.estudiante;
+        } else {
+            if (this.profesor != null) {
+                return this.profesor;
+            } else {
+                if (this.administrador != null) {
+                    return this.administrador;
+                }
+            }
+        }
+        return null;
+    }
+
 
 }

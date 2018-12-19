@@ -10,7 +10,13 @@ import dao.Persistencia;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JFrame;
+import modelo.Administrador;
 import servicios.Hash;
+import java.lang.Long;
+import modelo.Estudiante;
+import modelo.Profesor;
+import modelo.Registrador;
+import modelo.Usuario;
 
 /**
  *
@@ -32,7 +38,7 @@ public class StartSesion extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
+        textUsuario = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -42,6 +48,8 @@ public class StartSesion extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+
+        textUsuario.setText("agus@hotmail.com");
 
         jLabel1.setText("Usuario:");
 
@@ -57,6 +65,8 @@ public class StartSesion extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel3.setText("Iniciar Sesión");
 
+        jPasswordField1.setText("hola");
+
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 0, 0));
 
@@ -71,7 +81,7 @@ public class StartSesion extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-                            .addComponent(jTextField1)
+                            .addComponent(textUsuario)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4))
                         .addContainerGap(82, Short.MAX_VALUE))
@@ -89,7 +99,7 @@ public class StartSesion extends javax.swing.JFrame {
                 .addGap(52, 52, 52)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(textUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -104,9 +114,56 @@ public class StartSesion extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    @SuppressWarnings("empty-statement")
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        char[] arrayC = jPasswordField1.getPassword();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ForoBitNetPU");
 
+        Persistencia persistencia = new Persistencia(emf);
+        Controlador controlador = new Controlador(persistencia);
+        // 0= Estudiante. 1= Profesor,2=Administrador , 3= Registrador
+        //usaurio[0]= id del usuario----- usuario[1]= tipo de usuario explicado arriba
+
+
+        for (Administrador administrador : controlador.listarAdministrador()) {
+            if (administrador.getCorreo().toUpperCase().equals(this.textUsuario.getText().toUpperCase())) {
+                MainFrame principal = new MainFrame(persistencia, (Usuario)administrador
+                );
+                principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                principal.setLocationRelativeTo(null);
+                principal.setVisible(true);
+                this.dispose();
+
+            }
+        }
+        for (Estudiante estudiante : controlador.listarEstudiante()) {
+            if (estudiante.getCorreo().toUpperCase().equals(this.textUsuario.getText().toUpperCase())) {
+                MainFrame principal = new MainFrame(persistencia, (Usuario)estudiante
+                );
+                principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                principal.setLocationRelativeTo(null);
+                principal.setVisible(true);
+                this.dispose();
+            }
+        }
+        for (Profesor profesor : controlador.listarProfesor()) {
+            if (profesor.getCorreo().toUpperCase().equals(this.textUsuario.getText().toUpperCase())) {
+                MainFrame principal = new MainFrame(persistencia, (Usuario )profesor);
+                principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                principal.setLocationRelativeTo(null);
+                principal.setVisible(true);
+                this.dispose();
+            }
+        }
+        for (Registrador registrador : controlador.listarRegistrador()) {
+            if (registrador.getCorreo().toUpperCase().equals(this.textUsuario.getText().toUpperCase())) {
+                MainFrame principal = new MainFrame(persistencia, (Usuario) registrador);
+                principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                principal.setLocationRelativeTo(null);
+                principal.setVisible(true);
+                this.dispose();
+            }
+        }
+        /* char[] arrayC = jPasswordField1.getPassword();
         String pass = new String(arrayC);
         String pass2 = Hash.MD5(pass);
         String pass3 = Hash.MD5("hola");
@@ -131,7 +188,7 @@ public class StartSesion extends javax.swing.JFrame {
             this.jTextField1.setText("");
             this.jPasswordField1.setText("");
         }
-
+         */
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
@@ -142,6 +199,6 @@ public class StartSesion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField textUsuario;
     // End of variables declaration//GEN-END:variables
 }

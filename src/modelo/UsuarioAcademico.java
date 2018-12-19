@@ -100,4 +100,11 @@ public abstract class UsuarioAcademico extends Usuario {
         return datos;
     }
 
+    public void agregarRespuesta(Respuesta e) {
+        this.getRespuestas().add(e);
+    }
+
+    public void agregarPregunta(Pregunta e) {
+        this.getPreguntas().add(e);
+    }
 }

@@ -18,9 +18,6 @@ import javax.persistence.Id;
 @Entity
 public class Estudiante extends UsuarioAcademico implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
     @Basic
     private Integer reputacion;
@@ -34,13 +31,6 @@ public class Estudiante extends UsuarioAcademico implements Serializable {
         reputacion = 0;
     }
 
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Integer getReputacion() {
         return this.reputacion;

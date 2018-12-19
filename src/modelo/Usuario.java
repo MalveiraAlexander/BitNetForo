@@ -5,13 +5,17 @@ package modelo;
 
 import javax.persistence.Basic;
 import javax.persistence.MappedSuperclass;
-
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 /**
  * @author Admin
  */
 @MappedSuperclass
 public abstract class Usuario {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
     @Basic
     private String nombre;
 
@@ -64,6 +68,14 @@ public abstract class Usuario {
 
     public void setDocumento(String documento) {
         this.documento = documento;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
     
 }

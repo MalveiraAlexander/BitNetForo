@@ -14,7 +14,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Foro;
-import modelo.Profesor;
+import modelo.Usuario;
 
 /**
  *
@@ -24,13 +24,17 @@ public final class MainFrame extends javax.swing.JFrame {
 
     Controlador controlador;
     JFrame previo;
-
-    public MainFrame(Persistencia persi) {
+    Usuario usuario;
+    public MainFrame(Persistencia persi,Usuario usu) {
         controlador = new Controlador(persi);
+        usuario=usu;
         initComponents();
         this.cargarComboBoxUsuario();
         this.limpiarCrearUsuario();
         this.cargarForo();
+        List<String> datosUsuario=this.controlador.obtenerDatosUsuario(this.usuario);
+        this.labelUsuario.setText(datosUsuario.get(0)+' '+datosUsuario.get(1));
+        this.labelTipoUsuario.setText(datosUsuario.get(4));
     }
 
     /**
@@ -44,9 +48,9 @@ public final class MainFrame extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        labelUsuario = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel2 = new javax.swing.JLabel();
+        labelTipoUsuario = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -90,10 +94,10 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("Malveira Alexander");
+        labelUsuario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        labelUsuario.setText("Malveira Alexander");
 
-        jLabel2.setText("Administrador");
+        labelTipoUsuario.setText("Administrador");
 
         jButton1.setText("Buscar");
 
@@ -104,10 +108,10 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        ListForos.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        ListForos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                ListForosValueChanged(evt);
+            }
         });
         jScrollPane1.setViewportView(ListForos);
 
@@ -119,8 +123,8 @@ public final class MainFrame extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jSeparator1)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                    .addComponent(labelTipoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -137,11 +141,11 @@ public final class MainFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(jLabel1)
+                        .addComponent(labelUsuario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
+                        .addComponent(labelTipoUsuario)
                         .addGap(25, 25, 25))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -163,10 +167,10 @@ public final class MainFrame extends javax.swing.JFrame {
         searchBox.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         searchBox.setToolTipText("Buscar");
         searchBox.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 searchBoxInputMethodTextChanged(evt);
-            }
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
 
@@ -376,11 +380,19 @@ public final class MainFrame extends javax.swing.JFrame {
         this.cargarForo();
     }//GEN-LAST:event_formWindowActivated
 
+    private void ListForosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListForosValueChanged
+        ViewForo foro = new ViewForo(this, this.ListForos.getSelectedValue(), this.controlador.getPersistencia(),this.usuario);
+        foro.setVisible(true);
+        foro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        foro.setLocationRelativeTo(null);
+        this.dispose();
+
+    }//GEN-LAST:event_ListForosValueChanged
+
     public void cargarComboBoxUsuario() {
         String[] a = {"Administrador", "Registrador", "Estudiante", "Profesor"};
         DefaultComboBoxModel modelo = new DefaultComboBoxModel(a);
         this.comboBoxUsuario.setModel(modelo);
-
     }
 
     public void aceptar() {
@@ -427,15 +439,13 @@ public final class MainFrame extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> ListForos;
+    private javax.swing.JList<Foro> ListForos;
     private javax.swing.JComboBox<String> comboBoxUsuario;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -455,6 +465,8 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel labelTipoUsuario;
+    private javax.swing.JLabel labelUsuario;
     private javax.swing.JList<String> listUsers;
     private javax.swing.JTextField searchBox;
     private javax.swing.JTextField textApellido;

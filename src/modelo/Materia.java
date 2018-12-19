@@ -20,7 +20,7 @@ import javax.persistence.ManyToMany;
 public class Materia implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Basic

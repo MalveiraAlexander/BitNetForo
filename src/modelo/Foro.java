@@ -20,7 +20,7 @@ import javax.persistence.OneToMany;
 public class Foro implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Basic
@@ -66,5 +66,8 @@ public class Foro implements Serializable {
     public String toString() {
         return  titulo ;
     }
-
+    
+    public void agregarPregunta (Pregunta pregunta1){
+    this.preguntas.add(pregunta1);
+    }
 }

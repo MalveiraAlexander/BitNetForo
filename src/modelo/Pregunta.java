@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -21,14 +22,14 @@ import javax.persistence.OneToMany;
 public class Pregunta implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Basic
     private Date fechaPublicacion;
 
     @Basic
-    private String pregunta;
+    private String descripcion;
 
     @Basic
     private String titulo;
@@ -40,9 +41,9 @@ public class Pregunta implements Serializable {
         respuestas= new ArrayList<>();
     }
 
-    public Pregunta(String titulo,String pregunta) {
+    public Pregunta(String titulo,String desc) {
         this.titulo=titulo;
-        this.pregunta=pregunta;
+        this.descripcion=desc;
         respuestas= new ArrayList<>();
     }
 
@@ -63,11 +64,11 @@ public class Pregunta implements Serializable {
     }
 
     public String getPregunta() {
-        return this.pregunta;
+        return this.descripcion;
     }
 
     public void setPregunta(String pregunta) {
-        this.pregunta = pregunta;
+        this.descripcion = pregunta;
     }
 
     public String getTitulo() {
@@ -84,6 +85,15 @@ public class Pregunta implements Serializable {
 
     public void setRespuestas(List<Respuesta> respuestas) {
         this.respuestas = respuestas;
+    }
+
+    @Override
+    public String toString() {
+        return titulo ;
+    }
+    
+    public void agregarRespuesta(Respuesta respuesta){
+    this.respuestas.add(respuesta);
     }
 
 }

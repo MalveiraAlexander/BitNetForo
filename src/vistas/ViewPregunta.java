@@ -6,12 +6,13 @@
 package vistas;
 
 import controlador.Controlador;
-import dao.Persistencia;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import modelo.Foro;
 import modelo.Pregunta;
-
+import modelo.Respuesta;
+import modelo.Usuario;
 
 /**
  *
@@ -23,15 +24,18 @@ public class ViewPregunta extends javax.swing.JFrame {
     private Controlador controlador;
     private Pregunta pregunta;
     private Foro foro;
-    
-    public ViewPregunta(JFrame p,Pregunta pre,Foro fo, Persistencia per) {
-        this.previo=p;
-        this.pregunta=pre;
-        this.foro=fo;
-        this.controlador= new Controlador(per);
+    private Usuario usuario;
+
+    public ViewPregunta(JFrame p, Pregunta pre, Foro fo, Controlador c, Usuario usuari) {
+        this.previo = p;
+        this.pregunta = pre;
+        this.foro = fo;
+        this.controlador = c;
+        this.usuario = usuari;
         initComponents();
         this.namePregunta.setText(pre.getTitulo());
         this.nameForo.setText(fo.getTitulo());
+        this.cargarListRespuesta();
     }
 
     /**
@@ -50,23 +54,30 @@ public class ViewPregunta extends javax.swing.JFrame {
         nameForo = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         positiveVote = new javax.swing.JLabel();
         negativeVote = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        listDetalles = new javax.swing.JList<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         namePregunta.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         namePregunta.setText("NamePregunta");
 
-        listRespuestas.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Numero de Oro (opinion)", "Numero de Oro? Facil, aqui tu respuesta", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        listRespuestas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listRespuestasValueChanged(evt);
+            }
         });
         jScrollPane2.setViewportView(listRespuestas);
 
@@ -80,18 +91,25 @@ public class ViewPregunta extends javax.swing.JFrame {
         nameForo.setText("NameForo");
 
         jButton2.setText("Publicar Respuesta");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Buscar");
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
 
         jLabel3.setForeground(new java.awt.Color(0, 153, 0));
         jLabel3.setText("Votos Positivos:");
 
         jLabel4.setForeground(new java.awt.Color(204, 0, 0));
         jLabel4.setText("Votos Negativos:");
+
+        jScrollPane3.setViewportView(listDetalles);
+
+        textArea.setColumns(20);
+        textArea.setRows(5);
+        jScrollPane1.setViewportView(textArea);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,10 +127,7 @@ public class ViewPregunta extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(namePregunta)
                             .addComponent(nameForo)
-                            .addComponent(returnBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(returnBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -121,9 +136,13 @@ public class ViewPregunta extends javax.swing.JFrame {
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(negativeVote))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(34, 34, 34)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane1))))
+                        .addGap(0, 37, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -139,16 +158,18 @@ public class ViewPregunta extends javax.swing.JFrame {
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(positiveVote)
-                            .addComponent(negativeVote))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(positiveVote)
+                    .addComponent(negativeVote))
+                .addGap(21, 21, 21)
                 .addComponent(returnBtn)
                 .addGap(10, 10, 10))
         );
@@ -157,10 +178,47 @@ public class ViewPregunta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void returnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnBtnActionPerformed
-        
+        this.previo.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_returnBtnActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        PublicarRespuesta principal = new PublicarRespuesta(this, this.pregunta, this.controlador, this.usuario);
+        principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        principal.setLocationRelativeTo(null);
+        principal.setVisible(true);
 
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void listRespuestasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listRespuestasValueChanged
+        this.cargarListaDetalle();
+    }//GEN-LAST:event_listRespuestasValueChanged
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+      this.cargarListRespuesta();
+    }//GEN-LAST:event_formWindowActivated
+    private void cargarListaDetalle() {
+        DefaultListModel modelo = new DefaultListModel();
+        List respuestaInfo = this.controlador.obtenerInformacionRespuesta(this.listRespuestas.getSelectedValue());
+        modelo.add(0, "Usuario: " + respuestaInfo.get(0));
+        modelo.add(1, "Tipo de Usuario: " + respuestaInfo.get(1));
+        modelo.add(2, "Fecha de publicacion: " + respuestaInfo.get(2));
+        
+       // modelo.add(2, "Respuesta: \n" + respuestaInfo.get(2));
+        this.listDetalles.setModel(modelo);
+        this.textArea.setText("Respuesta: \n" + respuestaInfo.get(3));
+        this.textArea.setLineWrap(true);
+        this.textArea.setEditable(false);
+    }
+
+    private void cargarListRespuesta() {
+        DefaultListModel modelo = new DefaultListModel();
+        for (Respuesta respuesta : this.controlador.obtenerRepuestasDePregunta(pregunta)) {
+            modelo.addElement(respuesta);
+        }
+        this.listRespuestas.setModel(modelo);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
@@ -169,12 +227,14 @@ public class ViewPregunta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JList<String> listRespuestas;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JList<String> listDetalles;
+    private javax.swing.JList<Respuesta> listRespuestas;
     private javax.swing.JLabel nameForo;
     private javax.swing.JLabel namePregunta;
     private javax.swing.JLabel negativeVote;
     private javax.swing.JLabel positiveVote;
     private javax.swing.JButton returnBtn;
+    private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }
