@@ -3,6 +3,7 @@ package controlador;
 import dao.Persistencia;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import modelo.Administrador;
 import modelo.Profesor;
 import modelo.Estudiante;
@@ -12,6 +13,7 @@ import modelo.Registrador;
 import modelo.Respuesta;
 import modelo.Usuario;
 import modelo.UsuarioAcademico;
+import modelo.Voto;
 
 //controla la vista: VerPerfil
 public class Controlador {
@@ -82,14 +84,36 @@ public class Controlador {
         return pre.getRespuestas();
     }
 
-    public void crearPregunta(String titulo, String descripcion, Foro foro) {
+    public void crearPregunta(String titulo, String descripcion, Foro foro, Usuario usuario) {
         this.persistencia.iniciarTransaccion();
 
         try {
+            Administrador administrador = null;
+            Estudiante estudiante = null;
+            Profesor profesor = null;
+            Pregunta pregunta = null;
+            //insertamos la pregunta en la BD y asociamos a su usuario que publico.
+            if ((administrador = this.buscarAdministrador(usuario.getId())) != null) {
+                pregunta = new Pregunta(titulo, descripcion, estudiante, profesor, administrador);
+                this.persistencia.insertar(pregunta);
+                administrador.agregarPregunta(pregunta);
+                this.persistencia.modificar(administrador);
+            } else {
+                if ((estudiante = this.buscarEstudiante(usuario.getId())) != null) {
+                    pregunta = new Pregunta(titulo, descripcion, estudiante, profesor, administrador);
+                    this.persistencia.insertar(pregunta);
+                    estudiante.agregarPregunta(pregunta);
+                    this.persistencia.modificar(estudiante);
+                } else {
+                    if ((profesor = this.buscarProfesor(usuario.getId())) != null) {
+                        pregunta = new Pregunta(titulo, descripcion, estudiante, profesor, administrador);
+                        this.persistencia.insertar(pregunta);
+                        profesor.agregarPregunta(pregunta);
+                        this.persistencia.modificar(profesor);
+                    }
+                }
+            }
 
-            Pregunta pregunta = new Pregunta(titulo, descripcion);
-            // si es un departamento valido
-            this.persistencia.insertar(pregunta);
             foro.agregarPregunta(pregunta);
             this.persistencia.modificar(foro);
             this.persistencia.confirmarTransaccion();
@@ -99,7 +123,7 @@ public class Controlador {
         }
     }
 
-    public Boolean crearRespuesta(String respu, Pregunta pregunta, Usuario usuario) {
+    public Boolean crearRespuesta(String respu, String titulo, Pregunta pregunta, Usuario usuario) {
         this.persistencia.iniciarTransaccion();
 
         try {
@@ -107,21 +131,21 @@ public class Controlador {
             Estudiante estudiante = null;
             Profesor profesor = null;
             Respuesta respuesta = null;
-            //insertamos la respuesta en la BD y asociamos a su usuario qu publico.
+            //insertamos la respuesta en la BD y asociamos a su usuario que publico.
             if ((administrador = this.buscarAdministrador(usuario.getId())) != null) {
-                respuesta = new Respuesta(respu, estudiante, profesor, administrador);
+                respuesta = new Respuesta(respu, titulo, estudiante, profesor, administrador);
                 this.persistencia.insertar(respuesta);
                 administrador.agregarRespuesta(respuesta);
                 this.persistencia.modificar(administrador);
             } else {
                 if ((estudiante = this.buscarEstudiante(usuario.getId())) != null) {
-                    respuesta = new Respuesta(respu, estudiante, profesor, administrador);
+                    respuesta = new Respuesta(respu, titulo, estudiante, profesor, administrador);
                     this.persistencia.insertar(respuesta);
                     estudiante.agregarRespuesta(respuesta);
                     this.persistencia.modificar(estudiante);
                 } else {
                     if ((profesor = this.buscarProfesor(usuario.getId())) != null) {
-                        respuesta = new Respuesta(respu, estudiante, profesor, administrador);
+                        respuesta = new Respuesta(respu, titulo, estudiante, profesor, administrador);
                         this.persistencia.insertar(respuesta);
                         profesor.agregarRespuesta(respuesta);
                         this.persistencia.modificar(profesor);
@@ -217,30 +241,79 @@ public class Controlador {
         return true;
 
     }
+//la lista de datos tiene Apellido y nombre, tipo de usuario, titulo, descripcion, fecha de publicacion, cantidad de respuestas, fecha de la ultima respuesta
 
-//vista  ViewPreunta pasarle el nombre, tipo de usuario,hora, respuesta,votos postivos, votos negativos
-    public List obtenerInformacionRespuesta(Respuesta respuesta) {
+    public List obtenerInformacionPregunta(Pregunta pregunta) {
         List datos = new ArrayList<>();
 
-        datos.add(respuesta.obtenerPublicador().getApellido() + ' ' + respuesta.obtenerPublicador().getNombre());
-        if (this.buscarAdministrador(respuesta.obtenerPublicador().getId()) != null) {
+        datos.add(pregunta.obtenerPublicador().getApellido() + ' ' + pregunta.obtenerPublicador().getNombre());
+        if (this.buscarAdministrador(pregunta.obtenerPublicador().getId()) != null) {
             datos.add("Administrador");
         } else {
-            if (this.buscarEstudiante(respuesta.obtenerPublicador().getId()) != null) {
+            if (this.buscarEstudiante(pregunta.obtenerPublicador().getId()) != null) {
                 datos.add("Estudiante");
             } else {
-                if (this.buscarProfesor(respuesta.obtenerPublicador().getId()) != null) {
+                if (this.buscarProfesor(pregunta.obtenerPublicador().getId()) != null) {
                     datos.add("Profesor");
                 }
             }
         }
-        datos.add(respuesta.getFechaPublicacion());
-        datos.add(respuesta.getRespuesta());
-        datos.add(respuesta.getVotosPositivos());
-        datos.add(respuesta.getVotosNegativos());
+        datos.add(pregunta.getTitulo());
+        datos.add(pregunta.getDescripcion());
+        datos.add(pregunta.getFechaPublicacion());
+        List<Respuesta> listaRespuesta = pregunta.getRespuestas();
+        datos.add(listaRespuesta.size());
+        if (!listaRespuesta.isEmpty()) {
+            datos.add(listaRespuesta.get(listaRespuesta.size() - 1).getFechaPublicacion());
+        } else {
+            datos.add("Vacio");
+        }
 
+        //si quiero agregar que muestre la respuesta mas votada dejo lo siguiente
+        /*Respuesta viejo = null;
+        if (!pregunta.getRespuestas().isEmpty()) {
+            viejo = pregunta.getRespuestas().get(0);
+            Integer reputacion = viejo.getVotosPositivos() - viejo.getVotosNegativos();
+            //en viejo se almacena la respuesta con mejor reputacion
+            for (Respuesta respuesta : pregunta.getRespuestas()) {
+                if ((respuesta.getVotosPositivos() - respuesta.getVotosNegativos()) > reputacion) {
+                    reputacion = respuesta.getVotosPositivos() - respuesta.getVotosNegativos();
+                    viejo = respuesta;
+                }
+
+            }
+        }
+        datos.add(viejo);*/
         return datos;
+    }
+//vista  ViewPreunta pasarle el nombre, tipo de usuario,hora, titulo,respuesta,votos postivos, votos negativos
 
+    public List obtenerInformacionRespuesta(Respuesta respuesta) {
+        List datos = new ArrayList<>();
+        try {
+            datos.add(respuesta.obtenerPublicador().getApellido() + ' ' + respuesta.obtenerPublicador().getNombre());
+            if (this.buscarAdministrador(respuesta.obtenerPublicador().getId()) != null) {
+                datos.add("Administrador");
+            } else {
+                if (this.buscarEstudiante(respuesta.obtenerPublicador().getId()) != null) {
+                    datos.add("Estudiante");
+                } else {
+                    if (this.buscarProfesor(respuesta.obtenerPublicador().getId()) != null) {
+                        datos.add("Profesor");
+                    }
+                }
+            }
+            datos.add(respuesta.getFechaPublicacion());
+            datos.add(respuesta.getTitulo());
+            datos.add(respuesta.getRespuesta());
+            datos.add(respuesta.getVotosPositivos());
+            datos.add(respuesta.getVotosNegativos());
+            return datos;
+        } catch (Exception ex) {
+            System.err.println("error obtener informacion respuestas");
+        }
+
+        return null;
     }
 
     //se usa en la vista MainFrame
@@ -269,4 +342,347 @@ public class Controlador {
         return datos;
     }
 
+    public void crearVoto(Boolean voto, Respuesta respuesta, Usuario usuario) {
+        this.persistencia.iniciarTransaccion();
+        try {
+            Administrador administrador = null;
+            Estudiante estudiante = null;
+            Profesor profesor = null;
+            Boolean existe = false;
+            //recorremos todos los votos de la respuesta
+            for (Voto viejo : respuesta.getVotos()) {
+                //verificamos si el usuario es un administrador o no
+                if ((administrador = viejo.getAdministrador()) != null) {
+                    //verificamos si el usuario que hizo el voto ahora es el mismo del voto viejo 
+                    if (Objects.equals(usuario.getId(), administrador.getId())) {
+                        existe = true;
+                        //si el voto viejo es igual al nuevo voto
+                        if (viejo.isVoto().equals(voto)) {
+                            //si los dos votos son iguales no tengo que hacer nada ya que voto anteriormente
+                            break;
+                        } else {
+                            //si no son iguales debo modificar al nuevo voto
+                            viejo.setVoto(voto);
+                            // al no sser igual debo calcular los votos negativo y positivo nuevamente
+                            if (voto) {
+                                //si es positivo ahora quiere decir que antes era negativo por eso hacemos lo siguiente
+                                respuesta.setVotosPositivos(respuesta.getVotosPositivos() + 1);
+                                respuesta.setVotosNegativos(respuesta.getVotosNegativos() - 1);
+                                //recalcular los votos del usuario que esta votando ahora
+                                administrador.setVotosPositivos(administrador.getVotosPositivos() + 1);
+                                administrador.setVotosNegativos(administrador.getVotosNegativos() - 1);
+                                //ahora calcular la reputacion del que hizo la respuesta (el administrador no tiene reputacion)
+                                Estudiante estu = null;
+                                Profesor profe = null;
+                                if ((estu = respuesta.getEstudiante()) != null) {
+                                    estu.setReputacion(estu.getReputacion() + 1);
+                                    this.persistencia.modificar(estu);
+                                } else {
+                                    if ((profe = respuesta.getProfesor()) != null) {
+                                        profe.setReputacion(estu.getReputacion() + 1);
+                                        this.persistencia.modificar(profe);
+                                    }
+
+                                }
+
+                            } else {
+                                respuesta.setVotosPositivos(respuesta.getVotosPositivos() - 1);
+                                respuesta.setVotosNegativos(respuesta.getVotosNegativos() + 1);
+                                administrador.setVotosPositivos(administrador.getVotosPositivos() - 1);
+                                administrador.setVotosNegativos(administrador.getVotosNegativos() + 1);
+                                Estudiante estu = null;
+                                Profesor profe = null;
+                                if ((estu = respuesta.getEstudiante()) != null) {
+                                    estu.setReputacion(estu.getReputacion() - 1);
+                                    this.persistencia.modificar(estu);
+                                } else {
+                                    if ((profe = respuesta.getProfesor()) != null) {
+                                        profe.setReputacion(estu.getReputacion() - 1);
+                                        this.persistencia.modificar(profe);
+                                    }
+                                }
+                            }
+                            this.persistencia.modificar(respuesta);
+                            this.persistencia.modificar(administrador);
+                            this.persistencia.modificar(viejo);
+                        }
+                        break;
+                    }
+                } else {
+                    if ((estudiante = viejo.getEstudiante()) != null) {
+                        //verificamos si el usuario que hizo el voto ahora es el mismo del voto viejo 
+                        if (Objects.equals(usuario.getId(), estudiante.getId())) {
+                            existe = true;
+                            //si el voto viejo es igual al nuevo voto
+                            if (viejo.isVoto().equals(voto)) {
+                                //si los dos votos son iguales no tengo que hacer nada ya que voto anteriormente
+                                break;
+                            } else {
+                                //si no son iguales debo modificar al nuevo voto
+                                viejo.setVoto(voto);
+                                // al no sser igual debo calcular los votos negativo y positivo nuevamente
+                                if (voto) {
+                                    //si es positivo ahora quiere decir que antes era negativo por eso hacemos lo siguiente
+                                    respuesta.setVotosPositivos(respuesta.getVotosPositivos() + 1);
+                                    respuesta.setVotosNegativos(respuesta.getVotosNegativos() - 1);
+                                    //recalcular los votos del usuario que esta votando ahora
+                                    estudiante.setVotosPositivos(estudiante.getVotosPositivos() + 1);
+                                    estudiante.setVotosNegativos(estudiante.getVotosNegativos() - 1);
+                                    //ahora calcular la reputacion del que hizo la respuesta (el administrador no tiene reputacion)
+                                    Estudiante estu = null;
+                                    Profesor profe = null;
+                                    if ((estu = respuesta.getEstudiante()) != null) {
+                                        estu.setReputacion(estu.getReputacion() + 1);
+                                        this.persistencia.modificar(estu);
+                                    } else {
+                                        if ((profe = respuesta.getProfesor()) != null) {
+                                            profe.setReputacion(estu.getReputacion() + 1);
+                                            this.persistencia.modificar(profe);
+                                        }
+                                    }
+
+                                } else {
+                                    respuesta.setVotosPositivos(respuesta.getVotosPositivos() - 1);
+                                    respuesta.setVotosNegativos(respuesta.getVotosNegativos() + 1);
+                                    estudiante.setVotosPositivos(estudiante.getVotosPositivos() - 1);
+                                    estudiante.setVotosNegativos(estudiante.getVotosNegativos() + 1);
+                                    Estudiante estu = null;
+                                    Profesor profe = null;
+                                    if ((estu = respuesta.getEstudiante()) != null) {
+                                        estu.setReputacion(estu.getReputacion() - 1);
+                                        this.persistencia.modificar(estu);
+                                    } else {
+                                        if ((profe = respuesta.getProfesor()) != null) {
+                                            profe.setReputacion(estu.getReputacion() - 1);
+                                            this.persistencia.modificar(profe);
+                                        }
+                                    }
+                                }
+                                this.persistencia.modificar(respuesta);
+                                this.persistencia.modificar(estudiante);
+                                this.persistencia.modificar(viejo);
+                            }
+                            break;
+                        }
+                    } else {
+                        if ((profesor = viejo.getProfesor()) != null) {
+                            //verificamos si el usuario que hizo el voto ahora es el mismo del voto viejo 
+                            if (Objects.equals(usuario.getId(), profesor.getId())) {
+                                existe = true;
+                                //si el voto viejo es igual al nuevo voto
+                                if (viejo.isVoto().equals(voto)) {
+                                    //si los dos votos son iguales no tengo que hacer nada ya que voto anteriormente
+                                    break;
+                                } else {
+                                    //si no son iguales debo modificar al nuevo voto
+                                    viejo.setVoto(voto);
+                                    // al no sser igual debo calcular los votos negativo y positivo nuevamente
+                                    if (voto) {
+                                        //si es positivo ahora quiere decir que antes era negativo por eso hacemos lo siguiente
+                                        respuesta.setVotosPositivos(respuesta.getVotosPositivos() + 1);
+                                        respuesta.setVotosNegativos(respuesta.getVotosNegativos() - 1);
+                                        //recalcular los votos del usuario que esta votando ahora
+                                        profesor.setVotosPositivos(profesor.getVotosPositivos() + 1);
+                                        profesor.setVotosNegativos(profesor.getVotosNegativos() - 1);
+                                        //ahora calcular la reputacion del que hizo la respuesta (el administrador no tiene reputacion)
+                                        Estudiante estu = null;
+                                        Profesor profe = null;
+                                        if ((estu = respuesta.getEstudiante()) != null) {
+                                            estu.setReputacion(estu.getReputacion() + 1);
+                                            this.persistencia.modificar(estu);
+                                        } else {
+                                            if ((profe = respuesta.getProfesor()) != null) {
+                                                profe.setReputacion(estu.getReputacion() + 1);
+                                                this.persistencia.modificar(profe);
+                                            }
+                                        }
+
+                                    } else {
+                                        respuesta.setVotosPositivos(respuesta.getVotosPositivos() - 1);
+                                        respuesta.setVotosNegativos(respuesta.getVotosNegativos() + 1);
+                                        profesor.setVotosPositivos(profesor.getVotosPositivos() - 1);
+                                        profesor.setVotosNegativos(profesor.getVotosNegativos() + 1);
+                                        Estudiante estu = null;
+                                        Profesor profe = null;
+                                        if ((estu = respuesta.getEstudiante()) != null) {
+                                            estu.setReputacion(estu.getReputacion() - 1);
+                                            this.persistencia.modificar(estu);
+                                        } else {
+                                            if ((profe = respuesta.getProfesor()) != null) {
+                                                profe.setReputacion(estu.getReputacion() - 1);
+                                                this.persistencia.modificar(profe);
+                                            }
+                                        }
+                                    }
+                                    this.persistencia.modificar(respuesta);
+                                    this.persistencia.modificar(profesor);
+                                    this.persistencia.modificar(viejo);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!existe) {
+                if ((administrador = this.buscarAdministrador(usuario.getId())) != null) {
+                    Voto voto1 = new Voto(voto, null, null, administrador);
+                    this.persistencia.insertar(voto1);
+                    administrador.agregarVoto(voto1);
+                    if (voto) {
+                        administrador.setVotosPositivos(administrador.getVotosPositivos() + 1);
+                        respuesta.agregarVoto(voto1);
+                        respuesta.setVotosPositivos(respuesta.getVotosPositivos() + 1);
+                        //estudiante que realizo la respuesta
+                        Estudiante estu = null;
+                        Profesor profe = null;
+                        if ((estu = respuesta.getEstudiante()) != null) {
+                            estu.setReputacion(estu.getReputacion() + 1);
+                            this.persistencia.modificar(estu);
+                        } else {
+                            if ((profe = respuesta.getProfesor()) != null) {
+                                profe.setReputacion(profe.getReputacion() + 1);
+                                this.persistencia.modificar(profe);
+                            }
+                        }
+                    } else {
+                        administrador.setVotosNegativos(administrador.getVotosNegativos() + 1);
+                        respuesta.setVotosNegativos(respuesta.getVotosNegativos() + 1);
+                        Estudiante estu = null;
+                        Profesor profe = null;
+                        if ((estu = respuesta.getEstudiante()) != null) {
+                            estu.setReputacion(estu.getReputacion() - 1);
+                            this.persistencia.modificar(estu);
+                        } else {
+                            if ((profe = respuesta.getProfesor()) != null) {
+                                profe.setReputacion(profe.getReputacion() - 1);
+                                this.persistencia.modificar(profe);
+                            }
+                        }
+                    }
+                    this.persistencia.modificar(respuesta);
+                    this.persistencia.modificar(administrador);
+                } else {
+                    if ((estudiante = this.buscarEstudiante(usuario.getId())) != null) {
+                        Voto voto1 = new Voto(voto, estudiante, null, null);
+                        this.persistencia.insertar(voto1);
+                        estudiante.agregarVoto(voto1);
+                        if (voto) {
+                            estudiante.setVotosPositivos(estudiante.getVotosPositivos() + 1);
+                            respuesta.agregarVoto(voto1);
+                            respuesta.setVotosPositivos(respuesta.getVotosPositivos() + 1);
+                            //estudiante que realizo la respuesta
+                            Estudiante estu = null;
+                            Profesor profe = null;
+                            if ((estu = respuesta.getEstudiante()) != null) {
+                                estu.setReputacion(estu.getReputacion() + 1);
+                                this.persistencia.modificar(estu);
+                            } else {
+                                if ((profe = respuesta.getProfesor()) != null) {
+                                    profe.setReputacion(profe.getReputacion() + 1);
+                                    this.persistencia.modificar(profe);
+                                }
+                            }
+                        } else {
+                            estudiante.setVotosNegativos(estudiante.getVotosNegativos() + 1);
+                            respuesta.setVotosNegativos(respuesta.getVotosNegativos() + 1);
+                            Estudiante estu = null;
+                            Profesor profe = null;
+                            if ((estu = respuesta.getEstudiante()) != null) {
+                                estu.setReputacion(estu.getReputacion() - 1);
+                                this.persistencia.modificar(estu);
+                            } else {
+                                if ((profe = respuesta.getProfesor()) != null) {
+                                    profe.setReputacion(profe.getReputacion() - 1);
+                                    this.persistencia.modificar(profe);
+                                }
+                            }
+                        }
+                        this.persistencia.modificar(respuesta);
+                        this.persistencia.modificar(estudiante);
+                    } else {
+                        if ((profesor = this.buscarProfesor(usuario.getId())) != null) {
+                            Voto voto1 = new Voto(voto, null, null, administrador);
+                            this.persistencia.insertar(voto1);
+                            profesor.agregarVoto(voto1);
+                            if (voto) {
+                                profesor.setVotosPositivos(profesor.getVotosPositivos() + 1);
+                                respuesta.agregarVoto(voto1);
+                                respuesta.setVotosPositivos(respuesta.getVotosPositivos() + 1);
+                                //estudiante que realizo la respuesta
+                                Estudiante estu = null;
+                                Profesor profe = null;
+                                if ((estu = respuesta.getEstudiante()) != null) {
+                                    estu.setReputacion(estu.getReputacion() + 1);
+                                    this.persistencia.modificar(estu);
+                                } else {
+                                    if ((profe = respuesta.getProfesor()) != null) {
+                                        profe.setReputacion(profe.getReputacion() + 1);
+                                        this.persistencia.modificar(profe);
+                                    }
+                                }
+                            } else {
+                                profesor.setVotosNegativos(profesor.getVotosNegativos() + 1);
+                                respuesta.setVotosNegativos(respuesta.getVotosNegativos() + 1);
+                                Estudiante estu = null;
+                                Profesor profe = null;
+                                if ((estu = respuesta.getEstudiante()) != null) {
+                                    estu.setReputacion(estu.getReputacion() - 1);
+                                    this.persistencia.modificar(estu);
+                                } else {
+                                    if ((profe = respuesta.getProfesor()) != null) {
+                                        profe.setReputacion(profe.getReputacion() - 1);
+                                        this.persistencia.modificar(profe);
+                                    }
+                                }
+                            }
+                            this.persistencia.modificar(respuesta);
+                            this.persistencia.modificar(profesor);
+                        }
+                    }
+                }
+
+            }
+            this.persistencia.confirmarTransaccion();
+        } catch (Exception ex) {
+            this.persistencia.descartarTransaccion();
+            System.err.println("Transaccion descartada");
+        }
+
+    }
+//verifica si el usuario que esta usando el sistema ya voto
+
+    public Boolean verificarSiVoto(Usuario usuario, Respuesta respuesta) {
+        Administrador administrador = this.buscarAdministrador(usuario.getId());
+        Estudiante estudiante = this.buscarEstudiante(usuario.getId());
+        Profesor profesor = this.buscarProfesor(usuario.getId());
+        if (administrador != null) {
+            for (Voto voto : respuesta.getVotos()) {
+                if (voto.getAdministrador() == administrador) {
+                    return true;
+                }
+
+            }
+        } else {
+            if (estudiante != null) {
+                for (Voto voto : respuesta.getVotos()) {
+                    if (voto.getEstudiante() == estudiante) {
+                        return true;
+                    }
+
+                }
+            } else {
+                if (profesor != null) {
+                    for (Voto voto : respuesta.getVotos()) {
+                        if (voto.getProfesor() == profesor) {
+                            return true;
+                        }
+
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.ListModel;
 import modelo.Foro;
 import modelo.Pregunta;
+import modelo.Respuesta;
 import modelo.Usuario;
 
 /**
@@ -39,9 +40,10 @@ public final class ViewForo extends javax.swing.JFrame {
     public ViewForo(JFrame p, Foro name, Persistencia per, Usuario usu) {
         previo = p;
         foro = name;
-        usuario=usu;
+        usuario = usu;
         this.controlador = new Controlador(per);
         initComponents();
+        this.buttonVerPregunta.setEnabled(false);
         String titulo = "FORO";
         try {
             titulo = name.getTitulo();
@@ -68,6 +70,9 @@ public final class ViewForo extends javax.swing.JFrame {
         returnBtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         listPreguntas = new javax.swing.JList<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listDetalle = new javax.swing.JList<>();
+        buttonVerPregunta = new javax.swing.JButton();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -109,6 +114,15 @@ public final class ViewForo extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(listPreguntas);
 
+        jScrollPane1.setViewportView(listDetalle);
+
+        buttonVerPregunta.setText("Ver respuestas");
+        buttonVerPregunta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonVerPreguntaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,19 +132,21 @@ public final class ViewForo extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(buttonVerPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(BtnAddAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(nameForo)
-                            .addComponent(returnBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(returnBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 32, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(75, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,10 +156,13 @@ public final class ViewForo extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnAddAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
+                    .addComponent(BtnAddAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonVerPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addComponent(returnBtn)
                 .addContainerGap())
         );
@@ -153,7 +172,7 @@ public final class ViewForo extends javax.swing.JFrame {
 
 // CON EL PREVIO DABA ERROR EN EL NOMBRE DEL FORO
     private void returnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnBtnActionPerformed
-        MainFrame principal = new MainFrame(this.controlador.getPersistencia(), null);
+        MainFrame principal = new MainFrame(this.controlador.getPersistencia(), this.usuario);
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         principal.setLocationRelativeTo(null);
         principal.setVisible(true);
@@ -163,7 +182,7 @@ public final class ViewForo extends javax.swing.JFrame {
     }//GEN-LAST:event_returnBtnActionPerformed
 
     private void BtnAddAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAddAnswerActionPerformed
-        PublicarPregunta principal = new PublicarPregunta(this, this.foro, this.controlador);
+        PublicarPregunta principal = new PublicarPregunta(this, this.foro, this.controlador, this.usuario);
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         principal.setLocationRelativeTo(null);
         principal.setVisible(true);
@@ -185,12 +204,26 @@ public final class ViewForo extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void listPreguntasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listPreguntasValueChanged
-        ViewPregunta vista = new ViewPregunta(this, this.listPreguntas.getSelectedValue(), this.foro, this.controlador,this.usuario);
-        vista.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        vista.setLocationRelativeTo(null);
-        vista.setVisible(true);
-        this.dispose();
+
+        this.cargarListaDetalle();
+        if (this.listPreguntas.getSelectedIndex() != -1) {
+            this.buttonVerPregunta.setEnabled(true);
+        } else {
+            this.buttonVerPregunta.setEnabled(false);
+        }
+
     }//GEN-LAST:event_listPreguntasValueChanged
+
+    private void buttonVerPreguntaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVerPreguntaActionPerformed
+        if (this.listPreguntas.getSelectedIndex() != -1) {
+            ViewPregunta vista = new ViewPregunta(this, this.listPreguntas.getSelectedValue(), this.foro, this.controlador, this.usuario);
+            vista.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            vista.setLocationRelativeTo(null);
+            vista.setVisible(true);
+            this.dispose();
+        }
+
+    }//GEN-LAST:event_buttonVerPreguntaActionPerformed
 
     public void cargarListPreguntas() {
         DefaultListModel modelo = new DefaultListModel();
@@ -200,11 +233,25 @@ public final class ViewForo extends javax.swing.JFrame {
         this.listPreguntas.setModel(modelo);
     }
 
+    public void cargarListaDetalle() {
+        DefaultListModel modelo = new DefaultListModel();
+        List lista = this.controlador.obtenerInformacionPregunta(this.listPreguntas.getSelectedValue());
+        modelo.add(0, "Usuario: " + lista.get(0));
+        modelo.add(1, "Tipo de usuario: " + lista.get(1));
+        modelo.add(2, "Titulo: " + lista.get(2));
+        modelo.add(3, "Fecha de publicacion: " + lista.get(4));
+        modelo.add(4, "Cantidad de respuestas : " + lista.get(5));
+        modelo.add(5, "Fecha de la ultima respuesta : " + lista.get(6));
+        this.listDetalle.setModel(modelo);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAddAnswer;
+    private javax.swing.JButton buttonVerPregunta;
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<String> listDetalle;
     private javax.swing.JList<Pregunta> listPreguntas;
     private javax.swing.JLabel nameForo;
     private javax.swing.JButton returnBtn;

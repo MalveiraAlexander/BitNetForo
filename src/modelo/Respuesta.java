@@ -13,7 +13,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.Objects;
 import javax.persistence.ManyToOne;
+
 /**
  * @author Admin
  */
@@ -26,13 +28,12 @@ public class Respuesta implements Serializable {
     private String respuesta;
     @Basic
     private Integer votosPositivos;
-    
+    @Basic
+    private String titulo;
     @Basic
     private Integer votosNegativos;
-
     @Basic
     private Date fechaPublicacion;
-
     @OneToMany(targetEntity = Voto.class)
     private List<Voto> votos;
     @ManyToOne
@@ -41,12 +42,17 @@ public class Respuesta implements Serializable {
     private Profesor profesor;
     @ManyToOne
     private Administrador administrador;
+
     public Respuesta() {
-        votos= new ArrayList<>();
+        votos = new ArrayList<>();
+        this.votosNegativos = 0;
+        this.votosPositivos = 0;
     }
 
-   public Respuesta(String resp, Estudiante estudiante, Profesor profesor, Administrador administrador) {
+    public Respuesta(String resp, String titu, Estudiante estudiante, Profesor profesor, Administrador administrador) {
         this.respuesta = resp;
+        votos = new ArrayList<>();
+        this.titulo = titu;
         if (estudiante != null) {
             this.estudiante = estudiante;
             this.profesor = null;
@@ -62,6 +68,8 @@ public class Respuesta implements Serializable {
                 this.administrador = administrador;
             }
         }
+        this.votosNegativos = 0;
+        this.votosPositivos = 0;
     }
 
     public String getRespuesta() {
@@ -114,8 +122,8 @@ public class Respuesta implements Serializable {
 
     @Override
     public String toString() {
-        return respuesta;
-        
+        return titulo;
+
     }
 
     public Estudiante getEstudiante() {
@@ -141,6 +149,8 @@ public class Respuesta implements Serializable {
     public void setAdministrador(Administrador administrador) {
         this.administrador = administrador;
     }
+//obtengo el que realizo la pregunta como solo puede ser un usuario se va comparando
+
     public UsuarioAcademico obtenerPublicador() {
         if (this.estudiante != null) {
             return this.estudiante;
@@ -156,5 +166,78 @@ public class Respuesta implements Serializable {
         return null;
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
 
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+// existen 3 casos 1) que el voto sea nuevo se inserta normalmente ;;; 2) que el voto ya exista pero  sea del mismo tipo;; 3) que el voto ya exista pero sean de distintos tipos
+
+    public void agregarVoto(Voto voto) {
+        this.votos.add(voto);
+        // si el voto ya existe 
+        Boolean existe = false;
+        for (Voto prueba : this.votos) {
+            if (prueba.getId() == voto.getId()) {
+                existe = true;
+                //caso 3) si son de distintos tipos ("me gusta", "no me gusta"), caso 2) si son iguales no hace nada ya que son el mismo voto
+                if (!Objects.equals(voto.isVoto(), prueba.isVoto())) {
+                    if (voto.isVoto()) {
+                        this.votosPositivos++;
+                        if (estudiante != null) {
+                            estudiante.setReputacion(estudiante.getReputacion() + 1);
+
+                        } else {
+                            if (profesor != null) {
+                                profesor.setReputacion(profesor.getReputacion() + 1);
+                            }
+                        }
+                        this.votosNegativos--;
+                    } else {
+
+                        this.votosPositivos--;
+                        if (estudiante != null) {
+                            estudiante.setReputacion(estudiante.getReputacion() - 1);
+
+                        } else {
+                            if (profesor != null) {
+                                profesor.setReputacion(profesor.getReputacion() - 1);
+
+                            }
+                        }
+                        this.votosNegativos++;
+                    }
+                }
+            }
+        }
+        //si existe el voto no ingreso, este es el caso 1)
+        if (!existe) {
+            if (voto.isVoto()) {
+                this.votosPositivos++;
+                if (estudiante != null) {
+                    estudiante.setReputacion(estudiante.getReputacion() + 1);
+
+                } else {
+                    if (profesor != null) {
+                        profesor.setReputacion(profesor.getReputacion() + 1);
+
+                    }
+                }
+            } else {
+                this.votosNegativos++;
+                if (estudiante != null) {
+                    estudiante.setReputacion(estudiante.getReputacion() - 1);
+
+                } else {
+                    if (profesor != null) {
+                        profesor.setReputacion(profesor.getReputacion() - 1);
+
+                    }
+                }
+            }
+        }
+
+    }
 }

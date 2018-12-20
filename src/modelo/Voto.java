@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  * @author Admin
@@ -22,11 +23,19 @@ public class Voto implements Serializable {
 
     @Basic
     private Boolean voto;
-
+    @ManyToOne
+    private Estudiante estudiante;
+    @ManyToOne
+    private Profesor profesor;
+    @ManyToOne
+    private Administrador administrador;
     public Voto() {
     }
 
-    public Voto(Boolean voto) {
+    public Voto(Boolean voto, Estudiante estudiante, Profesor profesor, Administrador administrador) {
+        this.administrador = administrador;
+        this.estudiante = estudiante;
+        this.profesor = profesor;
         this.voto = voto;
     }
 
@@ -44,6 +53,30 @@ public class Voto implements Serializable {
 
     public void setVoto(Boolean voto) {
         this.voto = voto;
+    }
+
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
+    }
+
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
+    }
+
+    public Administrador getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(Administrador administrador) {
+        this.administrador = administrador;
     }
 
 }

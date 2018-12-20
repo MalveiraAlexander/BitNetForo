@@ -9,6 +9,7 @@ import controlador.Controlador;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Foro;
+import modelo.Usuario;
 
 /**
  *
@@ -18,16 +19,19 @@ public class PublicarPregunta extends javax.swing.JFrame {
     JFrame previo;
     Foro foro;
     Controlador controlador;
+    Usuario usuario;
     /**
      * Creates new form PublicarPregunta
      * @param p
      * @param fo
      * @param c
+     * @param usuario
      */
-    public PublicarPregunta(JFrame p, Foro fo, Controlador c) {
+    public PublicarPregunta(JFrame p, Foro fo, Controlador c,Usuario usuario) {
         previo=p;
         foro=fo;
         controlador=c;
+        this.usuario=usuario;
         initComponents();
     }
 
@@ -132,7 +136,7 @@ public class PublicarPregunta extends javax.swing.JFrame {
     }//GEN-LAST:event_returnBtnActionPerformed
 
     private void buttonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEnviarActionPerformed
-        this.controlador.crearPregunta(this.textTitulo.getText(), this.textDescripcion.getText(), foro);
+        this.controlador.crearPregunta(this.textTitulo.getText(), this.textDescripcion.getText(), this.foro,this.usuario);
         JOptionPane.showMessageDialog(null,"Se ha almacenado con exito");
     }//GEN-LAST:event_buttonEnviarActionPerformed
 

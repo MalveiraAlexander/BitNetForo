@@ -36,15 +36,36 @@ public class Pregunta implements Serializable {
 
     @OneToMany(targetEntity = Respuesta.class)
     private List<Respuesta> respuestas;
+    @ManyToOne
+    private Estudiante estudiante;
+    @ManyToOne
+    private Profesor profesor;
+    @ManyToOne
+    private Administrador administrador;
 
     public Pregunta() {
-        respuestas= new ArrayList<>();
+        respuestas = new ArrayList<>();
     }
 
-    public Pregunta(String titulo,String desc) {
-        this.titulo=titulo;
-        this.descripcion=desc;
-        respuestas= new ArrayList<>();
+    public Pregunta(String titulo, String desc, Estudiante estudiante, Profesor profesor, Administrador administrador) {
+        this.titulo = titulo;
+        this.descripcion = desc;
+        respuestas = new ArrayList<>();
+        if (estudiante != null) {
+            this.estudiante = estudiante;
+            this.profesor = null;
+            this.administrador = null;
+        } else {
+            if (profesor != null) {
+                this.estudiante = null;
+                this.profesor = profesor;
+                this.administrador = null;
+            } else {
+                this.estudiante = null;
+                this.profesor = null;
+                this.administrador = administrador;
+            }
+        }
     }
 
     public Long getId() {
@@ -89,11 +110,57 @@ public class Pregunta implements Serializable {
 
     @Override
     public String toString() {
-        return titulo ;
-    }
-    
-    public void agregarRespuesta(Respuesta respuesta){
-    this.respuestas.add(respuesta);
+        return titulo;
     }
 
+    public void agregarRespuesta(Respuesta respuesta) {
+        this.respuestas.add(respuesta);
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
+    }
+
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
+    }
+
+    public Administrador getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(Administrador administrador) {
+        this.administrador = administrador;
+    }
+
+    public UsuarioAcademico obtenerPublicador() {
+        if (this.estudiante != null) {
+            return this.estudiante;
+        } else {
+            if (this.profesor != null) {
+                return this.profesor;
+            } else {
+                if (this.administrador != null) {
+                    return this.administrador;
+                }
+            }
+        }
+        return null;
+    }
 }

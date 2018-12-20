@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import modelo.Administrador;
 import modelo.Estudiante;
 import modelo.Profesor;
+import modelo.Usuario;
 
 /**
  *
@@ -22,7 +23,7 @@ import modelo.Profesor;
  */
 public class VerPerfil extends javax.swing.JFrame {
 
-    private Controlador c;
+    private Controlador controlador;
     private Profesor profe;
     private Estudiante estu;
     private JFrame previo;
@@ -30,20 +31,21 @@ public class VerPerfil extends javax.swing.JFrame {
     /**
      * Creates new form VerPerfil
      *
-     * @param pro
-     * @param es
+     * @param usuario
+     
      * @param p
      * @param per
      */
-    public VerPerfil(JFrame p, Estudiante es, Profesor pro, Persistencia per) {
-        c = new Controlador(per);
+    public VerPerfil(JFrame p,  Persistencia per,Usuario usuario) {
+        controlador = new Controlador(per);
         previo = p;
-        profe = pro;
-        estu = es;
+        estu=controlador.buscarEstudiante(usuario.getId());
+        profe = controlador.buscarProfesor(usuario.getId());
+   
         initComponents();
         this.comboBoxMaterias.setVisible(false);
         this.jLabel7.setVisible(false);
-        if (es == null) {
+        if (estu == null) {
             this.comboBoxMaterias.setVisible(true);
             this.jLabel7.setVisible(true);
         }
@@ -207,7 +209,7 @@ public class VerPerfil extends javax.swing.JFrame {
     /* [0]=materias [1]=reputacion [2]=apellido [3]=nombre [4]=correo 
     [5]=cantidad de preguntas [6]=cantidad de respuestas*/
     public void cargarDatos() {
-        ArrayList<Object> datos = (ArrayList<Object>) this.c.obtenerDatosVerPerfil(estu, profe);
+        ArrayList<Object> datos = (ArrayList<Object>) this.controlador.obtenerDatosVerPerfil(estu, profe);
         if (estu == null) {
             cargarComboBoxMateria(this.profe);
         }

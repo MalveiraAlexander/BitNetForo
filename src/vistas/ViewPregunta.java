@@ -13,6 +13,7 @@ import modelo.Foro;
 import modelo.Pregunta;
 import modelo.Respuesta;
 import modelo.Usuario;
+import modelo.Voto;
 
 /**
  *
@@ -54,16 +55,19 @@ public class ViewPregunta extends javax.swing.JFrame {
         nameForo = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        labelPositivo = new javax.swing.JLabel();
+        labelNegativo = new javax.swing.JLabel();
         positiveVote = new javax.swing.JLabel();
         negativeVote = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         listDetalles = new javax.swing.JList<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
+        buttonPositivos = new javax.swing.JButton();
+        buttonNegativos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
@@ -73,6 +77,8 @@ public class ViewPregunta extends javax.swing.JFrame {
 
         namePregunta.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         namePregunta.setText("NamePregunta");
+
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
 
         listRespuestas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -99,17 +105,43 @@ public class ViewPregunta extends javax.swing.JFrame {
 
         jButton3.setText("Buscar");
 
-        jLabel3.setForeground(new java.awt.Color(0, 153, 0));
-        jLabel3.setText("Votos Positivos:");
+        labelPositivo.setForeground(new java.awt.Color(0, 153, 0));
+        labelPositivo.setText("Votos Positivos:");
 
-        jLabel4.setForeground(new java.awt.Color(204, 0, 0));
-        jLabel4.setText("Votos Negativos:");
+        labelNegativo.setForeground(new java.awt.Color(204, 0, 0));
+        labelNegativo.setText("Votos Negativos:");
 
         jScrollPane3.setViewportView(listDetalles);
 
         textArea.setColumns(20);
         textArea.setRows(5);
         jScrollPane1.setViewportView(textArea);
+
+        buttonPositivos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/me gusta.jpg"))); // NOI18N
+        buttonPositivos.setBorder(null);
+        buttonPositivos.setBorderPainted(false);
+        buttonPositivos.setContentAreaFilled(false);
+        buttonPositivos.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/me gusta2.jpg"))); // NOI18N
+        buttonPositivos.setRolloverSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/me gusta2.jpg"))); // NOI18N
+        buttonPositivos.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/me gusta2.jpg"))); // NOI18N
+        buttonPositivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPositivosActionPerformed(evt);
+            }
+        });
+
+        buttonNegativos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/no me gusta.jpg"))); // NOI18N
+        buttonNegativos.setBorder(null);
+        buttonNegativos.setBorderPainted(false);
+        buttonNegativos.setContentAreaFilled(false);
+        buttonNegativos.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/no me gusta2.jpg"))); // NOI18N
+        buttonNegativos.setRolloverSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/me gusta2.jpg"))); // NOI18N
+        buttonNegativos.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/no me gusta2.jpg"))); // NOI18N
+        buttonNegativos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonNegativosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,60 +150,76 @@ public class ViewPregunta extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(namePregunta)
-                            .addComponent(nameForo)
-                            .addComponent(returnBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(positiveVote)
-                                .addGap(42, 42, 42)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(negativeVote))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(34, 34, 34)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane1))))
-                        .addGap(0, 37, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(returnBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(namePregunta)
+                                .addComponent(nameForo))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(82, 82, 82)
+                                    .addComponent(positiveVote)
+                                    .addGap(130, 130, 130)
+                                    .addComponent(negativeVote))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(32, 32, 32)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(38, 38, 38)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(labelPositivo)
+                                        .addComponent(buttonPositivos, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(91, 91, 91)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(10, 10, 10)
+                                            .addComponent(buttonNegativos, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(labelNegativo)))
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(namePregunta)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nameForo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(namePregunta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nameForo))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelPositivo)
+                            .addComponent(labelNegativo))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(buttonPositivos, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buttonNegativos))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2))
+                .addGap(32, 32, 32)
+                .addComponent(returnBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
                     .addComponent(positiveVote)
                     .addComponent(negativeVote))
-                .addGap(21, 21, 21)
-                .addComponent(returnBtn)
-                .addGap(10, 10, 10))
+                .addContainerGap())
         );
 
         pack();
@@ -182,6 +230,14 @@ public class ViewPregunta extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_returnBtnActionPerformed
 
+    private void listRespuestasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listRespuestasValueChanged
+        this.cargarListaDetalle();
+    }//GEN-LAST:event_listRespuestasValueChanged
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        this.cargarListRespuesta();
+    }//GEN-LAST:event_formWindowActivated
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         PublicarRespuesta principal = new PublicarRespuesta(this, this.pregunta, this.controlador, this.usuario);
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -191,25 +247,35 @@ public class ViewPregunta extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void listRespuestasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listRespuestasValueChanged
-        this.cargarListaDetalle();
-    }//GEN-LAST:event_listRespuestasValueChanged
+    private void buttonPositivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPositivosActionPerformed
+        if (this.listRespuestas.getSelectedIndex() != -1) {
+            this.controlador.crearVoto(true, this.listRespuestas.getSelectedValue(), this.usuario);
+            this.cargarListaDetalle();
+        }
 
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-      this.cargarListRespuesta();
-    }//GEN-LAST:event_formWindowActivated
+    }//GEN-LAST:event_buttonPositivosActionPerformed
+
+    private void buttonNegativosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNegativosActionPerformed
+        if (this.listRespuestas.getSelectedIndex() != -1) {
+            this.controlador.crearVoto(false, this.listRespuestas.getSelectedValue(), this.usuario);
+            this.cargarListaDetalle();
+        }
+    }//GEN-LAST:event_buttonNegativosActionPerformed
     private void cargarListaDetalle() {
         DefaultListModel modelo = new DefaultListModel();
         List respuestaInfo = this.controlador.obtenerInformacionRespuesta(this.listRespuestas.getSelectedValue());
         modelo.add(0, "Usuario: " + respuestaInfo.get(0));
         modelo.add(1, "Tipo de Usuario: " + respuestaInfo.get(1));
         modelo.add(2, "Fecha de publicacion: " + respuestaInfo.get(2));
-        
-       // modelo.add(2, "Respuesta: \n" + respuestaInfo.get(2));
+
+        // modelo.add(2, "Respuesta: \n" + respuestaInfo.get(2));
         this.listDetalles.setModel(modelo);
-        this.textArea.setText("Respuesta: \n" + respuestaInfo.get(3));
+        this.textArea.setText("Titulo: " + respuestaInfo.get(3) + '\n' + "Respuesta: \n" + respuestaInfo.get(4));
+
         this.textArea.setLineWrap(true);
         this.textArea.setEditable(false);
+        this.labelPositivo.setText("Votos Positivos: " + (Integer) respuestaInfo.get(5));
+        this.labelNegativo.setText("Votos Negativos: " + (Integer) respuestaInfo.get(6));
     }
 
     private void cargarListRespuesta() {
@@ -221,13 +287,15 @@ public class ViewPregunta extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonNegativos;
+    private javax.swing.JButton buttonPositivos;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel labelNegativo;
+    private javax.swing.JLabel labelPositivo;
     private javax.swing.JList<String> listDetalles;
     private javax.swing.JList<Respuesta> listRespuestas;
     private javax.swing.JLabel nameForo;

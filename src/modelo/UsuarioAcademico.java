@@ -14,10 +14,10 @@ import javax.persistence.OneToMany;
  */
 @MappedSuperclass
 public abstract class UsuarioAcademico extends Usuario {
-
+//votos positivos que realizo este usuario
     @Basic
     private Integer votosPositivos;
-
+//son los votos negativos que realizo este usuario
     @Basic
     private Integer votosNegativos;
 
@@ -26,7 +26,7 @@ public abstract class UsuarioAcademico extends Usuario {
 
     @OneToMany(targetEntity = Respuesta.class)
     private List<Respuesta> respuestas;
-
+//son los votos realizados, positivos y negativos
     @OneToMany(targetEntity = Voto.class)
     private List<Voto> votos;
 
@@ -106,5 +106,13 @@ public abstract class UsuarioAcademico extends Usuario {
 
     public void agregarPregunta(Pregunta e) {
         this.getPreguntas().add(e);
+    }
+
+    public void agregarVoto(Voto voto) {
+        this.votos.add(voto);
+    }
+
+    public void quitarVoto(Voto voto) {
+        this.votos.remove(voto);
     }
 }
