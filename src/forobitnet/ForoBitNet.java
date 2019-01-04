@@ -25,11 +25,11 @@ public class ForoBitNet {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-    
         StartSesion principal = new StartSesion();
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         principal.setLocationRelativeTo(null);     
         principal.setVisible(true);
+        
     }
     
 }

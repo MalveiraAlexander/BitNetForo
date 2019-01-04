@@ -4,7 +4,7 @@
 package modelo;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Objects;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  * @author Admin
@@ -32,7 +33,7 @@ public class Respuesta implements Serializable {
     private String titulo;
     @Basic
     private Integer votosNegativos;
-    @Basic
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date fechaPublicacion;
     @OneToMany(targetEntity = Voto.class)
     private List<Voto> votos;
@@ -47,6 +48,7 @@ public class Respuesta implements Serializable {
         votos = new ArrayList<>();
         this.votosNegativos = 0;
         this.votosPositivos = 0;
+        this.fechaPublicacion = new Date();
     }
 
     public Respuesta(String resp, String titu, Estudiante estudiante, Profesor profesor, Administrador administrador) {
@@ -70,6 +72,7 @@ public class Respuesta implements Serializable {
         }
         this.votosNegativos = 0;
         this.votosPositivos = 0;
+        this.fechaPublicacion = new Date();
     }
 
     public String getRespuesta() {
@@ -240,7 +243,5 @@ public class Respuesta implements Serializable {
         }
 
     }
-    
-   
-    
+
 }

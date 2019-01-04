@@ -122,11 +122,13 @@ public class StartSesion extends javax.swing.JFrame {
         Controlador controlador = new Controlador(persistencia);
         // 0= Estudiante. 1= Profesor,2=Administrador , 3= Registrador
         //usaurio[0]= id del usuario----- usuario[1]= tipo de usuario explicado arriba
-
+        if (!controlador.existeAdministrador()) {
+            controlador.crearUsuario("Agustin", "Britez", "agus@hotmail.com", "40123", "Administrador");
+        }
 
         for (Administrador administrador : controlador.listarAdministrador()) {
             if (administrador.getCorreo().toUpperCase().equals(this.textUsuario.getText().toUpperCase())) {
-                MainFrame principal = new MainFrame(persistencia, (Usuario)administrador
+                MainFrame principal = new MainFrame(persistencia, (Usuario) administrador
                 );
                 principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 principal.setLocationRelativeTo(null);
@@ -137,7 +139,7 @@ public class StartSesion extends javax.swing.JFrame {
         }
         for (Estudiante estudiante : controlador.listarEstudiante()) {
             if (estudiante.getCorreo().toUpperCase().equals(this.textUsuario.getText().toUpperCase())) {
-                MainFrame principal = new MainFrame(persistencia, (Usuario)estudiante
+                MainFrame principal = new MainFrame(persistencia, (Usuario) estudiante
                 );
                 principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 principal.setLocationRelativeTo(null);
@@ -147,7 +149,7 @@ public class StartSesion extends javax.swing.JFrame {
         }
         for (Profesor profesor : controlador.listarProfesor()) {
             if (profesor.getCorreo().toUpperCase().equals(this.textUsuario.getText().toUpperCase())) {
-                MainFrame principal = new MainFrame(persistencia, (Usuario )profesor);
+                MainFrame principal = new MainFrame(persistencia, (Usuario) profesor);
                 principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 principal.setLocationRelativeTo(null);
                 principal.setVisible(true);

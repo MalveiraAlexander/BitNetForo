@@ -4,7 +4,7 @@
 package modelo;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
 /**
  * @author Admin
@@ -25,7 +26,7 @@ public class Pregunta implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Basic
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date fechaPublicacion;
 
     @Basic
@@ -42,8 +43,10 @@ public class Pregunta implements Serializable {
     private Profesor profesor;
     @ManyToOne
     private Administrador administrador;
+
     public Pregunta() {
         respuestas = new ArrayList<>();
+        this.fechaPublicacion = new Date();
     }
 
     public Pregunta(String titulo, String desc, Estudiante estudiante, Profesor profesor, Administrador administrador) {
@@ -65,6 +68,7 @@ public class Pregunta implements Serializable {
                 this.administrador = administrador;
             }
         }
+        this.fechaPublicacion = new Date();
     }
 
     public Long getId() {

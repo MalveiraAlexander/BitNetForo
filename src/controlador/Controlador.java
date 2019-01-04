@@ -1,6 +1,7 @@
 package controlador;
 
 import dao.Persistencia;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,6 +14,7 @@ import modelo.Estudiante;
 import modelo.Foro;
 import modelo.Materia;
 import modelo.Pregunta;
+import modelo.Pregunta_;
 import modelo.Registrador;
 import modelo.Respuesta;
 import modelo.Usuario;
@@ -21,41 +23,44 @@ import modelo.Voto;
 
 //controla la vista: VerPerfil
 public class Controlador {
-    
+
     Persistencia persistencia;
-    
+
     public Controlador(Persistencia p) {
         this.persistencia = p;
     }
-    
+
     public Persistencia getPersistencia() {
         return persistencia;
     }
-    
+
     public List<Pregunta> listarPregunta() {
         return this.persistencia.buscarTodos(Pregunta.class);
     }
-    
+    public List<Pregunta> listarPreguntaOrdenadasPorFecha() {
+        return this.persistencia.buscarTodosOrdenadosPor(Pregunta.class,Pregunta_.fechaPublicacion);
+    }
+
     public List<Foro> listarForos() {
         return this.persistencia.buscarTodos(Foro.class);
     }
-    
+
     public List<Profesor> listarProfesor() {
         return this.persistencia.buscarTodos(Profesor.class);
     }
-    
+
     public List<Estudiante> listarEstudiante() {
         return this.persistencia.buscarTodos(Estudiante.class);
     }
-    
+
     public List<Registrador> listarRegistrador() {
         return this.persistencia.buscarTodos(Registrador.class);
     }
-    
+
     public List<Administrador> listarAdministrador() {
         return this.persistencia.buscarTodos(Administrador.class);
     }
-    
+
     public List<Usuario> listarUsuarios() {
         List<Usuario> lista = new ArrayList<>();
         for (Usuario usuario : this.persistencia.buscarTodos(Administrador.class)) {
@@ -71,9 +76,9 @@ public class Controlador {
             lista.add(usuario);
         }
         return lista;
-        
+
     }
-    
+
     public List<Usuario> listarUsuariosPersonalizado(String filtro, String nombre) {
         List<Usuario> lista = new ArrayList<>();
         if (filtro.toUpperCase().equals("ADMINISTRADOR")) {
@@ -87,12 +92,12 @@ public class Controlador {
                     if (us.getNombre().toUpperCase().equals(nombre.toUpperCase())) {
                         lista.add(us);
                     }
-                    
+
                 }
                 return lista;
-                
+
             }
-            
+
         } else {
             if (filtro.toUpperCase().equals("REGISTRADOR")) {
                 if (nombre.trim().equals("")) {
@@ -105,10 +110,10 @@ public class Controlador {
                         if (us.getNombre().toUpperCase().equals(nombre.toUpperCase())) {
                             lista.add(us);
                         }
-                        
+
                     }
                     return lista;
-                    
+
                 }
             } else {
                 if (filtro.toUpperCase().equals("PROFESOR")) {
@@ -122,10 +127,10 @@ public class Controlador {
                             if (us.getNombre().toUpperCase().equals(nombre.toUpperCase())) {
                                 lista.add(us);
                             }
-                            
+
                         }
                         return lista;
-                        
+
                     }
                 } else {
                     if (filtro.toUpperCase().equals("ESTUDIANTE")) {
@@ -139,10 +144,10 @@ public class Controlador {
                                 if (us.getNombre().toUpperCase().equals(nombre.toUpperCase())) {
                                     lista.add(us);
                                 }
-                                
+
                             }
                             return lista;
-                            
+
                         }
                     } else {
                         if (filtro.toUpperCase().equals("CORREO")) {
@@ -164,12 +169,12 @@ public class Controlador {
                                 return lista;
                             } else {
                                 if (filtro.toUpperCase().equals("TODOS")) {
-                                    
+
                                     return this.listarUsuarios();
                                 }
-                                
+
                             }
-                            
+
                         }
                     }
                 }
@@ -177,46 +182,46 @@ public class Controlador {
         }
         return null;
     }
-    
+
     public List<Materia> listarMaterias() {
         return this.persistencia.buscarTodos(Materia.class);
     }
-    
+
     public Foro buscarForo(String nombre) {
         return this.persistencia.buscar(Foro.class, nombre);
     }
-    
+
     public Estudiante buscarEstudiante(Long id) {
         return this.persistencia.buscar(Estudiante.class, id);
     }
-    
+
     public Profesor buscarProfesor(Long id) {
         return this.persistencia.buscar(Profesor.class, id);
     }
-    
+
     public Administrador buscarAdministrador(Long id) {
         return this.persistencia.buscar(Administrador.class, id);
     }
-    
+
     public Registrador buscarRegistrador(Long id) {
         return this.persistencia.buscar(Registrador.class, id);
     }
-    
+
     public List<Pregunta> obtenerPreguntasDelForo(Foro foro) {
         return foro.getPreguntas();
     }
-    
+
     public List<Respuesta> obtenerRepuestasDePregunta(Pregunta p) {
         return p.getRespuestas();
     }
-    
+
     public List obtenerListRespuestaOrdenada(Pregunta pre) {
         return pre.getRespuestas();
     }
-    
+
     public void crearPregunta(String titulo, String descripcion, Foro foro, Usuario usuario) {
         this.persistencia.iniciarTransaccion();
-        
+
         try {
             Administrador administrador = null;
             Estudiante estudiante = null;
@@ -243,7 +248,7 @@ public class Controlador {
                     }
                 }
             }
-            
+
             foro.agregarPregunta(pregunta);
             this.persistencia.modificar(foro);
             this.persistencia.confirmarTransaccion();
@@ -252,7 +257,7 @@ public class Controlador {
             System.out.println("Error al insertar");
         }
     }
-    
+
     public Boolean eliminarPregunta(Pregunta pregunta, Foro foro) {
         this.persistencia.iniciarTransaccion();
         if (pregunta.getRespuestas().isEmpty()) {
@@ -276,7 +281,7 @@ public class Controlador {
             }
             this.persistencia.modificar(foro);
             this.persistencia.eliminar(pregunta);
-            
+
             this.persistencia.confirmarTransaccion();
             return true;
         } else {
@@ -285,10 +290,10 @@ public class Controlador {
             return false;
         }
     }
-    
+
     public Boolean crearRespuesta(String respu, String titulo, Pregunta pregunta, Usuario usuario) {
         this.persistencia.iniciarTransaccion();
-        
+
         try {
             Administrador administrador = null;
             Estudiante estudiante = null;
@@ -326,7 +331,7 @@ public class Controlador {
             return false;
         }
     }
-    
+
     public Boolean eliminarRespuesta(Respuesta respuesta, Pregunta pregunta) {
         if (respuesta.getVotos().isEmpty()) {
             try {
@@ -353,7 +358,7 @@ public class Controlador {
                 this.persistencia.eliminar(respuesta);
                 this.persistencia.confirmarTransaccion();
                 return true;
-                
+
             } catch (Exception ex) {
                 this.persistencia.descartarTransaccion();
                 return false;
@@ -362,9 +367,9 @@ public class Controlador {
             JOptionPane.showMessageDialog(null, "No se puede eliminar porque esta asociado a " + respuesta.getVotos().size() + " votos");
             return false;
         }
-        
+
     }
-    
+
     public Boolean crearMateria(String materia, String enlace) {
         Materia materia1 = new Materia(materia, enlace);
         try {
@@ -377,7 +382,7 @@ public class Controlador {
             return false;
         }
     }
-    
+
     public Boolean modificarMateria(Materia materia, String nombre, String enlace) {
         materia.setMateria(nombre);
         materia.setEnlace(enlace);
@@ -391,9 +396,9 @@ public class Controlador {
             return false;
         }
     }
-    
+
     public Boolean eliminarMateria(Materia materia) {
-        
+
         if (materia.getProfesores() == null) {
             this.persistencia.iniciarTransaccion();
             this.persistencia.eliminar(materia);
@@ -403,9 +408,9 @@ public class Controlador {
             JOptionPane.showMessageDialog(null, "No se puede eliminar porque esta asociado a " + materia.getProfesores().size() + " profesores");
             return false;
         }
-        
+
     }
-    
+
     public Boolean crearForo(String nombre) {
         this.persistencia.iniciarTransaccion();
         List foros = this.persistencia.buscarTodos(Foro.class);
@@ -426,11 +431,11 @@ public class Controlador {
             this.persistencia.descartarTransaccion();
             return false;
         }
-        
+
     }
-    
+
     public Boolean eliminarForo(Foro foro) {
-        
+
         if (foro.getPreguntas().isEmpty()) {
             this.persistencia.iniciarTransaccion();
             this.persistencia.eliminar(foro);
@@ -440,7 +445,7 @@ public class Controlador {
             JOptionPane.showMessageDialog(null, "No se puede eliminar el foro que tiene " + foro.getPreguntas().size() + " preguntas");
             return false;
         }
-        
+
     }
 
     /*se crea una lista con materias, reputacion, apellido, nombre, correo, 
@@ -471,19 +476,19 @@ public class Controlador {
 
     public Boolean crearUsuario(String nombre, String apellido, String correo, String documento, String usuario) {
         this.persistencia.iniciarTransaccion();
-        if (usuario.equals("Administrador")) {
+        if (usuario.toUpperCase().equals("ADMINISTRADOR")) {
             Administrador admin = new Administrador(apellido, nombre, documento, correo);
             this.persistencia.insertar(admin);
         } else {
-            if (usuario.equals("Registrador")) {
+            if (usuario.toUpperCase().equals("REGISTRADOR")) {
                 Registrador re = new Registrador(apellido, nombre, documento, correo);
                 this.persistencia.insertar(re);
             } else {
-                if (usuario.equals("Profesor")) {
+                if (usuario.toUpperCase().equals("PROFESOR")) {
                     Profesor re = new Profesor(apellido, nombre, documento, correo);
                     this.persistencia.insertar(re);
                 } else {
-                    if (usuario.equals("Estudiante")) {
+                    if (usuario.toUpperCase().equals("ESTUDIANTE")) {
                         Estudiante re = new Estudiante(apellido, nombre, documento, correo);
                         this.persistencia.insertar(re);
                     } else {
@@ -491,12 +496,12 @@ public class Controlador {
                         return false;
                     }
                 }
-                
+
             }
         }
         this.persistencia.confirmarTransaccion();
         return true;
-        
+
     }
 //la lista de datos tiene Apellido y nombre, tipo de usuario, titulo, descripcion, fecha de publicacion, cantidad de respuestas, fecha de la ultima respuesta
 
@@ -517,11 +522,12 @@ public class Controlador {
             }
             datos.add(pregunta.getTitulo());
             datos.add(pregunta.getDescripcion());
-            datos.add(pregunta.getFechaPublicacion());
+            SimpleDateFormat tranformador = new SimpleDateFormat("dd/MM/yy HH:mm");
+            datos.add(tranformador.format(pregunta.getFechaPublicacion()));
             List<Respuesta> listaRespuesta = pregunta.getRespuestas();
             datos.add(listaRespuesta.size());
             if (!listaRespuesta.isEmpty()) {
-                datos.add(listaRespuesta.get(listaRespuesta.size() - 1).getFechaPublicacion());
+                datos.add(tranformador.format(listaRespuesta.get(listaRespuesta.size() - 1).getFechaPublicacion()));
             } else {
                 datos.add("Vacio");
             }
@@ -562,7 +568,8 @@ public class Controlador {
                     }
                 }
             }
-            datos.add(respuesta.getFechaPublicacion());
+            SimpleDateFormat tranformador = new SimpleDateFormat("dd/MM/yy HH:mm");
+            datos.add(tranformador.format(respuesta.getFechaPublicacion()));
             datos.add(respuesta.getTitulo());
             datos.add(respuesta.getRespuesta());
             datos.add(respuesta.getVotosPositivos());
@@ -571,7 +578,7 @@ public class Controlador {
         } catch (Exception ex) {
             // es un errore que siempre salta porque funciona con el eento value change en la vista view pregunta aveces pasa un puntero null por lo tatno captura el error
         }
-        
+
         return null;
     }
 
@@ -600,7 +607,7 @@ public class Controlador {
         }
         return datos;
     }
-    
+
     public void crearVoto(Boolean voto, Respuesta respuesta, Usuario usuario) {
         this.persistencia.iniciarTransaccion();
         try {
@@ -641,9 +648,9 @@ public class Controlador {
                                         profe.setReputacion(estu.getReputacion() + 1);
                                         this.persistencia.modificar(profe);
                                     }
-                                    
+
                                 }
-                                
+
                             } else {
                                 respuesta.setVotosPositivos(respuesta.getVotosPositivos() - 1);
                                 respuesta.setVotosNegativos(respuesta.getVotosNegativos() + 1);
@@ -699,7 +706,7 @@ public class Controlador {
                                             this.persistencia.modificar(profe);
                                         }
                                     }
-                                    
+
                                 } else {
                                     respuesta.setVotosPositivos(respuesta.getVotosPositivos() - 1);
                                     respuesta.setVotosNegativos(respuesta.getVotosNegativos() + 1);
@@ -755,7 +762,7 @@ public class Controlador {
                                                 this.persistencia.modificar(profe);
                                             }
                                         }
-                                        
+
                                     } else {
                                         respuesta.setVotosPositivos(respuesta.getVotosPositivos() - 1);
                                         respuesta.setVotosNegativos(respuesta.getVotosNegativos() + 1);
@@ -783,7 +790,7 @@ public class Controlador {
                     }
                 }
             }
-            
+
             if (!existe) {
                 if ((administrador = this.buscarAdministrador(usuario.getId())) != null) {
                     Voto voto1 = new Voto(voto, null, null, administrador);
@@ -901,14 +908,14 @@ public class Controlador {
                         }
                     }
                 }
-                
+
             }
             this.persistencia.confirmarTransaccion();
         } catch (Exception ex) {
             this.persistencia.descartarTransaccion();
             System.err.println("Transaccion descartada");
         }
-        
+
     }
 //verifica si el usuario que esta usando el sistema ya voto
 
@@ -921,7 +928,7 @@ public class Controlador {
                 if (voto.getAdministrador() == administrador) {
                     return true;
                 }
-                
+
             }
         } else {
             if (estudiante != null) {
@@ -929,7 +936,7 @@ public class Controlador {
                     if (voto.getEstudiante() == estudiante) {
                         return true;
                     }
-                    
+
                 }
             } else {
                 if (profesor != null) {
@@ -937,7 +944,7 @@ public class Controlador {
                         if (voto.getProfesor() == profesor) {
                             return true;
                         }
-                        
+
                     }
                 }
             }
@@ -953,7 +960,7 @@ public class Controlador {
         }
         return null;
     }
-    
+
     public Profesor verPerfilProfesor(Usuario usuario) {
         Profesor profesor = this.buscarProfesor(usuario.getId());
         if (profesor != null) {
@@ -961,7 +968,7 @@ public class Controlador {
         }
         return null;
     }
-    
+
     public void agregarMaterias(Materia materia, Profesor profesor) {
         try {
             this.persistencia.iniciarTransaccion();
@@ -973,7 +980,7 @@ public class Controlador {
             this.persistencia.descartarTransaccion();
         }
     }
-    
+
     public void quitarMaterias(Materia materia, Profesor profesor) {
         try {
             this.persistencia.iniciarTransaccion();
@@ -985,7 +992,7 @@ public class Controlador {
             this.persistencia.descartarTransaccion();
         }
     }
-    
+
     public Boolean modificarUsuario(Usuario usuario, String apellido, String nombre, String documento, String correo) {
         Profesor profesor = this.buscarProfesor(usuario.getId());
         Estudiante estudiante = this.buscarEstudiante(usuario.getId());
@@ -998,7 +1005,7 @@ public class Controlador {
         try {
             this.persistencia.iniciarTransaccion();
             if (profesor != null) {
-                
+
                 this.persistencia.modificar(profesor);
             } else {
                 if (estudiante != null) {
@@ -1020,9 +1027,9 @@ public class Controlador {
             return false;
         }
     }
-    
+
     public void eliminarUsuario(Usuario usuario) {
-        
+
         Administrador administrador = this.buscarAdministrador(usuario.getId());
         Profesor profesor = this.buscarProfesor(usuario.getId());
         Estudiante estudiante = this.buscarEstudiante(usuario.getId());
@@ -1057,13 +1064,22 @@ public class Controlador {
         }
         this.persistencia.confirmarTransaccion();
     }
-    
+
     public DefaultListModel obtenerModeloListaMateria() {
         DefaultListModel modelo = new DefaultListModel();
         for (Materia materia : this.listarMaterias()) {
             modelo.addElement(materia);
         }
         return modelo;
-        
+
+    }
+    /**
+     * Si no hay administrador devuelve false
+     * Si hay devuelve true
+     * @return 
+     **/
+    public Boolean existeAdministrador (){
+    List<Administrador> lista=this.persistencia.buscarTodos(Administrador.class);
+    return !lista.isEmpty();
     }
 }
