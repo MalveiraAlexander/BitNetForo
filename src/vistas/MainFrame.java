@@ -13,7 +13,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import modelo.Estudiante;
 import modelo.Foro;
+import modelo.Materia;
+import modelo.Profesor;
 import modelo.Usuario;
 
 /**
@@ -25,16 +28,19 @@ public final class MainFrame extends javax.swing.JFrame {
     Controlador controlador;
     JFrame previo;
     Usuario usuario;
-    public MainFrame(Persistencia persi,Usuario usu) {
+    Materia materia1;
+
+    public MainFrame(Persistencia persi, Usuario usu) {
         controlador = new Controlador(persi);
-        usuario=usu;
+        usuario = usu;
         initComponents();
         this.cargarComboBoxUsuario();
         this.limpiarCrearUsuario();
         this.cargarForo();
-        List<String> datosUsuario=this.controlador.obtenerDatosUsuario(this.usuario);
-        this.labelUsuario.setText(datosUsuario.get(0)+' '+datosUsuario.get(1));
+        List<String> datosUsuario = this.controlador.obtenerDatosUsuario(this.usuario);
+        this.labelUsuario.setText(datosUsuario.get(0) + ' ' + datosUsuario.get(1));
         this.labelTipoUsuario.setText(datosUsuario.get(4));
+        this.buttonRealizarCambios.setEnabled(false);
     }
 
     /**
@@ -55,10 +61,16 @@ public final class MainFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ListForos = new javax.swing.JList<>();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         listUsers = new javax.swing.JList<>();
-        searchBox = new javax.swing.JTextField();
+        jButton6 = new javax.swing.JButton();
+        textUsuarioFiltro = new javax.swing.JTextField();
+        jButton7 = new javax.swing.JButton();
+        comboBoxUsuariosFiltro = new javax.swing.JComboBox<>();
+        jButton11 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -74,6 +86,19 @@ public final class MainFrame extends javax.swing.JFrame {
         textDocumento = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        textMateria = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        textAreaMateria = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        listMaterias = new javax.swing.JList<>();
+        buttonCrear = new javax.swing.JButton();
+        buttonModificar = new javax.swing.JButton();
+        buttonRealizarCambios = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        buttonQuitarMateria = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -95,7 +120,7 @@ public final class MainFrame extends javax.swing.JFrame {
         });
 
         labelUsuario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        labelUsuario.setText("Malveira Alexander");
+        labelUsuario.setText("Britez Agustin");
 
         labelTipoUsuario.setText("Administrador");
 
@@ -108,12 +133,21 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        ListForos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                ListForosValueChanged(evt);
+        jScrollPane1.setViewportView(ListForos);
+
+        jButton9.setText("Eliminar Foro");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(ListForos);
+
+        jButton10.setText("Entrar al Foro");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -125,52 +159,65 @@ public final class MainFrame extends javax.swing.JFrame {
                     .addComponent(jSeparator1)
                     .addComponent(labelUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
                     .addComponent(labelTipoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(79, 79, 79)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(659, Short.MAX_VALUE))
+                .addContainerGap(770, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(197, 197, 197)
+                        .addComponent(jButton10)
+                        .addGap(128, 128, 128)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(150, 150, 150))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(labelUsuario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelTipoUsuario)
-                        .addGap(25, 25, 25))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(22, 22, 22)
+                .addComponent(labelUsuario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelTipoUsuario)
                 .addGap(31, 31, 31)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(176, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Foros", jPanel1);
 
-        listUsers.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane2.setViewportView(listUsers);
 
-        searchBox.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        searchBox.setToolTipText("Buscar");
-        searchBox.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+        jButton6.setText("Modificar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
             }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                searchBoxInputMethodTextChanged(evt);
+        });
+
+        jButton7.setText("Buscar");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        comboBoxUsuariosFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TODOS", "ADMINISTRADOR", "PROFESOR", "ESTUDIANTE", "REGISTRADOR", "CORREO", "DOCUMENTO" }));
+
+        jButton11.setText("Eliminar");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
             }
         });
 
@@ -179,22 +226,34 @@ public final class MainFrame extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 763, Short.MAX_VALUE)
-                        .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGap(139, 139, 139)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton11)
+                        .addGap(37, 37, 37)
+                        .addComponent(comboBoxUsuariosFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addComponent(textUsuarioFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(jButton7)
+                        .addGap(27, 27, 27)
+                        .addComponent(jButton6))
+                    .addComponent(jScrollPane2))
+                .addContainerGap(237, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(searchBox, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(57, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton6)
+                    .addComponent(textUsuarioFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton7)
+                    .addComponent(comboBoxUsuariosFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
 
         jTabbedPane1.addTab("Todos los usuarios", jPanel3);
@@ -241,7 +300,7 @@ public final class MainFrame extends javax.swing.JFrame {
                 .addComponent(jButton4)
                 .addGap(52, 52, 52))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(396, Short.MAX_VALUE)
+                .addContainerGap(288, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,7 +345,7 @@ public final class MainFrame extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(textEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(textDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -303,10 +362,122 @@ public final class MainFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Nuevo usuario", jPanel2);
 
+        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel4MouseEntered(evt);
+            }
+        });
+
+        jLabel1.setText("Materia:");
+
+        jLabel2.setText("Enlace:");
+
+        textAreaMateria.setColumns(20);
+        textAreaMateria.setRows(5);
+        jScrollPane3.setViewportView(textAreaMateria);
+
+        jScrollPane4.setViewportView(listMaterias);
+
+        buttonCrear.setText("Crear");
+        buttonCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCrearActionPerformed(evt);
+            }
+        });
+
+        buttonModificar.setText("Modificar");
+        buttonModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonModificarActionPerformed(evt);
+            }
+        });
+
+        buttonRealizarCambios.setText("Realizar Cambios");
+        buttonRealizarCambios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRealizarCambiosActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("Cancelar cambio");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        buttonQuitarMateria.setText("Eliminar Materia");
+        buttonQuitarMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonQuitarMateriaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(62, 62, 62)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(buttonQuitarMateria)
+                        .addGap(163, 163, 163)
+                        .addComponent(buttonModificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton8)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(40, 40, 40)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(buttonRealizarCambios)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                        .addComponent(buttonCrear))
+                    .addComponent(jScrollPane3)
+                    .addComponent(textMateria))
+                .addGap(30, 30, 30))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonModificar)
+                    .addComponent(jButton8)
+                    .addComponent(buttonQuitarMateria))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(buttonCrear)
+                            .addComponent(buttonRealizarCambios)))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Materias", jPanel4);
+
         jMenu1.setText("Cuenta");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setText("Ver Perfil");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
@@ -347,10 +518,6 @@ public final class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void searchBoxInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_searchBoxInputMethodTextChanged
-
-    }//GEN-LAST:event_searchBoxInputMethodTextChanged
-
     /**
      * @param args the command line arguments
      */
@@ -374,20 +541,130 @@ public final class MainFrame extends javax.swing.JFrame {
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
         this.cargarForo();
+        this.cargarUsuarios(this.comboBoxUsuariosFiltro.getSelectedItem().toString(), this.textUsuarioFiltro.getText());
+        this.cargarMaterias();
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         this.cargarForo();
+        this.cargarMaterias();
     }//GEN-LAST:event_formWindowActivated
 
-    private void ListForosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListForosValueChanged
-        ViewForo foro = new ViewForo(this, this.ListForos.getSelectedValue(), this.controlador.getPersistencia(),this.usuario);
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        if ((this.controlador.verPerfilEstudiante(usuario) != null) || (this.controlador.verPerfilProfesor(usuario) != null)) {
+            VerPerfil vista = new VerPerfil(this, this.controlador.getPersistencia(), this.usuario);
+            vista.setVisible(true);
+            vista.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            vista.setLocationRelativeTo(null);
+            this.dispose();
+        }
+
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        if (this.listUsers.getSelectedIndex() != -1) {
+            ModificarUsuario modificar = new ModificarUsuario(this, this.controlador, this.listUsers.getSelectedValue());
+            modificar.setVisible(true);
+            modificar.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            modificar.setLocationRelativeTo(null);
+            this.dispose();
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jPanel4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseEntered
+
+    }//GEN-LAST:event_jPanel4MouseEntered
+
+    private void buttonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonModificarActionPerformed
+        if (this.listMaterias.getSelectedIndex() != -1) {
+            this.textMateria.setText(this.listMaterias.getSelectedValue().getMateria());
+            this.textAreaMateria.setText(this.listMaterias.getSelectedValue().getEnlace());
+            this.materia1 = this.listMaterias.getSelectedValue();
+            this.buttonRealizarCambios.setEnabled(true);
+            this.buttonCrear.setEnabled(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "No selecciono ninguna materia");
+        }
+    }//GEN-LAST:event_buttonModificarActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        this.textMateria.setText("");
+        this.textAreaMateria.setText("");
+        this.buttonRealizarCambios.setEnabled(false);
+        this.buttonCrear.setEnabled(true);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void buttonRealizarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRealizarCambiosActionPerformed
+        if (this.textMateria.getText().equals("") || this.textAreaMateria.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "No cargo completamente los datos");
+
+        } else {
+            if (this.controlador.modificarMateria(this.materia1, this.textMateria.getText(), this.textAreaMateria.getText())) {
+                this.cargarMaterias();
+                this.textMateria.setText("");
+                this.textAreaMateria.setText("");
+                this.buttonRealizarCambios.setEnabled(false);
+                this.buttonCrear.setEnabled(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se ha creado la materia");
+            }
+        }
+
+    }//GEN-LAST:event_buttonRealizarCambiosActionPerformed
+
+    private void buttonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCrearActionPerformed
+        if (this.textMateria.getText().equals("") || this.textAreaMateria.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "No cargo completamente los datos");
+
+        } else {
+            if (this.controlador.crearMateria(this.textMateria.getText(), this.textAreaMateria.getText())) {
+                this.cargarMaterias();
+                this.textMateria.setText("");
+                this.textAreaMateria.setText("");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se ha creado la materia");
+            }
+        }
+    }//GEN-LAST:event_buttonCrearActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        this.cargarUsuarios(this.comboBoxUsuariosFiltro.getSelectedItem().toString(), this.textUsuarioFiltro.getText());
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void buttonQuitarMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonQuitarMateriaActionPerformed
+        if (this.listMaterias.getSelectedIndex() != -1) {
+            this.controlador.eliminarMateria(this.listMaterias.getSelectedValue());
+        } else {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna materia");
+        }
+
+    }//GEN-LAST:event_buttonQuitarMateriaActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        if (this.ListForos.getSelectedIndex() != -1) {
+            this.controlador.eliminarForo(this.ListForos.getSelectedValue());
+            this.cargarForo();
+        } else {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado ningun foro");
+        }
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        ViewForo foro = new ViewForo(this, this.ListForos.getSelectedValue(), this.controlador, this.usuario);
         foro.setVisible(true);
         foro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         foro.setLocationRelativeTo(null);
         this.dispose();
+    }//GEN-LAST:event_jButton10ActionPerformed
 
-    }//GEN-LAST:event_ListForosValueChanged
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        if (this.listUsers.getSelectedIndex() != -1) {
+            this.controlador.eliminarUsuario(this.listUsers.getSelectedValue());
+            this.cargarUsuarios(this.comboBoxUsuariosFiltro.getSelectedItem().toString(), this.textUsuarioFiltro.getText());
+        } else {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado ningun usuario");
+        }
+    }//GEN-LAST:event_jButton11ActionPerformed
 
     public void cargarComboBoxUsuario() {
         String[] a = {"Administrador", "Registrador", "Estudiante", "Profesor"};
@@ -437,15 +714,41 @@ public final class MainFrame extends javax.swing.JFrame {
         this.ListForos.setModel(modelo);
     }
 
+    public void cargarUsuarios(String filtro, String nombre) {
+        DefaultListModel modelo = new DefaultListModel();
+        List<Usuario> lista = this.controlador.listarUsuariosPersonalizado(filtro, nombre);
+        for (Usuario user : lista) {
+            modelo.addElement(user);
+        }
+        this.listUsers.setModel(modelo);
+    }
+
+    public void cargarMaterias() {
+        DefaultListModel modelo = this.controlador.obtenerModeloListaMateria();
+        this.listMaterias.setModel(modelo);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<Foro> ListForos;
+    private javax.swing.JButton buttonCrear;
+    private javax.swing.JButton buttonModificar;
+    private javax.swing.JButton buttonQuitarMateria;
+    private javax.swing.JButton buttonRealizarCambios;
     private javax.swing.JComboBox<String> comboBoxUsuario;
+    private javax.swing.JComboBox<String> comboBoxUsuariosFiltro;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -461,17 +764,23 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel labelTipoUsuario;
     private javax.swing.JLabel labelUsuario;
-    private javax.swing.JList<String> listUsers;
-    private javax.swing.JTextField searchBox;
+    private javax.swing.JList<Materia> listMaterias;
+    private javax.swing.JList<Usuario> listUsers;
     private javax.swing.JTextField textApellido;
+    private javax.swing.JTextArea textAreaMateria;
     private javax.swing.JTextField textDocumento;
     private javax.swing.JTextField textEmail;
+    private javax.swing.JTextField textMateria;
     private javax.swing.JTextField textNombre;
+    private javax.swing.JTextField textUsuarioFiltro;
     // End of variables declaration//GEN-END:variables
 }

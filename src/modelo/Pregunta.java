@@ -42,7 +42,6 @@ public class Pregunta implements Serializable {
     private Profesor profesor;
     @ManyToOne
     private Administrador administrador;
-
     public Pregunta() {
         respuestas = new ArrayList<>();
     }

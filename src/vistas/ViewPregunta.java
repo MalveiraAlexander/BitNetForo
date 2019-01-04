@@ -9,6 +9,7 @@ import controlador.Controlador;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import modelo.Foro;
 import modelo.Pregunta;
 import modelo.Respuesta;
@@ -26,6 +27,7 @@ public class ViewPregunta extends javax.swing.JFrame {
     private Pregunta pregunta;
     private Foro foro;
     private Usuario usuario;
+    private Respuesta respuesta1;
 
     public ViewPregunta(JFrame p, Pregunta pre, Foro fo, Controlador c, Usuario usuari) {
         this.previo = p;
@@ -65,6 +67,7 @@ public class ViewPregunta extends javax.swing.JFrame {
         textArea = new javax.swing.JTextArea();
         buttonPositivos = new javax.swing.JButton();
         buttonNegativos = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -80,6 +83,11 @@ public class ViewPregunta extends javax.swing.JFrame {
 
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
 
+        listRespuestas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listRespuestasMouseClicked(evt);
+            }
+        });
         listRespuestas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 listRespuestasValueChanged(evt);
@@ -143,6 +151,13 @@ public class ViewPregunta extends javax.swing.JFrame {
             }
         });
 
+        jButton4.setText("Eliminar Respuesta");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -150,59 +165,67 @@ public class ViewPregunta extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(returnBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(namePregunta)
-                                .addComponent(nameForo))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(82, 82, 82)
-                                    .addComponent(positiveVote)
-                                    .addGap(130, 130, 130)
-                                    .addComponent(negativeVote))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(32, 32, 32)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGap(38, 38, 38)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(labelPositivo)
-                                        .addComponent(buttonPositivos, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(91, 91, 91)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(10, 10, 10)
-                                            .addComponent(buttonNegativos, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(labelNegativo)))
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(82, 82, 82)
+                                .addComponent(positiveVote)
+                                .addGap(130, 130, 130)
+                                .addComponent(negativeVote))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(namePregunta)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(nameForo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton4)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(44, 44, 44)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(labelPositivo)
+                                            .addComponent(buttonPositivos, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(91, 91, 91)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(10, 10, 10)
+                                                .addComponent(buttonNegativos, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(labelNegativo)))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(186, 186, 186)
+                                .addComponent(jButton2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12))))
+                    .addComponent(returnBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(namePregunta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nameForo))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(nameForo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addContainerGap(50, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelPositivo)
                             .addComponent(labelNegativo))
@@ -210,15 +233,16 @@ public class ViewPregunta extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(buttonPositivos, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(buttonNegativos))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2))
-                .addGap(32, 32, 32)
-                .addComponent(returnBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(positiveVote)
-                    .addComponent(negativeVote))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(positiveVote)
+                            .addComponent(negativeVote))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(returnBtn)))
                 .addContainerGap())
         );
 
@@ -231,6 +255,7 @@ public class ViewPregunta extends javax.swing.JFrame {
     }//GEN-LAST:event_returnBtnActionPerformed
 
     private void listRespuestasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listRespuestasValueChanged
+        this.respuesta1=this.listRespuestas.getSelectedValue();
         this.cargarListaDetalle();
     }//GEN-LAST:event_listRespuestasValueChanged
 
@@ -261,21 +286,38 @@ public class ViewPregunta extends javax.swing.JFrame {
             this.cargarListaDetalle();
         }
     }//GEN-LAST:event_buttonNegativosActionPerformed
+
+    private void listRespuestasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listRespuestasMouseClicked
+
+    }//GEN-LAST:event_listRespuestasMouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if (this.listRespuestas.getSelectedIndex() != -1) {
+            this.controlador.eliminarRespuesta(this.respuesta1,this.pregunta);
+            this.cargarListRespuesta();
+        }else{
+        JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna respuesta");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
     private void cargarListaDetalle() {
         DefaultListModel modelo = new DefaultListModel();
         List respuestaInfo = this.controlador.obtenerInformacionRespuesta(this.listRespuestas.getSelectedValue());
-        modelo.add(0, "Usuario: " + respuestaInfo.get(0));
-        modelo.add(1, "Tipo de Usuario: " + respuestaInfo.get(1));
-        modelo.add(2, "Fecha de publicacion: " + respuestaInfo.get(2));
+        //se usa el triy catch porqu cuando se publica una nueva respuesta se activa el evento de valor cambiado en la lista respuesta y envia un objeto null y apareeen los errores de puntero.
+        try {
+            modelo.add(0, "Usuario: " + respuestaInfo.get(0));
+            modelo.add(1, "Tipo de Usuario: " + respuestaInfo.get(1));
+            modelo.add(2, "Fecha de publicacion: " + respuestaInfo.get(2));
 
-        // modelo.add(2, "Respuesta: \n" + respuestaInfo.get(2));
-        this.listDetalles.setModel(modelo);
-        this.textArea.setText("Titulo: " + respuestaInfo.get(3) + '\n' + "Respuesta: \n" + respuestaInfo.get(4));
+            // modelo.add(2, "Respuesta: \n" + respuestaInfo.get(2));
+            this.listDetalles.setModel(modelo);
+            this.textArea.setText("Titulo: " + respuestaInfo.get(3) + '\n' + "Respuesta: \n" + respuestaInfo.get(4));
 
-        this.textArea.setLineWrap(true);
-        this.textArea.setEditable(false);
-        this.labelPositivo.setText("Votos Positivos: " + (Integer) respuestaInfo.get(5));
-        this.labelNegativo.setText("Votos Negativos: " + (Integer) respuestaInfo.get(6));
+            this.textArea.setLineWrap(true);
+            this.textArea.setEditable(false);
+            this.labelPositivo.setText("Votos Positivos: " + (Integer) respuestaInfo.get(5));
+            this.labelNegativo.setText("Votos Negativos: " + (Integer) respuestaInfo.get(6));
+        } catch (Exception ex) {
+        }
     }
 
     private void cargarListRespuesta() {
@@ -291,6 +333,7 @@ public class ViewPregunta extends javax.swing.JFrame {
     private javax.swing.JButton buttonPositivos;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

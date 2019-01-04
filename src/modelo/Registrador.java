@@ -26,6 +26,9 @@ public class Registrador extends Usuario implements Serializable {
     public Registrador(String apellido, String nombre, String dni, String correo) {
         super(apellido, nombre, dni, correo);
     }
-
+    @Override
+    public String toString() {
+        return this.getApellido()+' '+ this.getNombre()+" (Registrador)";
+    }
 
 }

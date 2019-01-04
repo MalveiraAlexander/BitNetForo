@@ -23,6 +23,9 @@ public class Administrador extends UsuarioAcademico implements Serializable {
         super(apellido, nombre, dni, correo);
     }
 
-
+    @Override
+    public String toString() {
+        return this.getApellido()+' '+ this.getNombre()+" (Administrador)";
+    }
 
 }

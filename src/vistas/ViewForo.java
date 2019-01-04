@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import modelo.Foro;
 import modelo.Pregunta;
@@ -37,11 +38,11 @@ public final class ViewForo extends javax.swing.JFrame {
      * @param per
      * @param usu
      */
-    public ViewForo(JFrame p, Foro name, Persistencia per, Usuario usu) {
+    public ViewForo(JFrame p, Foro name, Controlador c, Usuario usu) {
         previo = p;
         foro = name;
         usuario = usu;
-        this.controlador = new Controlador(per);
+        this.controlador = c;
         initComponents();
         this.buttonVerPregunta.setEnabled(false);
         String titulo = "FORO";
@@ -73,6 +74,7 @@ public final class ViewForo extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         listDetalle = new javax.swing.JList<>();
         buttonVerPregunta = new javax.swing.JButton();
+        buttonVerPregunta1 = new javax.swing.JButton();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -116,10 +118,17 @@ public final class ViewForo extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(listDetalle);
 
-        buttonVerPregunta.setText("Ver respuestas");
+        buttonVerPregunta.setText("Ver Pregunta");
         buttonVerPregunta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonVerPreguntaActionPerformed(evt);
+            }
+        });
+
+        buttonVerPregunta1.setText("Eliminar pregunta");
+        buttonVerPregunta1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonVerPregunta1ActionPerformed(evt);
             }
         });
 
@@ -130,8 +139,10 @@ public final class ViewForo extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(buttonVerPregunta1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(buttonVerPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(BtnAddAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -153,16 +164,17 @@ public final class ViewForo extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(nameForo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnAddAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonVerPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buttonVerPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonVerPregunta1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(returnBtn)
                 .addContainerGap())
         );
@@ -225,6 +237,15 @@ public final class ViewForo extends javax.swing.JFrame {
 
     }//GEN-LAST:event_buttonVerPreguntaActionPerformed
 
+    private void buttonVerPregunta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVerPregunta1ActionPerformed
+        if (this.listPreguntas.getSelectedIndex() != -1) {
+            this.controlador.eliminarPregunta(this.listPreguntas.getSelectedValue(), this.foro);
+            this.cargarListPreguntas();
+        } else {
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna pregunta");
+        }
+    }//GEN-LAST:event_buttonVerPregunta1ActionPerformed
+
     public void cargarListPreguntas() {
         DefaultListModel modelo = new DefaultListModel();
         for (Pregunta pre : this.foro.getPreguntas()) {
@@ -236,17 +257,21 @@ public final class ViewForo extends javax.swing.JFrame {
     public void cargarListaDetalle() {
         DefaultListModel modelo = new DefaultListModel();
         List lista = this.controlador.obtenerInformacionPregunta(this.listPreguntas.getSelectedValue());
-        modelo.add(0, "Usuario: " + lista.get(0));
-        modelo.add(1, "Tipo de usuario: " + lista.get(1));
-        modelo.add(2, "Titulo: " + lista.get(2));
-        modelo.add(3, "Fecha de publicacion: " + lista.get(4));
-        modelo.add(4, "Cantidad de respuestas : " + lista.get(5));
-        modelo.add(5, "Fecha de la ultima respuesta : " + lista.get(6));
+        try {
+            modelo.add(0, "Usuario: " + lista.get(0));
+            modelo.add(1, "Tipo de usuario: " + lista.get(1));
+            modelo.add(2, "Titulo: " + lista.get(2));
+            modelo.add(3, "Fecha de publicacion: " + lista.get(4));
+            modelo.add(4, "Cantidad de respuestas : " + lista.get(5));
+            modelo.add(5, "Fecha de la ultima respuesta : " + lista.get(6));
+        } catch (Exception ex) {
+        }
         this.listDetalle.setModel(modelo);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAddAnswer;
     private javax.swing.JButton buttonVerPregunta;
+    private javax.swing.JButton buttonVerPregunta1;
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;

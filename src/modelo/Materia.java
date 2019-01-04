@@ -47,6 +47,11 @@ public class Materia implements Serializable {
         return this.id;
     }
 
+    @Override
+    public String toString() {
+        return materia ;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

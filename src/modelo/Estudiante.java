@@ -40,5 +40,8 @@ public class Estudiante extends UsuarioAcademico implements Serializable {
         this.reputacion = reputacion;
     }
 
-
+    @Override
+    public String toString() {
+        return this.getApellido()+' '+ this.getNombre()+" (Estudiante)";
+    }
 }

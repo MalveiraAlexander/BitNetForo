@@ -52,5 +52,20 @@ public class Profesor extends UsuarioAcademico implements Serializable {
     public void setReputacion(Integer reputacion) {
         this.reputacion = reputacion;
     }
+    
+    public void agregarMateria(Materia e){
+    this.materias.add(e);
+    e.getProfesores().add(this);
+    }
+    
+    public void quitarMateria(Materia e){
+    this.materias.remove(e);
+    e.getProfesores().remove(this);
+    }
 
+    @Override
+    public String toString() {
+        return this.getApellido()+' '+ this.getNombre()+" (Profesor)";
+    }
+    
 }
