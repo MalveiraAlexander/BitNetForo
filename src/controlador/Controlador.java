@@ -37,8 +37,9 @@ public class Controlador {
     public List<Pregunta> listarPregunta() {
         return this.persistencia.buscarTodos(Pregunta.class);
     }
+
     public List<Pregunta> listarPreguntaOrdenadasPorFecha() {
-        return this.persistencia.buscarTodosOrdenadosPor(Pregunta.class,Pregunta_.fechaPublicacion);
+        return this.persistencia.buscarTodosOrdenadosPor(Pregunta.class, Pregunta_.fechaPublicacion);
     }
 
     public List<Foro> listarForos() {
@@ -79,6 +80,7 @@ public class Controlador {
 
     }
 
+    // se usa para el filtro de mostrar usuarios
     public List<Usuario> listarUsuariosPersonalizado(String filtro, String nombre) {
         List<Usuario> lista = new ArrayList<>();
         if (filtro.toUpperCase().equals("ADMINISTRADOR")) {
@@ -503,8 +505,45 @@ public class Controlador {
         return true;
 
     }
-//la lista de datos tiene Apellido y nombre, tipo de usuario, titulo, descripcion, fecha de publicacion, cantidad de respuestas, fecha de la ultima respuesta
 
+    public void eliminarUsuario(Usuario usuario) {
+
+        Administrador administrador = this.buscarAdministrador(usuario.getId());
+        Profesor profesor = this.buscarProfesor(usuario.getId());
+        Estudiante estudiante = this.buscarEstudiante(usuario.getId());
+        Registrador registrador = this.buscarRegistrador(usuario.getId());
+        this.persistencia.iniciarTransaccion();
+        if (administrador != null) {
+            if (administrador.getPreguntas().isEmpty() && administrador.getRespuestas().isEmpty() && administrador.getVotos().isEmpty()) {
+                this.persistencia.eliminar(administrador);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se puede eliminar el administrador porque tiene asociado preguntas, respuestas o votos");
+            }
+        } else {
+            if (profesor != null) {
+                if (profesor.getPreguntas().isEmpty() && profesor.getRespuestas().isEmpty() && profesor.getVotos().isEmpty()) {
+                    this.persistencia.eliminar(profesor);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se puede eliminar el profesor porque tiene asociado preguntas, respuestas o votos");
+                }
+            } else {
+                if (estudiante != null) {
+                    if (estudiante.getPreguntas().isEmpty() && estudiante.getRespuestas().isEmpty() && estudiante.getVotos().isEmpty()) {
+                        this.persistencia.eliminar(estudiante);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se puede eliminar el estudiante porque tiene asociado preguntas, respuestas o votos");
+                    }
+                } else {
+                    if (registrador != null) {
+                        this.persistencia.eliminar(registrador);
+                    }
+                }
+            }
+        }
+        this.persistencia.confirmarTransaccion();
+    }
+
+//la lista de datos tiene Apellido y nombre, tipo de usuario, titulo, descripcion, fecha de publicacion, cantidad de respuestas, fecha de la ultima respuesta
     public List obtenerInformacionPregunta(Pregunta pregunta) {
         List datos = new ArrayList<>();
         try {
@@ -1028,43 +1067,6 @@ public class Controlador {
         }
     }
 
-    public void eliminarUsuario(Usuario usuario) {
-
-        Administrador administrador = this.buscarAdministrador(usuario.getId());
-        Profesor profesor = this.buscarProfesor(usuario.getId());
-        Estudiante estudiante = this.buscarEstudiante(usuario.getId());
-        Registrador registrador = this.buscarRegistrador(usuario.getId());
-        this.persistencia.iniciarTransaccion();
-        if (administrador != null) {
-            if (administrador.getPreguntas().isEmpty() && administrador.getRespuestas().isEmpty() && administrador.getVotos().isEmpty()) {
-                this.persistencia.eliminar(administrador);
-            } else {
-                JOptionPane.showMessageDialog(null, "No se puede eliminar el administrador porque tiene asociado preguntas, respuestas o votos");
-            }
-        } else {
-            if (profesor != null) {
-                if (profesor.getPreguntas().isEmpty() && profesor.getRespuestas().isEmpty() && profesor.getVotos().isEmpty()) {
-                    this.persistencia.eliminar(profesor);
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se puede eliminar el profesor porque tiene asociado preguntas, respuestas o votos");
-                }
-            } else {
-                if (estudiante != null) {
-                    if (estudiante.getPreguntas().isEmpty() && estudiante.getRespuestas().isEmpty() && estudiante.getVotos().isEmpty()) {
-                        this.persistencia.eliminar(estudiante);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No se puede eliminar el estudiante porque tiene asociado preguntas, respuestas o votos");
-                    }
-                } else {
-                    if (registrador != null) {
-                        this.persistencia.eliminar(registrador);
-                    }
-                }
-            }
-        }
-        this.persistencia.confirmarTransaccion();
-    }
-
     public DefaultListModel obtenerModeloListaMateria() {
         DefaultListModel modelo = new DefaultListModel();
         for (Materia materia : this.listarMaterias()) {
@@ -1073,13 +1075,14 @@ public class Controlador {
         return modelo;
 
     }
+
     /**
-     * Si no hay administrador devuelve false
+     * Si no existen  administradores en la BD devuelve false 
      * Si hay devuelve true
-     * @return 
-     **/
-    public Boolean existeAdministrador (){
-    List<Administrador> lista=this.persistencia.buscarTodos(Administrador.class);
-    return !lista.isEmpty();
+     *@return 
+     */
+    public Boolean existeAdministrador() {
+        List<Administrador> lista = this.persistencia.buscarTodos(Administrador.class);
+        return !lista.isEmpty();
     }
 }
