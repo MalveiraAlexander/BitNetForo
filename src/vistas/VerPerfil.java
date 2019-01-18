@@ -47,12 +47,12 @@ public class VerPerfil extends javax.swing.JFrame {
     public VerPerfil(JFrame p, Persistencia per, Usuario usua) {
         controlador = new Controlador(per);
         previo = p;
-        usuario=usua;
+        usuario = usua;
         estu = controlador.buscarEstudiante(usuario.getId());
         profe = controlador.buscarProfesor(usuario.getId());
         admin = controlador.buscarAdministrador(usuario.getId());
         reg = controlador.buscarRegistrador(usuario.getId());
-        
+
         initComponents();
         this.comboBoxMaterias.setVisible(false);
         this.jLabel7.setVisible(false);
@@ -291,9 +291,10 @@ public class VerPerfil extends javax.swing.JFrame {
             } else {
                 if (this.texPass.getText().length() == 2) {
                     this.texPass.setText(this.texPass.getText().substring(0, 1));
-                }else{this.texPass.setText("");}
+                } else {
+                    this.texPass.setText("");
+                }
 
-                
             }
         }
     }//GEN-LAST:event_jPasswordField1KeyTyped
@@ -307,7 +308,10 @@ public class VerPerfil extends javax.swing.JFrame {
         } else {
             this.texPass.setVisible(false);
             this.jPasswordField1.setEditable(false);
-            this.controlador.cambiarPassUsuario(usuario, this.jPasswordField1.getPassword().toString());
+            char[] arrayC = jPasswordField1.getPassword();
+            String pass = new String(arrayC);
+            String pass2 = Hash.MD5(pass);
+            this.controlador.cambiarPassUsuario(usuario, pass2);
             this.buttonModificar.setText("Modificar Password");
         }
 

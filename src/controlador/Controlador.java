@@ -1100,7 +1100,7 @@ public class Controlador {
     public void cambiarPassUsuario (Usuario usuario,String pass){
         this.persistencia.iniciarTransaccion();
         usuario.setPassword(pass);
-        this.persistencia.modificar(pass);
+        this.persistencia.modificar(usuario);
         this.persistencia.confirmarTransaccion();
         
     }
