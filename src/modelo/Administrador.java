@@ -19,8 +19,8 @@ public class Administrador extends UsuarioAcademico implements Serializable {
         super();
     }
 
-    public Administrador(String apellido, String nombre, String dni, String correo) {
-        super(apellido, nombre, dni, correo);
+    public Administrador(String apellido, String nombre, String dni, String correo, String password) {
+        super(apellido, nombre, dni, correo, password);
     }
 
     @Override

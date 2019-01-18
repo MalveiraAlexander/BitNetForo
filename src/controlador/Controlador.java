@@ -474,22 +474,22 @@ public class Controlador {
     }
 //visa crear usuario crea al usuario dependiendo el tipo de usuario que sea (administrador,registrador, estudiante, profesor)
 
-    public Boolean crearUsuario(String nombre, String apellido, String correo, String documento, String usuario) {
+    public Boolean crearUsuario(String nombre, String apellido, String correo, String documento, String usuario, String password) {
         this.persistencia.iniciarTransaccion();
         if (usuario.toUpperCase().equals("ADMINISTRADOR")) {
-            Administrador admin = new Administrador(apellido, nombre, documento, correo);
+            Administrador admin = new Administrador(apellido, nombre, documento, correo, password);
             this.persistencia.insertar(admin);
         } else {
             if (usuario.toUpperCase().equals("REGISTRADOR")) {
-                Registrador re = new Registrador(apellido, nombre, documento, correo);
+                Registrador re = new Registrador(apellido, nombre, documento, correo, password);
                 this.persistencia.insertar(re);
             } else {
                 if (usuario.toUpperCase().equals("PROFESOR")) {
-                    Profesor re = new Profesor(apellido, nombre, documento, correo);
+                    Profesor re = new Profesor(apellido, nombre, documento, correo, password);
                     this.persistencia.insertar(re);
                 } else {
                     if (usuario.toUpperCase().equals("ESTUDIANTE")) {
-                        Estudiante re = new Estudiante(apellido, nombre, documento, correo);
+                        Estudiante re = new Estudiante(apellido, nombre, documento, correo, password);
                         this.persistencia.insertar(re);
                     } else {
                         this.persistencia.descartarTransaccion();

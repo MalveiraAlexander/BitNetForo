@@ -40,8 +40,8 @@ public abstract class UsuarioAcademico extends Usuario {
 
     }
 
-    public UsuarioAcademico(String apellido, String nombre, String dni, String correo) {
-        super(apellido, nombre, dni, correo);
+    public UsuarioAcademico(String apellido, String nombre, String dni, String correo, String password) {
+        super(apellido, nombre, dni, correo, password);
         this.votosNegativos = 0;
         this.votosPositivos = 0;
         this.preguntas = new ArrayList<>();

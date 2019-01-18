@@ -17,6 +17,7 @@ import modelo.Estudiante;
 import modelo.Profesor;
 import modelo.Registrador;
 import modelo.Usuario;
+import servicios.Hash;
 
 /**
  *
@@ -49,9 +50,9 @@ public class StartSesion extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        textUsuario.setText("agus@hotmail.com");
+        textUsuario.setText("admin@admin.com");
 
-        jLabel1.setText("Usuario:");
+        jLabel1.setText("Correo:");
 
         jLabel2.setText("Contraseña:");
 
@@ -65,7 +66,7 @@ public class StartSesion extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel3.setText("Iniciar Sesión");
 
-        jPasswordField1.setText("hola");
+        jPasswordField1.setText("adminBitNet");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 0, 0));
@@ -79,7 +80,7 @@ public class StartSesion extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
                             .addComponent(textUsuario)
                             .addComponent(jLabel3)
@@ -121,13 +122,17 @@ public class StartSesion extends javax.swing.JFrame {
         Persistencia persistencia = new Persistencia(emf);
         Controlador controlador = new Controlador(persistencia);
         // 0= Estudiante. 1= Profesor,2=Administrador , 3= Registrador
-        //usaurio[0]= id del usuario----- usuario[1]= tipo de usuario explicado arriba
+        //usuario[0]= id del usuario----- usuario[1]= tipo de usuario explicado arriba
         if (!controlador.existeAdministrador()) {
-            controlador.crearUsuario("Agustin", "Britez", "agus@hotmail.com", "40123", "Administrador");
+            controlador.crearUsuario("Admin".toUpperCase(), "BitNet".toUpperCase(), "admin@admin.com", "000000", "Administrador".toUpperCase(), Hash.MD5("adminBitNet"));
         }
 
+        char[] arrayC = jPasswordField1.getPassword();
+        String pass = new String(arrayC);
+        String pass2 = Hash.MD5(pass);
+        
         for (Administrador administrador : controlador.listarAdministrador()) {
-            if (administrador.getCorreo().toUpperCase().equals(this.textUsuario.getText().toUpperCase())) {
+            if (administrador.getCorreo().equals(this.textUsuario.getText())&&administrador.getPassword().equals(pass2)) {
                 MainFrame principal = new MainFrame(persistencia, (Usuario) administrador
                 );
                 principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -135,62 +140,49 @@ public class StartSesion extends javax.swing.JFrame {
                 principal.setVisible(true);
                 this.dispose();
 
+            }else{
+                this.jLabel4.setText("Contraseña incorrecta y/o usuario inexistente");
             }
         }
         for (Estudiante estudiante : controlador.listarEstudiante()) {
-            if (estudiante.getCorreo().toUpperCase().equals(this.textUsuario.getText().toUpperCase())) {
+            if (estudiante.getCorreo().equals(this.textUsuario.getText())&&estudiante.getPassword().equals(pass2)) {
                 MainFrame principal = new MainFrame(persistencia, (Usuario) estudiante
                 );
                 principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 principal.setLocationRelativeTo(null);
                 principal.setVisible(true);
                 this.dispose();
+            }else{
+                this.jLabel4.setText("Contraseña incorrecta y/o usuario inexistente");
             }
         }
         for (Profesor profesor : controlador.listarProfesor()) {
-            if (profesor.getCorreo().toUpperCase().equals(this.textUsuario.getText().toUpperCase())) {
+            if (profesor.getCorreo().equals(this.textUsuario.getText())&&profesor.getPassword().equals(pass2)) {
                 MainFrame principal = new MainFrame(persistencia, (Usuario) profesor);
                 principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 principal.setLocationRelativeTo(null);
                 principal.setVisible(true);
                 this.dispose();
+            }else{
+                this.jLabel4.setText("Contraseña incorrecta y/o usuario inexistente");
             }
         }
         for (Registrador registrador : controlador.listarRegistrador()) {
-            if (registrador.getCorreo().toUpperCase().equals(this.textUsuario.getText().toUpperCase())) {
+            if (registrador.getCorreo().equals(this.textUsuario.getText())&&registrador.getPassword().equals(pass2)) {
                 MainFrame principal = new MainFrame(persistencia, (Usuario) registrador);
                 principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 principal.setLocationRelativeTo(null);
                 principal.setVisible(true);
                 this.dispose();
+            }else{
+                this.jLabel4.setText("Contraseña incorrecta y/o usuario inexistente");
             }
+            
         }
-        /* char[] arrayC = jPasswordField1.getPassword();
-        String pass = new String(arrayC);
-        String pass2 = Hash.MD5(pass);
-        String pass3 = Hash.MD5("hola");
-        String user = this.jTextField1.getText();
-        if (user.equals("Hola")) {
-            if (pass2.equals(pass3)) {
-                EntityManagerFactory emf = Persistence.createEntityManagerFactory("ForoBitNetPU");
-                // creo objeto de Persistencia (DAO)
-                Persistencia persistencia = new Persistencia(emf);
-                MainFrame principal = new MainFrame(persistencia);
-                principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                principal.setLocationRelativeTo(null);
-                principal.setVisible(true);
-                this.setVisible(false);
-            } else {
-                this.jLabel4.setText("Contraseña incorrecta!");
-                this.jTextField1.setText("");
-                this.jPasswordField1.setText("");
-            }
-        } else {
-            this.jLabel4.setText("Usuario no encontrado!");
-            this.jTextField1.setText("");
-            this.jPasswordField1.setText("");
-        }
-         */
+        
+        
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

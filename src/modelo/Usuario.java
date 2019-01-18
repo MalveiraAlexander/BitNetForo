@@ -24,6 +24,9 @@ public abstract class Usuario {
 
     @Basic
     private String correo;
+    
+    @Basic
+    private String password;
 
     @Basic
     private String documento;
@@ -31,11 +34,20 @@ public abstract class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String apellido, String nombre, String dni, String correo) {
+    public Usuario(String apellido, String nombre, String dni, String correo, String password) {
         this.apellido = apellido;
         this.nombre = nombre;
         this.correo = correo;
         this.documento = dni;
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getNombre() {

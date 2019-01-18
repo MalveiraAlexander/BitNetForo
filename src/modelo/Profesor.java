@@ -30,8 +30,8 @@ public class Profesor extends UsuarioAcademico implements Serializable {
         materias= new  HashSet();
     }
 
-    public Profesor(String apellido, String nombre, String dni, String correo) {
-        super(apellido, nombre, dni, correo);
+    public Profesor(String apellido, String nombre, String dni, String correo, String password) {
+        super(apellido, nombre, dni, correo, password);
     reputacion =0;
     materias= new HashSet();
     }

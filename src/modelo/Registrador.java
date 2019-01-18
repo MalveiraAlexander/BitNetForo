@@ -23,8 +23,8 @@ public class Registrador extends Usuario implements Serializable {
         super();
     }
 
-    public Registrador(String apellido, String nombre, String dni, String correo) {
-        super(apellido, nombre, dni, correo);
+    public Registrador(String apellido, String nombre, String dni, String correo, String password) {
+        super(apellido, nombre, dni, correo, password);
     }
     @Override
     public String toString() {
