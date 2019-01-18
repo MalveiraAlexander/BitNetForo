@@ -37,8 +37,9 @@ public class Controlador {
     public List<Pregunta> listarPregunta() {
         return this.persistencia.buscarTodos(Pregunta.class);
     }
+
     public List<Pregunta> listarPreguntaOrdenadasPorFecha() {
-        return this.persistencia.buscarTodosOrdenadosPor(Pregunta.class,Pregunta_.fechaPublicacion);
+        return this.persistencia.buscarTodosOrdenadosPor(Pregunta.class, Pregunta_.fechaPublicacion);
     }
 
     public List<Foro> listarForos() {
@@ -451,15 +452,36 @@ public class Controlador {
     /*se crea una lista con materias, reputacion, apellido, nombre, correo, 
  cantidad de preguntas, cantidad de respuestas realizadas, documento
     si es un alumno no se carga las materias*/
-    public List obtenerDatosVerPerfil(Estudiante e, Profesor p) {
+    public List obtenerDatosVerPerfil(Estudiante e, Profesor p, Administrador a, Registrador r) {
         List<Object> datos = new ArrayList<>();
-        UsuarioAcademico ua;
-        if (e == null) {
-            ua = p;
-            datos.add(p.getReputacion());
-        } else {
+        UsuarioAcademico ua = null;
+        if (e != null) {
             ua = e;
             datos.add(e.getReputacion());
+
+        } else {
+            if (p != null) {
+                ua = p;
+                datos.add(p.getReputacion());
+            } else {
+                if (r != null) {
+                    datos.add(0);//aca iria la reputacion
+                    datos.add(r.getApellido());
+                    datos.add(r.getNombre());
+                    datos.add(r.getCorreo());
+                    datos.add(0);
+                    datos.add(0);
+                    datos.add(r.getDocumento());
+                }else{
+                    if (a != null){
+                    ua=a;
+                    datos.add(0);//aca iria la reputacion
+                    }
+                
+                }
+
+            }
+
         }
         datos.add(ua.getApellido());
         datos.add(ua.getNombre());
@@ -467,7 +489,8 @@ public class Controlador {
         datos.add(ua.getPreguntas().size());
         datos.add(ua.getRespuestas().size());
         datos.add(ua.getDocumento());
-        if (e == null) {
+        datos.add(ua.getPassword());
+        if (p != null) {
             datos.add(p.getMaterias());
         }
         return datos;
@@ -1073,13 +1096,22 @@ public class Controlador {
         return modelo;
 
     }
+
+    public void cambiarPassUsuario (Usuario usuario,String pass){
+        this.persistencia.iniciarTransaccion();
+        usuario.setPassword(pass);
+        this.persistencia.modificar(pass);
+        this.persistencia.confirmarTransaccion();
+        
+    }
     /**
-     * Si no hay administrador devuelve false
-     * Si hay devuelve true
-     * @return 
-     **/
-    public Boolean existeAdministrador (){
-    List<Administrador> lista=this.persistencia.buscarTodos(Administrador.class);
-    return !lista.isEmpty();
+     * Si no hay administrador devuelve false Si hay devuelve true
+     *
+     * @return
+     *
+     */
+    public Boolean existeAdministrador() {
+        List<Administrador> lista = this.persistencia.buscarTodos(Administrador.class);
+        return !lista.isEmpty();
     }
 }
