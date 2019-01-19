@@ -11,6 +11,7 @@ import controlador.Controlador;
 import dao.Persistencia;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import modelo.Administrador;
@@ -81,7 +82,7 @@ public class VerPerfil extends javax.swing.JFrame {
         this.textEmail.setEditable(false);
         this.textPreguntas.setEditable(false);
         this.textRespuestas.setEditable(false);
-        this.texPass.setVisible(false);
+        this.texPass.setVisible(true);
         this.texPass.setEditable(false);
         this.jPasswordField1.setEditable(false);
     }
@@ -130,8 +131,6 @@ public class VerPerfil extends javax.swing.JFrame {
         jLabel6.setText("Pregutas realizadas:");
 
         jLabel7.setText("Materias asignadas:");
-
-        comboBoxMaterias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jButton1.setText("Atras");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -274,6 +273,7 @@ public class VerPerfil extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.previo.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void texPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_texPassActionPerformed
@@ -281,6 +281,7 @@ public class VerPerfil extends javax.swing.JFrame {
     }//GEN-LAST:event_texPassActionPerformed
 
     private void jPasswordField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyTyped
+        if (this.jPasswordField1.isEditable()){
         if (evt.getKeyChar() != KeyEvent.VK_BACKSPACE) {
             this.texPass.setText(this.texPass.getText() + evt.getKeyChar());
         } else {
@@ -297,16 +298,15 @@ public class VerPerfil extends javax.swing.JFrame {
 
             }
         }
+        }
     }//GEN-LAST:event_jPasswordField1KeyTyped
 
     private void buttonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonModificarActionPerformed
-        if (this.buttonModificar.getText() == "Modificar Password") {
-            this.texPass.setVisible(true);
+        if ("Modificar Password".equals(this.buttonModificar.getText()) ) {
             this.jPasswordField1.setEditable(true);
             this.buttonModificar.setText("Guardar");
             this.jPasswordField1.setText("");
         } else {
-            this.texPass.setVisible(false);
             this.jPasswordField1.setEditable(false);
             char[] arrayC = jPasswordField1.getPassword();
             String pass = new String(arrayC);
@@ -324,10 +324,9 @@ public class VerPerfil extends javax.swing.JFrame {
     /**
      * @param datos
      */
-    public void cargarComboBoxMateria(List datos) {
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel((Materia[]) datos.get(8));
+    public void cargarComboBoxMateria(ArrayList datos) {
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel(this.profe.getMaterias().toArray());
         this.comboBoxMaterias.setModel(modelo);
-
     }
 
     /* [0]=materias [1]=reputacion [2]=apellido [3]=nombre [4]=correo 
@@ -350,7 +349,7 @@ public class VerPerfil extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonModificar;
-    private javax.swing.JComboBox<String> comboBoxMaterias;
+    private javax.swing.JComboBox<Materia> comboBoxMaterias;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

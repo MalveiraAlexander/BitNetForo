@@ -20,7 +20,7 @@ import javax.persistence.Temporal;
  * @author Admin
  */
 @Entity
-public class Pregunta implements Serializable {
+public class Pregunta implements Serializable, Comparable<Pregunta> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -165,5 +165,16 @@ public class Pregunta implements Serializable {
             }
         }
         return null;
+    }
+
+    @Override
+    public int compareTo(Pregunta o) {
+        if (this.fechaPublicacion.getTime() < o.getFechaPublicacion().getTime()) {
+            return -1;
+        }
+        if (this.fechaPublicacion.getTime() > o.getFechaPublicacion().getTime()) {
+            return 1;
+        }
+        return 0;
     }
 }

@@ -188,6 +188,11 @@ public class Controlador {
         return this.persistencia.buscarTodos(Materia.class);
     }
 
+    public List<Pregunta> listarOrdenadoPreguntas() {
+       return this.persistencia.buscarTodosOrdenadosPor(Pregunta.class, Pregunta_.fechaPublicacion);
+        
+    }
+
     public Foro buscarForo(String nombre) {
         return this.persistencia.buscar(Foro.class, nombre);
     }
@@ -220,10 +225,10 @@ public class Controlador {
         return pre.getRespuestas();
     }
 
-    public void crearPregunta(String titulo, String descripcion, Foro foro, Usuario usuario) {
+    public Boolean crearPregunta(String titulo, String descripcion, Foro foro, Usuario usuario) {
         this.persistencia.iniciarTransaccion();
 
-        try {
+       try {
             Administrador administrador = null;
             Estudiante estudiante = null;
             Profesor profesor = null;
@@ -253,10 +258,12 @@ public class Controlador {
             foro.agregarPregunta(pregunta);
             this.persistencia.modificar(foro);
             this.persistencia.confirmarTransaccion();
-        } catch (Exception ex) {
+            return true;
+       } catch (Exception ex) {
             this.persistencia.descartarTransaccion();
             System.out.println("Error al insertar");
-        }
+            return false;
+       }
     }
 
     public Boolean eliminarPregunta(Pregunta pregunta, Foro foro) {
@@ -472,12 +479,14 @@ public class Controlador {
                     datos.add(0);
                     datos.add(0);
                     datos.add(r.getDocumento());
-                }else{
-                    if (a != null){
-                    ua=a;
-                    datos.add(0);//aca iria la reputacion
+                    datos.add(r.getPassword());
+                    return datos;
+                } else {
+                    if (a != null) {
+                        ua = a;
+                        datos.add(0);//aca iria la reputacion
                     }
-                
+
                 }
 
             }
@@ -491,7 +500,14 @@ public class Controlador {
         datos.add(ua.getDocumento());
         datos.add(ua.getPassword());
         if (p != null) {
-            datos.add(p.getMaterias());
+            if (!p.getMaterias().isEmpty()) {
+                datos.add(p.getMaterias());
+            } else {
+                ArrayList<Materia> list = new ArrayList<>();
+                list.add(new Materia("Vacio", ""));
+                datos.add(list);
+            }
+
         }
         return datos;
     }
@@ -1097,13 +1113,14 @@ public class Controlador {
 
     }
 
-    public void cambiarPassUsuario (Usuario usuario,String pass){
+    public void cambiarPassUsuario(Usuario usuario, String pass) {
         this.persistencia.iniciarTransaccion();
         usuario.setPassword(pass);
         this.persistencia.modificar(usuario);
         this.persistencia.confirmarTransaccion();
-        
+
     }
+
     /**
      * Si no hay administrador devuelve false Si hay devuelve true
      *

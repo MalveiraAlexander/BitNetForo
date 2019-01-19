@@ -158,6 +158,8 @@ public class PublicarRespuesta extends javax.swing.JFrame {
 
         if (this.controlador.crearRespuesta(this.textRespuesta.getText(),this.textTitulo.getText(), this.pregunta, this.usuario)) {
             JOptionPane.showMessageDialog(null, "Se ha creado con exito la respuesta");
+            this.textRespuesta.setText("");
+            this.textTitulo.setText("");
         } else {
             JOptionPane.showMessageDialog(null, "NO se ha creado la respuesta");
         }

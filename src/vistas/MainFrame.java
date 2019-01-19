@@ -43,29 +43,32 @@ public final class MainFrame extends javax.swing.JFrame {
         this.labelTipoUsuario.setText(datosUsuario.get(4));
         this.buttonRealizarCambios.setEnabled(false);
         switch (datosUsuario.get(4)) {
-            case "Estudiante":  
-                     this.jButton9.setVisible(false);
-                     this.jButton2.setVisible(false);
-                     
-                     this.jTabbedPane1.setEnabledAt(1, false);
-                     this.jTabbedPane1.setEnabledAt(2, false);
-                     this.jTabbedPane1.setEnabledAt(3, false);
-                     break;
+            case "Estudiante":
+                this.jButton9.setVisible(false);
+                this.jButton2.setVisible(false);
+
+                this.jTabbedPane1.setEnabledAt(1, false);
+                this.jTabbedPane1.setEnabledAt(2, false);
+                this.jTabbedPane1.setEnabledAt(3, false);
+                break;
             case "Profesor":
-                     this.jButton9.setVisible(false);
-                     this.jButton2.setVisible(false);
-                     
-                     this.jTabbedPane1.setEnabledAt(1, false);
-                     this.jTabbedPane1.setEnabledAt(2, false);
-                     this.jTabbedPane1.setEnabledAt(3, false);
-                     break;
+                this.jButton9.setVisible(false);
+                this.jButton2.setVisible(false);
+
+                this.jTabbedPane1.setEnabledAt(1, false);
+                this.jTabbedPane1.setEnabledAt(2, false);
+                this.jTabbedPane1.setEnabledAt(3, false);
+                break;
             case "Registrador":
-                     this.jButton9.setVisible(false);
-                     this.jButton2.setVisible(false);
-                     this.jTabbedPane1.setEnabledAt(3, false);
-                     break;
+                this.jButton9.setVisible(false);
+                this.jButton2.setVisible(false);
+                this.jTabbedPane1.setEnabledAt(1, false);
+                this.jTabbedPane1.setEnabledAt(2, false);
+                this.jTabbedPane1.setEnabledAt(0, false);
+                this.jTabbedPane1.setSelectedIndex(3);
+                break;
             default:
-                     break;
+                break;
         }
 
     }
@@ -561,10 +564,10 @@ public final class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify                     
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        
-        if (textEmail.getText().contains("@")&&textEmail.getText().contains(".")) {
+
+        if (textEmail.getText().contains("@") && textEmail.getText().contains(".")) {
             this.aceptar();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Correo ingresado sin '@' y/o '.'! ", "Error en campo Correo", JOptionPane.ERROR_MESSAGE);
             textEmail.setText("");
         }
@@ -586,12 +589,12 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-       // if ((this.controlador.verPerfilEstudiante(usuario) != null) || (this.controlador.verPerfilProfesor(usuario) != null)) {
-            VerPerfil vista = new VerPerfil(this, this.controlador.getPersistencia(), this.usuario);
-            vista.setVisible(true);
-            vista.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            vista.setLocationRelativeTo(null);
-            this.dispose();
+        // if ((this.controlador.verPerfilEstudiante(usuario) != null) || (this.controlador.verPerfilProfesor(usuario) != null)) {
+        VerPerfil vista = new VerPerfil(this, this.controlador.getPersistencia(), this.usuario);
+        vista.setVisible(true);
+        vista.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        vista.setLocationRelativeTo(null);
+        this.dispose();
         //}
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -717,8 +720,20 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_textDocumentoKeyTyped
 
     public void cargarComboBoxUsuario() {
-        String[] a = {"Administrador", "Registrador", "Estudiante", "Profesor"};
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel(a);
+        List<String> datosUsuario = this.controlador.obtenerDatosUsuario(this.usuario);
+        ArrayList<String> a = new ArrayList<>();
+        if ("REGISTRADOR".equals(datosUsuario.get(4).toUpperCase())) {
+            a.add("Registrador");
+            a.add("Estudiante");
+            a.add("Profesor");
+        } else {
+            a.add("Administrador");
+            a.add("Registrador");
+            a.add("Estudiante");
+            a.add("Profesor");
+        }
+
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel(a.toArray());
         this.comboBoxUsuario.setModel(modelo);
     }
 

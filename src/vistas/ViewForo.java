@@ -6,9 +6,7 @@
 package vistas;
 
 import controlador.Controlador;
-import dao.Persistencia;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -265,6 +263,7 @@ public final class ViewForo extends javax.swing.JFrame {
 
     public void cargarListPreguntas() {
         DefaultListModel modelo = new DefaultListModel();
+        Arrays.sort(this.foro.getPreguntas().toArray());
         for (Pregunta pre : this.foro.getPreguntas()) {
             modelo.addElement(pre);
         }
