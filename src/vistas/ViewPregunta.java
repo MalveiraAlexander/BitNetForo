@@ -6,6 +6,7 @@
 package vistas;
 
 import controlador.Controlador;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -331,6 +332,7 @@ public class ViewPregunta extends javax.swing.JFrame {
 
     private void cargarListRespuesta() {
         DefaultListModel modelo = new DefaultListModel();
+         Arrays.sort(this.controlador.obtenerRepuestasDePregunta(pregunta).toArray());
         for (Respuesta respuesta : this.controlador.obtenerRepuestasDePregunta(pregunta)) {
             modelo.addElement(respuesta);
         }

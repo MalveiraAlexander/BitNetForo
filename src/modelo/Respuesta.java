@@ -21,7 +21,7 @@ import javax.persistence.Temporal;
  * @author Admin
  */
 @Entity
-public class Respuesta implements Serializable {
+public class Respuesta implements Serializable, Comparable<Respuesta> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -242,6 +242,17 @@ public class Respuesta implements Serializable {
             }
         }
 
+    }
+
+    @Override
+    public int compareTo(Respuesta o) {
+        if (this.fechaPublicacion.getTime() < o.getFechaPublicacion().getTime()) {
+            return -1;
+        }
+        if (this.fechaPublicacion.getTime() > o.getFechaPublicacion().getTime()) {
+            return 1;
+        }
+        return 0;
     }
 
 }
