@@ -348,15 +348,15 @@ public class Controlador {
                 Profesor profesor = respuesta.getProfesor();
                 Estudiante estudiante = respuesta.getEstudiante();
                 if (administrador != null) {
-                    administrador.getPreguntas().remove(respuesta);
+                    administrador.getRespuestas().remove(respuesta);
                     this.persistencia.modificar(administrador);
                 } else {
                     if (profesor != null) {
-                        profesor.getPreguntas().remove(respuesta);
+                        profesor.getRespuestas().remove(respuesta);
                         this.persistencia.modificar(profesor);
                     } else {
                         if (estudiante != null) {
-                            estudiante.getPreguntas().remove(respuesta);
+                            estudiante.getRespuestas().remove(respuesta);
                             this.persistencia.modificar(estudiante);
                         }
                     }

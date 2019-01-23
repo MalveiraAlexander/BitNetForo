@@ -12,14 +12,10 @@
         </group>
         <group name="TP1">
             <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/vistas/MainFrame.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/modelo/Pregunta.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/modelo/Usuario.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/vistas/StartSesion.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/META-INF/persistence.xml</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/modelo/Respuesta.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/vistas/ViewPregunta.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/controlador/Controlador.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/forobitnet/ForoBitNet.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/dao/Persistencia.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/vistas/ViewForo.java</file>
         </group>
     </open-files>

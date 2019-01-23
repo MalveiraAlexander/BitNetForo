@@ -199,10 +199,11 @@ public final class ViewForo extends javax.swing.JFrame {
 
 // CON EL PREVIO DABA ERROR EN EL NOMBRE DEL FORO
     private void returnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnBtnActionPerformed
-        MainFrame principal = new MainFrame(this.controlador.getPersistencia(), this.usuario);
+        /*MainFrame principal = new MainFrame(this.controlador.getPersistencia(), this.usuario);
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         principal.setLocationRelativeTo(null);
-        principal.setVisible(true);
+        principal.setVisible(true);*/
+        this.previo.setVisible(true);
         this.dispose();
 
 

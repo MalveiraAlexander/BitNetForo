@@ -133,8 +133,7 @@ public class StartSesion extends javax.swing.JFrame {
         
         for (Administrador administrador : controlador.listarAdministrador()) {
             if (administrador.getCorreo().equals(this.textUsuario.getText())&&administrador.getPassword().equals(pass2)) {
-                MainFrame principal = new MainFrame(persistencia, (Usuario) administrador
-                );
+                MainFrame principal = new MainFrame(persistencia, (Usuario) administrador, this);
                 principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 principal.setLocationRelativeTo(null);
                 principal.setVisible(true);
@@ -146,8 +145,7 @@ public class StartSesion extends javax.swing.JFrame {
         }
         for (Estudiante estudiante : controlador.listarEstudiante()) {
             if (estudiante.getCorreo().equals(this.textUsuario.getText())&&estudiante.getPassword().equals(pass2)) {
-                MainFrame principal = new MainFrame(persistencia, (Usuario) estudiante
-                );
+                MainFrame principal = new MainFrame(persistencia, (Usuario) estudiante,this);
                 principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 principal.setLocationRelativeTo(null);
                 principal.setVisible(true);
@@ -158,7 +156,7 @@ public class StartSesion extends javax.swing.JFrame {
         }
         for (Profesor profesor : controlador.listarProfesor()) {
             if (profesor.getCorreo().equals(this.textUsuario.getText())&&profesor.getPassword().equals(pass2)) {
-                MainFrame principal = new MainFrame(persistencia, (Usuario) profesor);
+                MainFrame principal = new MainFrame(persistencia, (Usuario) profesor,this);
                 principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 principal.setLocationRelativeTo(null);
                 principal.setVisible(true);
@@ -169,7 +167,7 @@ public class StartSesion extends javax.swing.JFrame {
         }
         for (Registrador registrador : controlador.listarRegistrador()) {
             if (registrador.getCorreo().equals(this.textUsuario.getText())&&registrador.getPassword().equals(pass2)) {
-                MainFrame principal = new MainFrame(persistencia, (Usuario) registrador);
+                MainFrame principal = new MainFrame(persistencia, (Usuario) registrador,this);
                 principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 principal.setLocationRelativeTo(null);
                 principal.setVisible(true);
