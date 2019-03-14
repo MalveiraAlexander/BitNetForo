@@ -158,6 +158,8 @@ public class PublicarPregunta extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Se ha almacenado con exito");
             this.textTitulo.setText("");
             this.textDescripcion.setText("");
+        }else{
+            JOptionPane.showMessageDialog(null, "No se puede almacenr una pregunta en blanco");
         }
     }//GEN-LAST:event_buttonEnviarActionPerformed
 

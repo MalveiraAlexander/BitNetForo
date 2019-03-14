@@ -9,11 +9,17 @@ import com.sun.glass.events.KeyEvent;
 import modelo.UsuarioAcademico;
 import controlador.Controlador;
 import dao.Persistencia;
+import java.awt.Desktop;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import modelo.Administrador;
 import modelo.Estudiante;
 import modelo.Materia;
@@ -132,6 +138,12 @@ public class VerPerfil extends javax.swing.JFrame {
 
         jLabel7.setText("Materias asignadas:");
 
+        comboBoxMaterias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxMateriasActionPerformed(evt);
+            }
+        });
+
         jButton1.setText("Atras");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -225,38 +237,38 @@ public class VerPerfil extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(textApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jLabel3)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3))
+                    .addComponent(textEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel8))
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(texPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(texPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel6))
                     .addComponent(textPreguntas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel5))
                     .addComponent(textRespuestas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel4))
                     .addComponent(textReputacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel7))
@@ -281,28 +293,28 @@ public class VerPerfil extends javax.swing.JFrame {
     }//GEN-LAST:event_texPassActionPerformed
 
     private void jPasswordField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyTyped
-        if (this.jPasswordField1.isEditable()){
-        if (evt.getKeyChar() != KeyEvent.VK_BACKSPACE) {
-            this.texPass.setText(this.texPass.getText() + evt.getKeyChar());
-        } else {
-            evt.consume();
-            if (this.texPass.getText().length() >= 1) {
-
-                this.texPass.setText(this.texPass.getText().substring(0, this.texPass.getText().length() - 1));
+        if (this.jPasswordField1.isEditable()) {
+            if (evt.getKeyChar() != KeyEvent.VK_BACKSPACE) {
+                this.texPass.setText(this.texPass.getText() + evt.getKeyChar());
             } else {
-                if (this.texPass.getText().length() == 2) {
-                    this.texPass.setText(this.texPass.getText().substring(0, 1));
-                } else {
-                    this.texPass.setText("");
-                }
+                evt.consume();
+                if (this.texPass.getText().length() >= 1) {
 
+                    this.texPass.setText(this.texPass.getText().substring(0, this.texPass.getText().length() - 1));
+                } else {
+                    if (this.texPass.getText().length() == 2) {
+                        this.texPass.setText(this.texPass.getText().substring(0, 1));
+                    } else {
+                        this.texPass.setText("");
+                    }
+
+                }
             }
-        }
         }
     }//GEN-LAST:event_jPasswordField1KeyTyped
 
     private void buttonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonModificarActionPerformed
-        if ("Modificar Password".equals(this.buttonModificar.getText()) ) {
+        if ("Modificar Password".equals(this.buttonModificar.getText())) {
             this.jPasswordField1.setEditable(true);
             this.buttonModificar.setText("Guardar");
             this.jPasswordField1.setText("");
@@ -320,6 +332,14 @@ public class VerPerfil extends javax.swing.JFrame {
     private void textEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textEmailActionPerformed
+
+    private void comboBoxMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxMateriasActionPerformed
+        try {
+            Desktop.getDesktop().browse(new URI(((Materia) this.comboBoxMaterias.getSelectedItem()).getEnlace()));
+        } catch (Exception ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_comboBoxMateriasActionPerformed
 
     /**
      * @param datos

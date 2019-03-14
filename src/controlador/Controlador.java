@@ -226,6 +226,9 @@ public class Controlador {
     }
 
     public Boolean crearPregunta(String titulo, String descripcion, Foro foro, Usuario usuario) {
+        if (titulo.isEmpty()){
+        return false;
+        }
         this.persistencia.iniciarTransaccion();
 
        try {
@@ -1067,7 +1070,7 @@ public class Controlador {
         }
     }
 
-    public void eliminarUsuario(Usuario usuario) {
+    public void eliminarUsuario(Usuario usuario,Usuario actual) {
 
         Administrador administrador = this.buscarAdministrador(usuario.getId());
         Profesor profesor = this.buscarProfesor(usuario.getId());
@@ -1075,7 +1078,7 @@ public class Controlador {
         Registrador registrador = this.buscarRegistrador(usuario.getId());
         this.persistencia.iniciarTransaccion();
         if (administrador != null) {
-            if (administrador.getPreguntas().isEmpty() && administrador.getRespuestas().isEmpty() && administrador.getVotos().isEmpty()) {
+            if (administrador.getPreguntas().isEmpty() && administrador.getRespuestas().isEmpty() && administrador.getVotos().isEmpty() && (actual.getId() != administrador.getId())) {
                 this.persistencia.eliminar(administrador);
             } else {
                 JOptionPane.showMessageDialog(null, "No se puede eliminar el administrador porque tiene asociado preguntas, respuestas o votos");

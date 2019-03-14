@@ -13,9 +13,12 @@
         <group name="TP1">
             <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/vistas/MainFrame.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/modelo/Usuario.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/vistas/PublicarPregunta.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/vistas/StartSesion.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/vistas/ViewPregunta.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/controlador/Controlador.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/modelo/Materia.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/vistas/VerPerfil.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/BitNetForo/src/vistas/ViewForo.java</file>
         </group>
     </open-files>

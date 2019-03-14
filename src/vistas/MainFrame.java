@@ -7,8 +7,14 @@ package vistas;
 
 import controlador.Controlador;
 import dao.Persistencia;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -222,7 +228,7 @@ public final class MainFrame extends javax.swing.JFrame {
                     .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -690,7 +696,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         if (this.listUsers.getSelectedIndex() != -1) {
-            this.controlador.eliminarUsuario(this.listUsers.getSelectedValue());
+            this.controlador.eliminarUsuario(this.listUsers.getSelectedValue(),this.usuario);
             this.cargarUsuarios(this.comboBoxUsuariosFiltro.getSelectedItem().toString(), this.textUsuarioFiltro.getText());
         } else {
             JOptionPane.showMessageDialog(null, "No ha seleccionado ningun usuario");
