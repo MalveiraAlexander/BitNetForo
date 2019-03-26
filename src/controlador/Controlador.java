@@ -20,6 +20,7 @@ import modelo.Respuesta;
 import modelo.Usuario;
 import modelo.UsuarioAcademico;
 import modelo.Voto;
+import servicios.Hash;
 
 //controla la vista: VerPerfil
 public class Controlador {
@@ -1035,7 +1036,7 @@ public class Controlador {
         }
     }
 
-    public Boolean modificarUsuario(Usuario usuario, String apellido, String nombre, String documento, String correo) {
+    public Boolean modificarUsuario(Usuario usuario, String apellido, String nombre, String documento, String correo, String password) {
         Profesor profesor = this.buscarProfesor(usuario.getId());
         Estudiante estudiante = this.buscarEstudiante(usuario.getId());
         Administrador administrador = this.buscarAdministrador(usuario.getId());
@@ -1044,6 +1045,10 @@ public class Controlador {
         usuario.setNombre(nombre);
         usuario.setDocumento(documento);
         usuario.setCorreo(correo);
+        if (!password.isEmpty()){
+            String pass2 = Hash.MD5(password);
+        usuario.setPassword(pass2);
+        }
         try {
             this.persistencia.iniciarTransaccion();
             if (profesor != null) {
